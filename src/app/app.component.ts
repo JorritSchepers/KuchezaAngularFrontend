@@ -3,6 +3,7 @@ import { ExpressionStatement } from '@angular/compiler';
 import { LoginApi } from "src/app/api/login.api";
 import { FormBuilder } from '@angular/forms';
 import { LoginDTO } from './dto/logindto';
+import { LoginResponse } from "./dto/loginresponse";
 
 @Component({
   selector: 'app-root',
@@ -24,7 +25,8 @@ export class AppComponent {
 
   onSubmit(loginData) {
     console.warn('You tried loggin in', loginData);
-    this.loginApi.query(new LoginDTO(loginData.name, loginData.password));
+    let response = this.loginApi.query(new LoginDTO(loginData.name, loginData.password));
+    // console.warn("response: ", response);
     this.loginForm.reset();
   }
 }
