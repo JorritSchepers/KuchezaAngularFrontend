@@ -28,7 +28,11 @@ export class RegisterComponent {
   }
 
   onSubmit(registerData) {
-    let response = this.registerApi.query(new UserModel(-1, registerData.name, registerData.password, registerData.email));
-    this.registerForm.reset();
+    if(registerData.password == registerData.repeatPassword) {
+      let response = this.registerApi.query(new UserModel(-1, registerData.name, registerData.password, registerData.email));
+      this.registerForm.reset();
+    } else {
+      console.warn("The username or password was incorrect!");
+    }
   }
 }
