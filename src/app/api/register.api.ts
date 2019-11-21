@@ -26,6 +26,6 @@ export class RegisterApi {
 	}
 
 	private handleRegisterResponse(response: RegisterResponse): void {
-		console.warn("RegisterResponse", RegisterResponse);
+		console.warn("RegisterResponse", response);
   }
 }

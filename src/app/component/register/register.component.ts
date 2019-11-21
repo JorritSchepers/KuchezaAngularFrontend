@@ -6,7 +6,7 @@ import { UserModel } from 'src/app/model/user.model';
 import { RegisterResponse } from "src/app/model/register-response.model";
 
 @Component({
-  selector: 'app-page',
+  selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
