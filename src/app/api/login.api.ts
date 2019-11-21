@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { LoginResponse } from '../dto/loginresponse';
-import { LoginDTO } from "../dto/logindto";
+import { LoginResponseModel } from '../model/login-response.model';
+import { LoginModel } from "../model/login.model";
 import { HttpHeaders } from '@angular/common/http';
 
 @Injectable()
@@ -19,15 +19,13 @@ export class LoginApi {
 
 	constructor(private http: HttpClient) { }
 
-	query(loginDTO: LoginDTO) {
+	query(loginDTO: LoginModel) {
 		console.warn('Sending request to: ', this.loginUrl, "with dto: ", JSON.stringify(loginDTO), "?");
-		return this.http.post<LoginResponse>(this.loginUrl, JSON.stringify(loginDTO), {headers: this.headers})
+		return this.http.post<LoginResponseModel>(this.loginUrl, JSON.stringify(loginDTO), {headers: this.headers})
 		.subscribe(data => this.handleLoginResponse(data));
-		// console.warn('Sending request to: ', this.loginUrl, "with dto: ", loginDTO, "?");
-		// return this.http.post<LoginResponse>(this.loginUrl, loginDTO, this.httpOptions);
 	}
 
-	private handleLoginResponse(response: LoginResponse): void {
-		console.warn("LoginResponse", LoginResponse);
-	  }
+	private handleLoginResponse(response: LoginResponseModel): void {
+		console.warn("LoginResponse: ", response);
+	}
 }
