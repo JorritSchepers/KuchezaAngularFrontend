@@ -18,20 +18,16 @@ export class LoginApi {
 
 	loginUrl = 'http://localhost:8088/account/login';
 
-	constructor(private http: HttpClient) { }
+	constructor(private http?: HttpClient) { }
 
-	query(loginDTO: LoginModel) {
-		console.warn('Sending request to: ', this.loginUrl, "with dto: ", JSON.stringify(loginDTO), "?");
-		return this.http.post<LoginResponseModel>(this.loginUrl, JSON.stringify(loginDTO), {headers: this.headers})
-		.subscribe(data => this.handleLoginResponse(data), err => this.handleLoginError(err));
+	query(loginModel: LoginModel) {
+		console.warn('Sending request to: ', this.loginUrl, "with model: ", JSON.stringify(loginModel), "?");
+		return this.http.post<LoginResponseModel>(this.loginUrl, JSON.stringify(loginModel), {headers: this.headers})
+		.subscribe(data => this.handleLoginResponse(data));
 	}
 
-	private handleLoginResponse(response: LoginResponseModel): void {
+	handleLoginResponse(response: LoginResponseModel): void {
 		console.warn("LoginResponse: ", response);
 		TokenModel.setCurrentToken(response.token);
-	}
-
-	private handleLoginError(error: HttpErrorResponse): void {
-		console.warn("status code: ", error.status);
 	}
 }

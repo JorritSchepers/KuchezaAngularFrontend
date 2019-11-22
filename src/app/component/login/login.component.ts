@@ -1,8 +1,9 @@
-import { Component, Directive, Injectable } from '@angular/core';
+import { Component } from '@angular/core';
 import { LoginApi } from "src/app/api/login.api";
 import { FormBuilder } from '@angular/forms';
 import { LoginModel } from '../../model/login.model';
 import { TokenModel } from '../../model/token.model';
+import { LoginResponseModel } from 'src/app/model/login-response.model';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,6 @@ import { TokenModel } from '../../model/token.model';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  test = "test";
   email: String;
   password: String;
   loginForm;
@@ -24,13 +24,13 @@ export class LoginComponent {
     this.token = "Click here to see your token!";
   }
 
-  onSubmit(loginData) {
+  onSubmit(loginData: LoginModel): void {
     // console.warn('You tried loggin in', loginData);
-    let response = this.loginApi.query(new LoginModel(loginData.email, loginData.password));
+    this.loginApi.query(new LoginModel(loginData.email, loginData.password));
     this.loginForm.reset();
   }
 
-  setToken() {
+  setToken(): void {
     this.token = TokenModel.currentToken;
   }
 }
