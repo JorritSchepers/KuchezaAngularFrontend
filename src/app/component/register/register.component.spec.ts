@@ -1,31 +1,32 @@
-import { TestBed, async } from '@angular/core/testing';
-import { AppComponent } from './register.component';
+import { TestBed } from '@angular/core/testing';
+import { RegisterApi } from '../../api/register.api';
+import { RegisterComponent } from '../../component/register/register.component';
+import { RegisterModel } from 'src/app/model/register.model';
+import { RegisterResponse } from 'src/app/model/register-response.model';
+import { UserModel } from 'src/app/model/user.model';
+import { FormBuilder } from '@angular/forms';
 
 describe('RegisterComponent', () => {
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
-    }).compileComponents();
-  }));
+	let mockRegisterApi;
+	let sut: RegisterComponent;
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
-  });
+	beforeEach(() => {
+		mockRegisterApi = jasmine.createSpyObj('RegisterApi', ['query']);
+		mockRegisterApi.query.and.returnValue(new RegisterResponse(new UserModel(-1, "", "", ""), "1234"));
 
-  it(`should have as title 'angular-front-end'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('angular-front-end');
-  });
+		TestBed.configureTestingModule({
+			declarations: [RegisterComponent],
+			providers: [
+				{ provide: RegisterApi, useValue: mockRegisterApi }
+			],
+		});
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('angular-front-end app is running!');
+    sut = new RegisterComponent(new FormBuilder(), mockRegisterApi);
+	});
+
+  it('should retrieve register', () => {
+    sut.onSubmit(new RegisterModel("", "", "", ""));
+    expect(mockRegisterApi.query).toHaveBeenCalled();
+    expect(sut.registerForm).toBeDefined();
   });
 });
