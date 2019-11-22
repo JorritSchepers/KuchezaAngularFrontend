@@ -12,7 +12,7 @@ describe('LoginComponent', () => {
 
     beforeEach(() => {
         mockedLoginApi = jasmine.createSpyObj("LoginApi", ["query"]);
-        mockedLoginApi.query.and.returnValue(new LoginResponseModel(new UserModel(), "1234"));
+        mockedLoginApi.query.and.returnValue(new LoginResponseModel(new UserModel(-1, "", "", ""), "1234"));
         
         TestBed.configureTestingModule({
 			declarations: [LoginComponent],

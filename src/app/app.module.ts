@@ -22,7 +22,8 @@ import { AppRoutingModule } from './app-routing.module';
     ,AppRoutingModule
   ],
   providers: [
-    LoginApi
+    RegisterApi
+    ,LoginApi
   ],
   bootstrap: [
     AppComponent
