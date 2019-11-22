@@ -6,8 +6,6 @@ import { UserModel } from 'src/app/model/user.model';
 import { TokenModel } from "src/app/model/token.model";
 import { LoginResponseModel } from 'src/app/model/login-response.model';
 import { FormBuilder } from '@angular/forms';
-import { HttpClient } from 'selenium-webdriver/http';
-
 describe('LoginComponent', () => {
     let mockedLoginApi;
     let sut;
