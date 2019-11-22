@@ -33,4 +33,3 @@ import { LoginApi } from './api/login.api';
     AppComponent
   ]
 })
-export class AppModule {}
