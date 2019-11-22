@@ -1,5 +1,5 @@
 <h1>Register</h1>
-<form name="registerForm" (ngSubmit)="onSubmit(registerForm.value)">
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm.value)">
   <div class="container">
     <p>Please fill in this form to create an account.</p>
     <hr>
