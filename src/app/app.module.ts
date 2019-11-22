@@ -32,4 +32,3 @@ import { LoginApi } from './api/login.api';
   bootstrap: [
     AppComponent
   ]
-})
