@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './component/login/login.component';
 import { RegisterComponent } from './component/register/register.component';
 import { RegisterApi } from './api/register.api';
+import { LoginApi } from './api/login.api';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { RegisterApi } from './api/register.api';
     HttpClientModule,
   ],
   providers: [
-    RegisterApi
+    RegisterApi,
+    LoginApi
   ],
   bootstrap: [
     AppComponent
