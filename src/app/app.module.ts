@@ -11,16 +11,16 @@ import { RegisterComponent } from './component/register/register.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LoginComponent,
-    RegisterComponent
+    AppComponent
+    ,LoginComponent
+    ,RegisterComponent
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    HttpClientModule
+    BrowserModule
+    ,FormsModule
+    ,AppRoutingModule
+    ,ReactiveFormsModule
+    ,HttpClientModule
   ],
   providers: [
     LoginApi

@@ -1,9 +1,8 @@
-import { Component, Directive, Injectable } from '@angular/core';
-import { ExpressionStatement } from '@angular/compiler';
+import { Component } from '@angular/core';
 import { RegisterApi } from "src/app/api/register.api";
 import { FormBuilder } from '@angular/forms';
+import { RegisterModel } from 'src/app/model/register.model';
 import { UserModel } from 'src/app/model/user.model';
-import { RegisterResponse } from "src/app/model/register-response.model";
 
 @Component({
   selector: 'app-register',
@@ -27,12 +26,12 @@ export class RegisterComponent {
     });
   }
 
-  onSubmit(registerData) {
-    if(registerData.password == registerData.repeatPassword) {
-      let response = this.registerApi.query(new UserModel(-1, registerData.name, registerData.password, registerData.email));
+  registerUser(registerModel: RegisterModel) {
+    if(registerModel.password == registerModel.repeatPassword) {
+      this.registerApi.query(new UserModel(-1, registerModel.name, registerModel.password, registerModel.email));
       this.registerForm.reset();
     } else {
-      console.warn("The username or password was incorrect!");
+      console.warn("The two passwords are not equal!");
     }
   }
 }

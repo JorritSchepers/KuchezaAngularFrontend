@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { LoginApi } from "src/app/api/login.api";
 import { FormBuilder } from '@angular/forms';
 import { LoginModel } from '../../model/login.model';
 import { TokenModel } from '../../model/token.model';
-import { LoginResponseModel } from 'src/app/model/login-response.model';
+import { LoginApi } from 'src/app/api/login.api';
 
 @Component({
   selector: 'app-login',
@@ -24,9 +23,8 @@ export class LoginComponent {
     this.token = "Click here to see your token!";
   }
 
-  onSubmit(loginData: LoginModel): void {
-    // console.warn('You tried loggin in', loginData);
-    this.loginApi.query(new LoginModel(loginData.email, loginData.password));
+  login(loginModel: LoginModel): void {
+    this.loginApi.query(new LoginModel(loginModel.email, loginModel.password));
     this.loginForm.reset();
   }
 

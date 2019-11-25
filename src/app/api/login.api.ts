@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { LoginResponseModel } from '../model/login-response.model';
 import { LoginModel } from "../model/login.model";
 import { TokenModel } from "../model/token.model";
-import {HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import { HttpHeaders} from '@angular/common/http';
 
 @Injectable()
 export class LoginApi {

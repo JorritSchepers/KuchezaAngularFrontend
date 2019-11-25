@@ -20,7 +20,6 @@ export class RegisterApi {
 	constructor(private http: HttpClient) { }
 
 	query(userModel: UserModel) {
-		console.warn('Sending request to: ', this.registerUrl, "with dto: ", JSON.stringify(userModel), "?");
 		return this.http.post<RegisterResponse>(this.registerUrl, JSON.stringify(userModel), {headers: this.headers})
 		.subscribe(data => this.handleRegisterResponse(data));
 	}
