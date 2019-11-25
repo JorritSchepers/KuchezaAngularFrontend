@@ -25,7 +25,7 @@ describe('RegisterComponent', () => {
 	});
 
   it('should call register', () => {
-    sut.onSubmit(new RegisterModel("", "", "", ""));
+    sut.registerUser(new RegisterModel("", "", "", ""));
     expect(mockRegisterApi).toBeTruthy();
     expect(mockRegisterApi.query).toHaveBeenCalled();
     expect(sut.registerForm).toBeDefined();

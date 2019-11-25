@@ -22,7 +22,7 @@ describe('LoginComponent', () => {
 	});
 
     it('should call LoginApi', () => {
-        sut.onSubmit(new LoginModel("", ""));
+        sut.login(new LoginModel("", ""));
 		    expect(mockedLoginApi.query).toHaveBeenCalled();
     });
 
