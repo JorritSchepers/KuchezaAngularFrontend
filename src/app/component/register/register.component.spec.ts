@@ -24,7 +24,7 @@ describe('RegisterComponent', () => {
     sut = new RegisterComponent(new FormBuilder(), mockRegisterApi);
 	});
 
-  it('should retrieve register', () => {
+  it('should call register', () => {
     sut.onSubmit(new RegisterModel("", "", "", ""));
     expect(mockRegisterApi).toBeTruthy();
     expect(mockRegisterApi.query).toHaveBeenCalled();
