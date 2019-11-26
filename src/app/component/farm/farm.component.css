@@ -26,7 +26,7 @@ div {
     width: 896px;
     margin: auto;
     display: fixed;
-    background-color:darksalmon;
+    background-color: darksalmon;
 }
 
 .row {
@@ -36,4 +36,9 @@ div {
 
 .column {
     width: 128px;
+}
+
+.plant-container {
+    border: 1px black solid;
+    background-color: #8634eb;
 }
