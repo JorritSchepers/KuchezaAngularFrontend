@@ -6,7 +6,8 @@ html {
 }
 
 img {
-    height: auto;
+    height: 100%;
+    width: 100%;
     display: block;
 }
 
@@ -14,13 +15,7 @@ figure {
     margin: 0;
 }
 
-div {
-    width: 128px;
-    height: 128px;
-}
-
 .farm-container {
-    /* transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg); */
     border: 5px black solid;
     height: 896px;
     width: 896px;
@@ -30,10 +25,9 @@ div {
 }
 
 .row {
-    width: 1024px;
     display: flex;
 }
 
 .column {
-    width: 128px;
+    width: 10%;
 }

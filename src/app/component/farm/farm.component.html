@@ -1,4 +1,4 @@
-<div (click)="getFarm()" class="farm-container">
+<div class="farm-container" (click)="initPlots()">
     <!-- <div class="row">
         <div class="column">
             <div class="ItemCard">
@@ -10,8 +10,8 @@
             </div>
         </div>
     </div> -->
-    <div class="row">
-        <div class="column" *ngFor="let plot of plots">
+    <div class="row" *ngFor="let plotsX of plots">
+        <div class="column" *ngFor="let plot of plotsX">
             <img src="{{plot.image}}" alt="">
         </div>
     </div>
