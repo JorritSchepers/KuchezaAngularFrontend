@@ -1,0 +1,18 @@
+<div (click)="getFarm()" class="farm-container">
+    <!-- <div class="row">
+        <div class="column">
+            <div class="ItemCard">
+                <a class="ItemCard__dest cover" href="https://elements.envato.com/items/type/fonts/herbert-lemuel-GHH8KT" target="_blank"></a>
+                <figure class="ItemCard__thumb">
+                    <img src="../../../assets/grass128.jpg" alt="">
+                    <span class="shadow cover"></span>
+                </figure>
+            </div>
+        </div>
+    </div> -->
+    <div class="row">
+        <div class="column" *ngFor="let plot of plots">
+            <img src="{{plot.image}}" alt="">
+        </div>
+    </div>
+</div>

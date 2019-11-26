@@ -1,0 +1,39 @@
+html {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+img {
+    height: auto;
+    display: block;
+}
+
+figure {
+    margin: 0;
+}
+
+div {
+    width: 128px;
+    height: 128px;
+}
+
+.farm-container {
+    /* transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg); */
+    border: 5px black solid;
+    height: 896px;
+    width: 896px;
+    margin: auto;
+    display: fixed;
+    background-color:darksalmon;
+}
+
+.row {
+    width: 1024px;
+    display: flex;
+}
+
+.column {
+    width: 128px;
+}
