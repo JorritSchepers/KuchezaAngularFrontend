@@ -33,12 +33,10 @@ import { CurrentFarmModel } from 'src/app/model/current-farm.model';
     }
 
     private generateGrassGrid(): void {
-      let id: number = 0;
       for(let i=0;i<10;i++) {
         let row:PlotModel[]  = new Array<PlotModel>();      
         for(let j=0;j<10;j++) {
-          id++;
-          row.push(new PlotModel(id, j+1, i+1, 0, 0, 0, 0, false));
+          row.push(new PlotModel(-1, j+1, i+1, 0, 0, 0, 0, false));
         } 
         this.plots.push(row);
       }
