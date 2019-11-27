@@ -43,15 +43,19 @@ export class FarmComponent {
     }
   }
 
-  getAllPlants(plotId: number): void {
-    for(let plot of CurrentFarmModel.plots) {
-      if(plot.ID == plotId && plot.purchased == true) {
+  getAllPlants(plotId: number,plantID: number,purchased: boolean): void {
+    if(purchased == true) {
+      if(plantID == 0) {
         this.plotId = plotId;
         this.plantApi.query().then(plants => this.setPlants(plants))
           .catch(any => this.setEmptyPlants());
       } else {
-        this.setEmptyPlants();
+        let plant = new PlantModel(1,"0",1,plantID,50,100,1000);
+        this.plotApi.oogst(plotId, plant).then(plot => this.updatePlots())
+          .catch(any => this.updatePlots());
       }
+    } else {
+      this.setEmptyPlants();
     }
   }
 
