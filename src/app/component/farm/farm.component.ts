@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FarmApi } from 'src/app/api/farm.api';
 import { PlotModel } from 'src/app/model/plot.model';
 import { CurrentFarmModel } from 'src/app/model/current-farm.model';
@@ -16,13 +16,10 @@ import { CurrentFarmModel } from 'src/app/model/current-farm.model';
     cropsPlot2: PlotModel       = new PlotModel(4,  4, 5, 20,    0,        0,    1, true);
     cropsPlot3: PlotModel       = new PlotModel(4,  4, 6, 20,    0,        0,    1, true);
     plots: PlotModel[][] = new Array<Array<PlotModel>>();
-    // plots: PlotModel[][] = new PlotModel[10][10];
 
     constructor(private farmApi: FarmApi) {
       this.generateGrassGrid();
       this.getFarm();
-      // this.initPlots();
-      // console.log("test in constructor");
      } 
 
     private getFarm(): void {
@@ -30,18 +27,6 @@ import { CurrentFarmModel } from 'src/app/model/current-farm.model';
     }
 
     initPlots() {
-      // this.generateGrassGrid();
-
-      // TEMP
-      // let tempPlots: PlotModel[] = Array(3);
-      // tempPlots[0] = this.animalPlot;
-      // tempPlots[1] = this.waterManagerPlot;
-      // tempPlots[2] = this.cropsPlot;
-      // tempPlots[3] = this.cropsPlot2;
-      // tempPlots[4] = this.cropsPlot3;
-      // console.warn("tempPlots: ", tempPlots);
-      // CurrentFarmModel.setPlots(tempPlots);
-
       for(let plot of CurrentFarmModel.plots) {
           this.plots[plot.y][plot.x] = plot;
       }

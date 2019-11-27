@@ -6,7 +6,6 @@ export class CurrentFarmModel {
     static plots: PlotModel[] = Array();
 
     static setPlots(plots: PlotModel[]) {
-        // this.plots = plots;
         for (let newPlot of plots) {
             this.plots.push(new PlotModel(newPlot.ID, newPlot.x, newPlot.y, newPlot.price
                 , newPlot.animalID, newPlot.waterManagerID, newPlot.plantID, newPlot.purchased));

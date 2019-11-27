@@ -1,15 +1,4 @@
 <div class="farm-container" (click)="initPlots()">
-    <!-- <div class="row">
-        <div class="column">
-            <div class="ItemCard">
-                <a class="ItemCard__dest cover" href="https://elements.envato.com/items/type/fonts/herbert-lemuel-GHH8KT" target="_blank"></a>
-                <figure class="ItemCard__thumb">
-                    <img src="../../../assets/grass128.jpg" alt="">
-                    <span class="shadow cover"></span>
-                </figure>
-            </div>
-        </div>
-    </div> -->
     <div class="row" *ngFor="let plotsX of plots">
         <div class="column" *ngFor="let plot of plotsX">
             <img src="{{plot.image}}" alt="">
