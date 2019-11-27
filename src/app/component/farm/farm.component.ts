@@ -8,13 +8,6 @@ import { CurrentFarmModel } from 'src/app/model/current-farm.model';
     styleUrls: ['./farm.component.css']
   })
   export class FarmComponent {
-                                              /*ID, x, y, price, animalID, wmID, plantID*/
-    grassPlot: PlotModel        = new PlotModel(1,  1, 1, 0,     0,        0,    0, true);
-    animalPlot: PlotModel       = new PlotModel(2,  2, 2, 10,    1,        0,    0, true);
-    waterManagerPlot: PlotModel = new PlotModel(3,  3, 3, 10,    0,        1,    0, true);
-    cropsPlot: PlotModel        = new PlotModel(4,  4, 4, 20,    0,        0,    1, true);
-    cropsPlot2: PlotModel       = new PlotModel(4,  4, 5, 20,    0,        0,    1, true);
-    cropsPlot3: PlotModel       = new PlotModel(4,  4, 6, 20,    0,        0,    1, true);
     plots: PlotModel[][] = new Array<Array<PlotModel>>();
 
     constructor(private farmApi: FarmApi) {
