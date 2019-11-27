@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing'; 
+import { TestBed } from '@angular/core/testing';
 import { LoginApi } from '../../api/login.api';
 import { LoginComponent } from '../../component/login/login.component';
 import { LoginModel } from 'src/app/model/login.model';
@@ -13,7 +13,7 @@ describe('LoginComponent', () => {
     beforeEach(() => {
         mockedLoginApi = jasmine.createSpyObj("LoginApi", ["query"]);
         mockedLoginApi.query.and.returnValue(new LoginResponseModel(new UserModel(-1, "", "", ""), "1234"));
-        
+
         TestBed.configureTestingModule({
 			declarations: [LoginComponent],
 			providers: [{ provide: LoginApi, useValue: mockedLoginApi }],
@@ -22,8 +22,8 @@ describe('LoginComponent', () => {
 	});
 
     it('should call LoginApi', () => {
-        sut.onSubmit(new LoginModel("", ""));
-		expect(mockedLoginApi.query).toHaveBeenCalled();
+        sut.login(new LoginModel("", ""));
+		    expect(mockedLoginApi.query).toHaveBeenCalled();
     });
 
     it("should declare currentToken in TokenModel", () => {
