@@ -19,7 +19,8 @@ import { CurrentFarmModel } from 'src/app/model/current-farm.model';
     // plots: PlotModel[][] = new PlotModel[10][10];
 
     constructor(private farmApi: FarmApi) {
-      let isDone = this.getFarm();
+      this.generateGrassGrid();
+      this.getFarm();
       // this.initPlots();
       // console.log("test in constructor");
      } 
@@ -28,7 +29,7 @@ import { CurrentFarmModel } from 'src/app/model/current-farm.model';
       this.farmApi.query();
     }
 
-    private initPlots() {
+    initPlots() {
       // this.generateGrassGrid();
 
       // TEMP
@@ -42,10 +43,9 @@ import { CurrentFarmModel } from 'src/app/model/current-farm.model';
       // CurrentFarmModel.setPlots(tempPlots);
 
       for(let plot of CurrentFarmModel.plots) {
-        console.warn("PLOTS:", this.plots.length);
           this.plots[plot.y][plot.x] = plot;
       }
-      console.log("plots in component:", this.plots);
+      console.log("plots in FarmComponent:", this.plots);
     }
 
     private generateGrassGrid(): void {

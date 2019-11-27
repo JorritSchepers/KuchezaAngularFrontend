@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { TokenModel } from '../model/token.model';
 import { CurrentFarmModel } from '../model/current-farm.model';
 import { PlotModel } from '../model/plot.model';
+import { FarmComponent } from '../component/farm/farm.component';
 
 @Injectable()
 export class FarmApi {
@@ -32,5 +33,6 @@ export class FarmApi {
 		CurrentFarmModel.setFarmID(response.farmID);
 		CurrentFarmModel.setOwnerID(response.ownerID);
 		CurrentFarmModel.setPlots(response.plots);
+		// FarmComponent.initPlots();
 	}
 }
