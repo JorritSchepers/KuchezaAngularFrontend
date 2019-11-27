@@ -10,6 +10,9 @@ import { RegisterApi } from './api/register.api';
 import { RegisterComponent } from './component/register/register.component';
 import { FarmComponent } from './component/farm/farm.component';
 import { FarmApi } from './api/farm.api';
+import { LogoutApi } from './api/logout.api';
+import { LogoutComponent } from './component/logout/logout.component';
+
 
 @NgModule({
   declarations: [
@@ -17,6 +20,7 @@ import { FarmApi } from './api/farm.api';
     ,LoginComponent
     ,RegisterComponent
     ,FarmComponent
+    ,LogoutComponent
   ],
   imports: [
     BrowserModule
@@ -29,6 +33,7 @@ import { FarmApi } from './api/farm.api';
     LoginApi
     ,RegisterApi
     ,FarmApi
+    ,LogoutApi
   ],
   bootstrap: [
     AppComponent
