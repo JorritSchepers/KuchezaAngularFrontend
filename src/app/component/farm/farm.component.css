@@ -1,32 +1,39 @@
 html {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
+
 *, *:before, *:after {
-    box-sizing: inherit;
+  box-sizing: inherit;
 }
 
 img {
-    display: block;
+  height: 100%;
+  width: 100%;
+  display: block;
 }
 
 figure {
-    margin: 0;
+  margin: 0;
 }
 
 .farm-container {
-    border: 5px black solid;
-    height: 896px;
-    width: 896px;
-    margin: auto;
-    display: fixed;
-    background-color: darksalmon;
+  border: 5px black solid;
+  height: 896px;
+  width: 896px;
+  margin: auto;
+  display: fixed;
+  background-color: darksalmon;
 }
 
 .row {
-    display: flex;
+  display: flex;
+}
+
+.column {
+    width: 10%;
 }
 
 .plant-container {
-    border: 1px black solid;
-    background-color: #8634eb;
+  border: 1px black solid;
+  background-color: #8634eb;
 }
