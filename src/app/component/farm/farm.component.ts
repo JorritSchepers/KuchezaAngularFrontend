@@ -5,6 +5,7 @@ import { PlotApi } from 'src/app/api/plot.api';
 import { PlotModel } from 'src/app/model/plot.model';
 import { PlantResponseModel } from 'src/app/model/plant-response.model';
 import { PlantModel } from 'src/app/model/plant.model';
+import { CurrentFarmModel } from 'src/app/model/current-farm.model';
 
 @Component({
   templateUrl: './farm.component.html',
@@ -13,11 +14,12 @@ import { PlantModel } from 'src/app/model/plant.model';
 export class FarmComponent {
   plants: PlantResponseModel;
   plots: PlotModel[][] = new Array<Array<PlotModel>>();
+  plotId: number;
 
   constructor(private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi) {
     this.generateGrassGrid();
     this.getFarm();
-   }
+  }
 
   private getFarm(): void {
     this.farmApi.query();
@@ -39,11 +41,8 @@ export class FarmComponent {
     }
   }
 
-  printPlotID(plotID: number) {
-    console.log("plotID:", plotID);
-  }
-
-  getAllPlants(): void {
+  getAllPlants(plotId: number): void {
+    this.plotId = plotId;
     this.plantApi.query().then(plants => this.setPlants(plants))
       .catch(any => this.setEmptyPlants());
   }
@@ -56,13 +55,14 @@ export class FarmComponent {
     this.plants = new PlantResponseModel([]);
   }
 
-  placePlantOnPlot(plant: PlantModel): void {
+  placePlantOnPlot(plotId: number, plant: PlantModel): void {
     console.warn("PlantModel: ", plant);
-    this.plotApi.query(1, plant).then(plants => this.updatePlots())
+    this.plotApi.query(plotId, plant).then(plants => this.updatePlots())
       .catch(any => this.updatePlots());
   }
 
   private updatePlots(): void {
     this.plants = new PlantResponseModel([]);
+    initPlots();
   }
 }

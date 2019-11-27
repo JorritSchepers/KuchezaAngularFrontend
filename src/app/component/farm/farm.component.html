@@ -2,8 +2,8 @@
   <div class="column">
     <div class="plants-overview" *ngIf="plants">
       <div class="plant" *ngFor="let plant of plants.plants">
-        <div (click)="placePlantOnPlot(plant)" class="plant-container">
-          <img src="../../../assets/ui/plant/{{plant.id}}.png" width="100%" height="100%" alt="{{plant.name}}">
+        <div (click)="placePlantOnPlot(plotId, plant)" class="plant-container">
+          <img src="../../../assets/ui/plant/{{plant.ID}}.png" width="100%" height="100%" alt="">
         </div>
       </div>
     </div>
@@ -12,8 +12,7 @@
     <div class="farm-container" (click)="initPlots()">
       <div class="row" *ngFor="let plotsX of plots">
         <div class="column" *ngFor="let plot of plotsX">
-          <img src="{{plot.image}}" alt="" (click)="printPlotID(plot.ID)">
-          <!-- <img src="{{plot.image}}" alt="" (click)="getAllPlants()"> -->
+          <img src="{{plot.image}}" alt="" (click)="getAllPlants(plot.ID)">
         </div>
       </div>
     </div>
