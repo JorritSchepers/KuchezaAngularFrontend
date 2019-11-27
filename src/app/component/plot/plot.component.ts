@@ -10,7 +10,7 @@ import { PlotApi } from 'src/app/api/plot.api';
 
     constructor(private plotApi: PlotApi) { }
 
-    placePlantOnPlot(): void {
-      this.plotApi.query();
-    }
+    // placePlantOnPlot(): void {
+    //   this.plotApi.query();
+    // }
   }

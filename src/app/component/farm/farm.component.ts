@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { FarmApi } from 'src/app/api/farm.api';
 import { PlantApi } from 'src/app/api/plant.api';
+import { PlotApi } from 'src/app/api/plot.api';
 import { PlotModel } from 'src/app/model/plot.model';
 import { PlantResponseModel } from 'src/app/model/plant-response.model';
+import { PlantModel } from 'src/app/model/plant.model';
 
 @Component({
   selector: 'app-login',
@@ -15,10 +17,9 @@ export class FarmComponent {
   waterManagerPlot: PlotModel = new PlotModel(1, 1, 1, 10, 0, 1, 0);
   cropsPlot: PlotModel        = new PlotModel(2, 1, 2, 20, 0, 0, 1);
   plots: PlotModel[] = [this.grassPlot, this.animalPlot, this.waterManagerPlot, this.cropsPlot];
-
   plants: PlantResponseModel;
 
-  constructor(private farmApi: FarmApi, private plantApi: PlantApi) { }
+  constructor(private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi) { }
 
   getFarm(): void {
     this.farmApi.query();
@@ -34,10 +35,16 @@ export class FarmComponent {
   }
 
   private setEmptyPlants(): void {
-
+    this.plants = new PlantResponseModel([]);
   }
 
-  selectPlant(plant:number): void {
-    console.warn("Plant: ", plant);
+  placePlantOnPlot(plant: PlantModel): void {
+    console.warn("PlantModel: ", plant);
+    this.plotApi.query(1, plant).then(plants => this.updatePlots())
+      .catch(any => this.updatePlots());
+  }
+
+  private updatePlots(): void {
+    this.plants = new PlantResponseModel([]);
   }
 }
