@@ -1,12 +1,11 @@
 import { Injectable } from "@angular/core";
 import { HttpHeaders } from '@angular/common/http';
-import { FarmModel } from '../model/farm.model';
 import { HttpClient } from '@angular/common/http';
 import { TokenModel } from '../model/token.model';
-import { CurrentFarmModel } from '../model/current-farm.model';
+import { PlantResponseModel } from '../model/plant-response.model';
 
 @Injectable()
-export class FarmApi {
+export class PlantApi {
   httpOptions = {
 		headers: new HttpHeaders({
 		  'Content-Type':  'application/json',
@@ -16,18 +15,15 @@ export class FarmApi {
 
 	protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-	farmUrl = 'http://localhost:8088/farm';
+	plantUrl = 'http://localhost:8088/plant';
 
 	constructor(private http?: HttpClient) { }
 
-  public async query(): Promise<FarmModel> {
+  public async query(): Promise<PlantResponseModel> {
     try {
-      const data: FarmModel = await this.http.get<FarmModel>(this.farmUrl + "?token=" + TokenModel.currentToken,
+      const data: PlantResponseModel = await this.http.get<PlantResponseModel>(this.plantUrl + "?token=" + TokenModel.currentToken,
       {headers: this.headers}).toPromise();
       console.warn("PlantResponseModel: ", data);
-      CurrentFarmModel.setFarmID(data.farmID);
-  		CurrentFarmModel.setOwnerID(data.ownerID);
-  		CurrentFarmModel.setPlots(data.plots);
       return data;
     } catch (err) {
 	     console.warn("Something went wrong with the back-end: ", err);

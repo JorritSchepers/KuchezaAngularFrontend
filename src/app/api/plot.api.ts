@@ -3,10 +3,11 @@ import { HttpHeaders } from '@angular/common/http';
 import { FarmModel } from '../model/farm.model';
 import { HttpClient } from '@angular/common/http';
 import { TokenModel } from '../model/token.model';
-import { CurrentFarmModel } from '../model/current-farm.model';
+import { PlantModel } from '../model/plant.model';
+import { PlotModel } from '../model/plot.model';
 
 @Injectable()
-export class FarmApi {
+export class PlotApi {
   httpOptions = {
 		headers: new HttpHeaders({
 		  'Content-Type':  'application/json',
@@ -16,18 +17,14 @@ export class FarmApi {
 
 	protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-	farmUrl = 'http://localhost:8088/farm';
-
 	constructor(private http?: HttpClient) { }
 
-  public async query(): Promise<FarmModel> {
+  public async query(plot: number, plantModel: PlantModel): Promise<PlotModel> {
+    var plotUrl = new String("http://localhost:8088/plot/"+plot+"/plant");
     try {
-      const data: FarmModel = await this.http.get<FarmModel>(this.farmUrl + "?token=" + TokenModel.currentToken,
+      const data: PlotModel = await this.http.post<PlotModel>(plotUrl + "?token=" + TokenModel.currentToken, JSON.stringify(plantModel),
       {headers: this.headers}).toPromise();
-      console.warn("PlantResponseModel: ", data);
-      CurrentFarmModel.setFarmID(data.farmID);
-  		CurrentFarmModel.setOwnerID(data.ownerID);
-  		CurrentFarmModel.setPlots(data.plots);
+      console.warn("PlotModel: ", data);
       return data;
     } catch (err) {
 	     console.warn("Something went wrong with the back-end: ", err);
