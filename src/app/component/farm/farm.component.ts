@@ -30,7 +30,6 @@ import { CurrentFarmModel } from 'src/app/model/current-farm.model';
       for(let plot of CurrentFarmModel.plots) {
           this.plots[plot.y][plot.x] = plot;
       }
-      console.log("plots in FarmComponent:", this.plots);
     }
 
     private generateGrassGrid(): void {
@@ -43,5 +42,9 @@ import { CurrentFarmModel } from 'src/app/model/current-farm.model';
         } 
         this.plots.push(row);
       }
+    }
+
+    printPlotID(plotID: number) {
+      console.log("plotID:", plotID);
     }
   }

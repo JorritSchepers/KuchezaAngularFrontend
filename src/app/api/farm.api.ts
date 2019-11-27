@@ -21,13 +21,11 @@ export class FarmApi {
 	constructor(private http?: HttpClient) { }
 
 	query() {
-		console.warn('Sending get request to:', this.farmUrl, "with token:", TokenModel.currentToken);
 		return this.http.get<FarmModel>(this.farmUrl + "?token=" + TokenModel.currentToken, {headers: this.headers})
 		.subscribe(data => this.handleLoginResponse(data));
 	}
 
 	handleLoginResponse(response: FarmModel): void {
-		console.warn("FarmModel: ", response.plots);
 		CurrentFarmModel.setFarmID(response.farmID);
 		CurrentFarmModel.setOwnerID(response.ownerID);
 		CurrentFarmModel.setPlots(response.plots);

@@ -10,7 +10,6 @@ export class CurrentFarmModel {
             this.plots.push(new PlotModel(newPlot.ID, newPlot.x, newPlot.y, newPlot.price
                 , newPlot.animalID, newPlot.waterManagerID, newPlot.plantID, newPlot.purchased));
         }
-        console.warn("plots in currentplotmodel:", this.plots)
     }
 
     static setFarmID(farmID: number) {
