@@ -6,7 +6,7 @@ import { PlantResponseModel } from '../model/plant-response.model';
 
 @Injectable()
 export class PlantApi {
-    httpOptions = {
+  httpOptions = {
 		headers: new HttpHeaders({
 		  'Content-Type':  'application/json',
 		  'Authorization': 'my-auth-token'

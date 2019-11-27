@@ -8,7 +8,7 @@ import { PlotModel } from '../model/plot.model';
 
 @Injectable()
 export class PlotApi {
-    httpOptions = {
+  httpOptions = {
 		headers: new HttpHeaders({
 		  'Content-Type':  'application/json',
 		  'Authorization': 'my-auth-token'

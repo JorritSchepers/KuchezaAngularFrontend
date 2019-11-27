@@ -27,7 +27,7 @@ export class FarmComponent {
 
   initPlots() {
     for(let plot of CurrentFarmModel.plots) {
-        this.plots[plot.y][plot.x] = plot;
+      this.plots[plot.y][plot.x] = plot;
     }
   }
 
@@ -57,12 +57,13 @@ export class FarmComponent {
 
   placePlantOnPlot(plotId: number, plant: PlantModel): void {
     console.warn("PlantModel: ", plant);
-    this.plotApi.query(plotId, plant).then(plants => this.updatePlots())
+    this.plotApi.query(plotId, plant).then(plot => this.updatePlots())
       .catch(any => this.updatePlots());
   }
 
   private updatePlots(): void {
     this.plants = new PlantResponseModel([]);
-    initPlots();
+    this.getFarm();
+    this.initPlots();
   }
 }

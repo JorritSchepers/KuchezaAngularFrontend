@@ -7,7 +7,7 @@ import { CurrentFarmModel } from '../model/current-farm.model';
 
 @Injectable()
 export class FarmApi {
-    httpOptions = {
+  httpOptions = {
 		headers: new HttpHeaders({
 		  'Content-Type':  'application/json',
 		  'Authorization': 'my-auth-token'
