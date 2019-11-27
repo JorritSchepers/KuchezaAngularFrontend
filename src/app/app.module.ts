@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './component/login/login.component';
 import { RegisterComponent } from './component/register/register.component';
 import { FarmComponent } from './component/farm/farm.component';
-import { PlotComponent } from './component/plot/plot.component';
 import { LoginApi } from './api/login.api';
 import { RegisterApi } from './api/register.api';
 import { FarmApi } from './api/farm.api';
@@ -20,7 +19,6 @@ import { PlantApi } from './api/plant.api';
     ,LoginComponent
     ,RegisterComponent
     ,FarmComponent
-    ,PlotComponent
   ],
   imports: [
     BrowserModule
