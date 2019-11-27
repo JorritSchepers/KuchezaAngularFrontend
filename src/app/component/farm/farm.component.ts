@@ -44,9 +44,15 @@ export class FarmComponent {
   }
 
   getAllPlants(plotId: number): void {
-    this.plotId = plotId;
-    this.plantApi.query().then(plants => this.setPlants(plants))
-      .catch(any => this.setEmptyPlants());
+    for(let plot of CurrentFarmModel.plots) {
+      if(plot.ID == plotId && plot.purchased == true) {
+        this.plotId = plotId;
+        this.plantApi.query().then(plants => this.setPlants(plants))
+          .catch(any => this.setEmptyPlants());
+      } else {
+        this.setEmptyPlants();
+      }
+    }
   }
 
   private setPlants(plants: PlantResponseModel): void {
