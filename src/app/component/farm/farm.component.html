@@ -12,7 +12,7 @@
     <div class="farm-container">
       <div class="row" *ngFor="let plotsX of plots">
         <div class="column" *ngFor="let plot of plotsX">
-          <img src="{{plot.image}}" alt="" (click)="getAllPlants(plot.ID)">
+          <img src="{{plot.image}}" alt="" (click)="getAllPlants(plot.ID,plot.plantID)">
         </div>
       </div>
     </div>

@@ -43,10 +43,16 @@ export class FarmComponent {
     }
   }
 
-  getAllPlants(plotId: number): void {
-    this.plotId = plotId;
-    this.plantApi.query().then(plants => this.setPlants(plants))
-      .catch(any => this.setEmptyPlants());
+  getAllPlants(plotId: number,plantID: number): void {
+    if(plantID == 0) {
+      this.plotId = plotId;
+      this.plantApi.query().then(plants => this.setPlants(plants))
+        .catch(any => this.setEmptyPlants());
+    } else {
+      let plant = new PlantModel(1,"0",1,plantID,50,100,1000);
+      this.plotApi.oogst(plotId, plant).then(plot => this.updatePlots())
+        .catch(any => this.updatePlots());
+    }
   }
 
   private setPlants(plants: PlantResponseModel): void {

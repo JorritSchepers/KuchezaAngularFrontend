@@ -30,4 +30,16 @@ export class PlotApi {
 	     console.warn("Something went wrong with the back-end: ", err);
     }
   }
+
+  public async oogst(plot: number, plantModel: PlantModel): Promise<PlotModel> {
+    var plotUrl = new String("http://localhost:8088/plot/"+plot+"/harvest");
+    try {
+      const data: PlotModel = await this.http.post<PlotModel>(plotUrl + "?token=" + TokenModel.currentToken, JSON.stringify(plantModel),
+      {headers: this.headers}).toPromise();
+      console.warn("PlotModel: ", data);
+      return data;
+    } catch (err) {
+	     console.warn("Something went wrong with the back-end: ", err);
+    }
+  }
 }
