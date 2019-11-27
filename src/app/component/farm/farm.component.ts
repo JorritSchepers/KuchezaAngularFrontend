@@ -6,6 +6,7 @@ import { PlotModel } from 'src/app/model/plot.model';
 import { PlantResponseModel } from 'src/app/model/plant-response.model';
 import { PlantModel } from 'src/app/model/plant.model';
 import { CurrentFarmModel } from 'src/app/model/current-farm.model';
+import { FarmModel } from 'src/app/model/farm.model';
 
 @Component({
   templateUrl: './farm.component.html',
@@ -22,10 +23,11 @@ export class FarmComponent {
   }
 
   private getFarm(): void {
-    this.farmApi.query();
+    this.farmApi.query().then(farm => this.initPlots())
+      .catch(any => this.initPlots());
   }
 
-  initPlots() {
+  initPlots(): void {
     for(let plot of CurrentFarmModel.plots) {
       this.plots[plot.y][plot.x] = plot;
     }

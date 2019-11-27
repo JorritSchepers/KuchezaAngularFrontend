@@ -20,14 +20,17 @@ export class FarmApi {
 
 	constructor(private http?: HttpClient) { }
 
-	query() {
-		return this.http.get<FarmModel>(this.farmUrl + "?token=" + TokenModel.currentToken, {headers: this.headers})
-		.subscribe(data => this.handleLoginResponse(data));
-	}
-
-	handleLoginResponse(response: FarmModel): void {
-		CurrentFarmModel.setFarmID(response.farmID);
-		CurrentFarmModel.setOwnerID(response.ownerID);
-		CurrentFarmModel.setPlots(response.plots);
-	}
+  public async query(): Promise<FarmModel> {
+    try {
+      const data: FarmModel = await this.http.get<FarmModel>(this.farmUrl + "?token=" + TokenModel.currentToken,
+      {headers: this.headers}).toPromise();
+      console.warn("PlantResponseModel: ", data);
+      CurrentFarmModel.setFarmID(data.farmID);
+  		CurrentFarmModel.setOwnerID(data.ownerID);
+  		CurrentFarmModel.setPlots(data.plots);
+      return data;
+    } catch (err) {
+	     console.warn("Something went wrong with the back-end: ", err);
+    }
+  }
 }
