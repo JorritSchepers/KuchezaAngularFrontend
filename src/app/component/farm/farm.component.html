@@ -1,0 +1,7 @@
+<div class="farm-container" (click)="initPlots()">
+    <div class="row" *ngFor="let plotsX of plots">
+        <div class="column" *ngFor="let plot of plotsX">
+            <img src="{{plot.image}}" alt="" (click)="printPlotID(plot.ID)">
+        </div>
+    </div>
+</div>

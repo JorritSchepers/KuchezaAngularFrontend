@@ -8,12 +8,15 @@ import { LoginComponent } from './component/login/login.component';
 import { LoginApi } from './api/login.api';
 import { RegisterApi } from './api/register.api';
 import { RegisterComponent } from './component/register/register.component';
+import { FarmComponent } from './component/farm/farm.component';
+import { FarmApi } from './api/farm.api';
 
 @NgModule({
   declarations: [
     AppComponent
     ,LoginComponent
     ,RegisterComponent
+    ,FarmComponent
   ],
   imports: [
     BrowserModule
@@ -25,6 +28,7 @@ import { RegisterComponent } from './component/register/register.component';
   providers: [
     LoginApi
     ,RegisterApi
+    ,FarmApi
   ],
   bootstrap: [
     AppComponent
