@@ -7,7 +7,7 @@ import { UserModel } from 'src/app/model/user.model';
 import { FormBuilder } from '@angular/forms';
 
 describe('RegisterComponent', () => {
-	let mockRegisterApi;
+	let mockRegisterApi: any;
 	let sut: RegisterComponent;
 
 	beforeEach(() => {

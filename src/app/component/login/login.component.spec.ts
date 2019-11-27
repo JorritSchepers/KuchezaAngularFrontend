@@ -6,9 +6,10 @@ import { UserModel } from 'src/app/model/user.model';
 import { TokenModel } from "src/app/model/token.model";
 import { LoginResponseModel } from 'src/app/model/login-response.model';
 import { FormBuilder } from '@angular/forms';
+
 describe('LoginComponent', () => {
-    let mockedLoginApi;
-    let sut;
+    let mockedLoginApi: any;
+    let sut: LoginComponent;
 
     beforeEach(() => {
         mockedLoginApi = jasmine.createSpyObj("LoginApi", ["query"]);

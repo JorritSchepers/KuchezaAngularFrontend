@@ -15,11 +15,11 @@ import { CurrentFarmModel } from 'src/app/model/current-farm.model';
       this.getFarm();
      } 
 
-    private getFarm(): void {
+    getFarm(): void {
       this.farmApi.query();
     }
 
-    initPlots() {
+    initPlots(): void {
       for(let plot of CurrentFarmModel.plots) {
           this.plots[plot.y][plot.x] = plot;
       }
