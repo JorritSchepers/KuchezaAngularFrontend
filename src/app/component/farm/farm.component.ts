@@ -7,22 +7,40 @@ import { PlantResponseModel } from 'src/app/model/plant-response.model';
 import { PlantModel } from 'src/app/model/plant.model';
 
 @Component({
-  selector: 'app-login',
   templateUrl: './farm.component.html',
   styleUrls: ['./farm.component.css']
 })
 export class FarmComponent {
-  grassPlot: PlotModel        = new PlotModel(1, 1, 1, 10, 0, 0, 0);
-  animalPlot: PlotModel       = new PlotModel(1, 1, 1, 10, 1, 0, 0);
-  waterManagerPlot: PlotModel = new PlotModel(1, 1, 1, 10, 0, 1, 0);
-  cropsPlot: PlotModel        = new PlotModel(2, 1, 2, 20, 0, 0, 1);
-  plots: PlotModel[] = [this.grassPlot, this.animalPlot, this.waterManagerPlot, this.cropsPlot];
   plants: PlantResponseModel;
+  plots: PlotModel[][] = new Array<Array<PlotModel>>();
 
-  constructor(private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi) { }
+  constructor(private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi) {
+    this.generateGrassGrid();
+    this.getFarm();
+   }
 
-  getFarm(): void {
+  private getFarm(): void {
     this.farmApi.query();
+  }
+
+  initPlots() {
+    for(let plot of CurrentFarmModel.plots) {
+        this.plots[plot.y][plot.x] = plot;
+    }
+  }
+
+  private generateGrassGrid(): void {
+    for(let i=0;i<10;i++) {
+      let row:PlotModel[]  = new Array<PlotModel>();
+      for(let j=0;j<10;j++) {
+        row.push(new PlotModel(-1, j+1, i+1, 0, 0, 0, 0, false));
+      }
+      this.plots.push(row);
+    }
+  }
+
+  printPlotID(plotID: number) {
+    console.log("plotID:", plotID);
   }
 
   getAllPlants(): void {
