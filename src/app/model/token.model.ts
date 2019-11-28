@@ -4,4 +4,8 @@ export class TokenModel {
     static setCurrentToken(token: String) {
         TokenModel.currentToken = token;
     }
+
+    static deleteCurrentToken() {
+        TokenModel.currentToken = "";
+    }
 }

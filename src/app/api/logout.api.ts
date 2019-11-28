@@ -20,11 +20,12 @@ export class LogoutApi {
 	constructor(private http: HttpClient) { }
 
 	query() {
-		return this.http.post<LogoutResponseModel>(this.logoutUrl + "/" + TokenModel.currentToken, {headers: this.headers})
+		return this.http.post<LogoutResponseModel>(this.logoutUrl + "?token=" + TokenModel.currentToken, {headers: this.headers})
 		.subscribe(data => this.handleLogoutResponse(data));
 	}
 
 	private handleLogoutResponse(response: LogoutResponseModel): void {
 		console.warn("LogoutResponse", response);
+		TokenModel.deleteCurrentToken();
   }
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { FarmApi } from 'src/app/api/farm.api';
 import { PlantApi } from 'src/app/api/plant.api';
 import { PlotApi } from 'src/app/api/plot.api';
@@ -7,6 +8,8 @@ import { PlantResponseModel } from 'src/app/model/plant-response.model';
 import { PlantModel } from 'src/app/model/plant.model';
 import { CurrentFarmModel } from 'src/app/model/current-farm.model';
 import { FarmModel } from 'src/app/model/farm.model';
+import { TokenModel } from 'src/app/model/token.model';
+import { LogoutApi } from 'src/app/api/logout.api';
 
 @Component({
   templateUrl: './farm.component.html',
@@ -16,8 +19,9 @@ export class FarmComponent {
   plants: PlantResponseModel;
   plots: PlotModel[][] = new Array<Array<PlotModel>>();
   plotId: number;
+  token = TokenModel.currentToken;
 
-  constructor(private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi) {
+  constructor(private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
     this.generateGrassGrid();
     this.getFarm();
   }
@@ -77,5 +81,10 @@ export class FarmComponent {
     this.plants = new PlantResponseModel([]);
     this.getFarm();
     this.initPlots();
+  }
+
+  logout(): void {
+    this.logoutApi.query();
+    this.router.navigateByUrl('/login');
   }
 }
