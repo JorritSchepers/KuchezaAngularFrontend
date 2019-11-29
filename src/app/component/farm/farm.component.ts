@@ -28,11 +28,22 @@ export class FarmComponent {
   }
 
   private getFarm(): void {
-    this.farmApi.query().then(farm => this.initPlots())
-      .catch(any => this.initPlots());
+    this.farmApi.getFarm().then(response => this.handleFarmResponse(response))
+      .catch(any => this.handleFarmException(any));
   }
 
-  initPlots(): void {
+  private handleFarmResponse(response: FarmModel): void {
+    CurrentFarmModel.setFarmID(response.farmID);
+		CurrentFarmModel.setOwnerID(response.ownerID);
+		CurrentFarmModel.setPlots(response.plots);
+    this.initPlots();
+  }
+
+  private handleFarmException(exception: any): void {
+    console.warn("Exception:", exception);
+  }
+
+  private initPlots(): void {
     for(let plot of CurrentFarmModel.plots) {
       this.plots[plot.y][plot.x] = plot;
     }
@@ -52,36 +63,39 @@ export class FarmComponent {
     if(purchased == true) {
       if(plantID == 0) {
         this.plotId = plotId;
-        this.plantApi.query().then(plants => this.setPlants(plants))
-          .catch(any => this.setEmptyPlants());
+        this.plantApi.query().then(plants => this.handlePlantsResponse(plants))
+          .catch(any => this.handlePlantsException(any));
       } else {
         let plant = new PlantModel(1,"0",1,plantID,50,100,1000);
-        this.plotApi.oogst(plotId, plant).then(plot => this.updatePlots())
-          .catch(any => this.updatePlots());
+        this.plotApi.oogst(plotId, plant).then(plot => this.handlePlotResponse(plot))
+          .catch(any => this.handlePlotResponse(any));
       }
     } else {
-      this.setEmptyPlants();
+      this.handlePlantsException("U do not own this plot");
     }
   }
 
-  private setPlants(plants: PlantResponseModel): void {
+  private handlePlantsResponse(plants: PlantResponseModel): void {
     this.plants = plants;
   }
 
-  private setEmptyPlants(): void {
+  private handlePlantsException(exception: any): void {
     this.plants = new PlantResponseModel([]);
   }
 
   placePlantOnPlot(plotId: number, plant: PlantModel): void {
-    console.warn("PlantModel: ", plant);
-    this.plotApi.query(plotId, plant).then(plot => this.updatePlots())
-      .catch(any => this.updatePlots());
+    this.plotApi.placePlantOnPlot(plotId, plant).then(plant => this.handlePlotResponse(plant))
+      .catch(any => this.handlePlotException(any));
   }
 
-  private updatePlots(): void {
-    this.plants = new PlantResponseModel([]);
+  private handlePlotResponse(response: any): void {
+    this.handlePlantsException("");
     this.getFarm();
     this.initPlots();
+  }
+
+  private handlePlotException(exception: any): void {
+    console.warn("Exception:", exception);
   }
 
   logout(): void {

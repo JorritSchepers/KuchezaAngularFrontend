@@ -6,27 +6,14 @@ import { PlantResponseModel } from '../model/plant-response.model';
 
 @Injectable()
 export class PlantApi {
-  httpOptions = {
-		headers: new HttpHeaders({
-		  'Content-Type':  'application/json',
-		  'Authorization': 'my-auth-token'
-		})
-	};
-
-	protected headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-	plantUrl = 'http://localhost:8088/plant';
+	private headers = new HttpHeaders().set('Content-Type', 'application/json');
+	private PLANT_URL = 'http://localhost:8088/plant';
 
 	constructor(private http?: HttpClient) { }
 
   async query(): Promise<PlantResponseModel> {
-    try {
-      const data: PlantResponseModel = await this.http.get<PlantResponseModel>(this.plantUrl + "?token=" + TokenModel.currentToken,
-      {headers: this.headers}).toPromise();
-      console.warn("PlantResponseModel: ", data);
-      return data;
-    } catch (err) {
-	     console.warn("Something went wrong with the back-end: ", err);
-    }
+    const data: PlantResponseModel = await this.http.get<PlantResponseModel>(this.PLANT_URL + "?token=" + TokenModel.currentToken,
+    {headers: this.headers}).toPromise();
+    return data;
   }
 }

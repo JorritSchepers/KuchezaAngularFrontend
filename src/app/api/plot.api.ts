@@ -8,23 +8,15 @@ import { PlotModel } from '../model/plot.model';
 
 @Injectable()
 export class PlotApi {
-  httpOptions = {
-		headers: new HttpHeaders({
-		  'Content-Type':  'application/json',
-		  'Authorization': 'my-auth-token'
-		})
-	};
-
-	protected headers = new HttpHeaders().set('Content-Type', 'application/json');
+	private headers = new HttpHeaders().set('Content-Type', 'application/json');
+  private PLOT_URL = "http://localhost:8088/plot/";
 
 	constructor(private http?: HttpClient) { }
 
-  async query(plot: number, plantModel: PlantModel): Promise<PlotModel> {
-    var plotUrl = new String("http://localhost:8088/plot/"+plot+"/plant");
+  async placePlantOnPlot(plot: number, plantModel: PlantModel): Promise<PlotModel> {
     try {
-      const data: PlotModel = await this.http.post<PlotModel>(plotUrl + "?token=" + TokenModel.currentToken, JSON.stringify(plantModel),
+      const data: PlotModel = await this.http.post<PlotModel>(this.PLOT_URL+ plot + "/plant?token=" + TokenModel.currentToken, JSON.stringify(plantModel),
       {headers: this.headers}).toPromise();
-      console.warn("PlotModel: ", data);
       return data;
     } catch (err) {
 	     console.warn("Something went wrong with the back-end: ", err);
@@ -32,11 +24,9 @@ export class PlotApi {
   }
 
   async oogst(plot: number, plantModel: PlantModel): Promise<PlotModel> {
-    var plotUrl = new String("http://localhost:8088/plot/"+plot+"/harvest");
     try {
-      const data: PlotModel = await this.http.post<PlotModel>(plotUrl + "?token=" + TokenModel.currentToken, JSON.stringify(plantModel),
+      const data: PlotModel = await this.http.post<PlotModel>(this.PLOT_URL+ plot + "/harvest?token=" + TokenModel.currentToken, JSON.stringify(plantModel),
       {headers: this.headers}).toPromise();
-      console.warn("PlotModel: ", data);
       return data;
     } catch (err) {
 	     console.warn("Something went wrong with the back-end: ", err);

@@ -7,30 +7,14 @@ import { CurrentFarmModel } from '../model/current-farm.model';
 
 @Injectable()
 export class FarmApi {
-  httpOptions = {
-		headers: new HttpHeaders({
-		  'Content-Type':  'application/json',
-		  'Authorization': 'my-auth-token'
-		})
-	};
-
-	protected headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-	farmUrl = 'http://localhost:8088/farm';
+	private headers = new HttpHeaders().set('Content-Type', 'application/json');
+	private FARM_URL = 'http://localhost:8088/farm';
 
 	constructor(private http?: HttpClient) { }
 
-  async query(): Promise<FarmModel> {
-    try {
-      const data: FarmModel = await this.http.get<FarmModel>(this.farmUrl + "?token=" + TokenModel.currentToken,
-      {headers: this.headers}).toPromise();
-      console.warn("PlantResponseModel: ", data);
-      CurrentFarmModel.setFarmID(data.farmID);
-  		CurrentFarmModel.setOwnerID(data.ownerID);
-  		CurrentFarmModel.setPlots(data.plots);
-      return data;
-    } catch (err) {
-	     console.warn("Something went wrong with the back-end: ", err);
-    }
+  async getFarm(): Promise<FarmModel> {
+    const data: FarmModel = await this.http.get<FarmModel>(this.FARM_URL + "?token=" + TokenModel.currentToken,
+    {headers: this.headers}).toPromise();
+    return data;
   }
 }
