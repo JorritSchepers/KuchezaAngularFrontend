@@ -20,7 +20,7 @@ export class FarmApi {
 
 	constructor(private http?: HttpClient) { }
 
-  public async query(): Promise<FarmModel> {
+  async query(): Promise<FarmModel> {
     try {
       const data: FarmModel = await this.http.get<FarmModel>(this.farmUrl + "?token=" + TokenModel.currentToken,
       {headers: this.headers}).toPromise();

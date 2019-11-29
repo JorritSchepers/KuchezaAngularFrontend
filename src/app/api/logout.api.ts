@@ -6,26 +6,14 @@ import { LogoutResponseModel } from '../model/logout-response.model';
 
 @Injectable()
 export class LogoutApi {
-	httpOptions = {
-	   headers: new HttpHeaders({
-		  'Content-Type':  'application/json',
-		  'Authorization': 'my-auth-token'
-		})
-  };
-
-	protected headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-	logoutUrl = 'http://localhost:8088/account/logout';
+	private headers = new HttpHeaders().set('Content-Type', 'application/json');
+	private LOGOUT_URL = 'http://localhost:8088/account/logout';
 
 	constructor(private http: HttpClient) { }
 
-	query() {
-		return this.http.post<LogoutResponseModel>(this.logoutUrl + "?token=" + TokenModel.currentToken, {headers: this.headers})
-		.subscribe(data => this.handleLogoutResponse(data));
-	}
-
-	private handleLogoutResponse(response: LogoutResponseModel): void {
-		console.warn("LogoutResponse", response);
-		TokenModel.deleteCurrentToken();
+	async logout(): Promise<LogoutResponseModel> {
+    const data: LogoutResponseModel = await this.http.post<LogoutResponseModel>(this.LOGOUT_URL + "?token=" + TokenModel.currentToken,
+		{headers: this.headers}).toPromise();
+    return data;
   }
 }

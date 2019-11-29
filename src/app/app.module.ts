@@ -13,7 +13,6 @@ import { FarmApi } from './api/farm.api';
 import { PlotApi } from './api/plot.api';
 import { PlantApi } from './api/plant.api';
 import { LogoutApi } from './api/logout.api';
-import { LogoutComponent } from './component/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +20,6 @@ import { LogoutComponent } from './component/logout/logout.component';
     ,LoginComponent
     ,RegisterComponent
     ,FarmComponent
-    ,LogoutComponent
   ],
   imports: [
     BrowserModule

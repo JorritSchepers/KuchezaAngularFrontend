@@ -7,6 +7,7 @@ import { PlotModel } from 'src/app/model/plot.model';
 import { PlantResponseModel } from 'src/app/model/plant-response.model';
 import { PlantModel } from 'src/app/model/plant.model';
 import { CurrentFarmModel } from 'src/app/model/current-farm.model';
+import { LogoutResponseModel } from 'src/app/model/logout-response.model';
 import { FarmModel } from 'src/app/model/farm.model';
 import { TokenModel } from 'src/app/model/token.model';
 import { LogoutApi } from 'src/app/api/logout.api';
@@ -84,7 +85,16 @@ export class FarmComponent {
   }
 
   logout(): void {
-    this.logoutApi.query();
+    this.logoutApi.logout().then(response => this.handleLogoutResponse(response))
+      .catch(any => this.handleLogoutException(any));
+  }
+
+  private handleLogoutResponse(response: LogoutResponseModel): void {
+    TokenModel.deleteCurrentToken();
     this.router.navigateByUrl('/login');
+  }
+
+  private handleLogoutException(exception: any): void {
+    console.warn("Exception:", exception);
   }
 }

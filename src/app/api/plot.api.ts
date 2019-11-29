@@ -19,7 +19,7 @@ export class PlotApi {
 
 	constructor(private http?: HttpClient) { }
 
-  public async query(plot: number, plantModel: PlantModel): Promise<PlotModel> {
+  async query(plot: number, plantModel: PlantModel): Promise<PlotModel> {
     var plotUrl = new String("http://localhost:8088/plot/"+plot+"/plant");
     try {
       const data: PlotModel = await this.http.post<PlotModel>(plotUrl + "?token=" + TokenModel.currentToken, JSON.stringify(plantModel),
@@ -31,7 +31,7 @@ export class PlotApi {
     }
   }
 
-  public async oogst(plot: number, plantModel: PlantModel): Promise<PlotModel> {
+  async oogst(plot: number, plantModel: PlantModel): Promise<PlotModel> {
     var plotUrl = new String("http://localhost:8088/plot/"+plot+"/harvest");
     try {
       const data: PlotModel = await this.http.post<PlotModel>(plotUrl + "?token=" + TokenModel.currentToken, JSON.stringify(plantModel),

@@ -11,7 +11,7 @@ export class RegisterApi {
 
 	constructor(private http: HttpClient) { }
 
-	public async registerUser(userModel: UserModel): Promise<RegisterResponse> {
+	async registerUser(userModel: UserModel): Promise<RegisterResponse> {
     try {
       const data: RegisterResponse = await this.http.post<RegisterResponse>(this.REGISTER_URL, JSON.stringify(userModel),
       {headers: this.headers}).toPromise();
