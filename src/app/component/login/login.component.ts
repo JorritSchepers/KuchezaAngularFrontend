@@ -14,14 +14,12 @@ export class LoginComponent {
   email: String;
   password: String;
   loginForm: any;
-  token: String;
 
   constructor(private formBuilder: FormBuilder, private loginApi: LoginApi, private router: Router) {
     this.loginForm = this.formBuilder.group({
       email: '',
       password: ''
     });
-    this.token = "Click here to see your token!";
   }
 
   loginUser(loginModel: LoginModel): void {
@@ -37,9 +35,5 @@ export class LoginComponent {
 
   private handleLoginException(exception: any): void {
     console.warn("Exception:", exception);
-  }
-
-  setToken(): void {
-    this.token = TokenModel.currentToken;
   }
 }
