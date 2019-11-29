@@ -12,12 +12,8 @@ export class RegisterApi {
 	constructor(private http: HttpClient) { }
 
 	async registerUser(userModel: UserModel): Promise<RegisterResponse> {
-    try {
-      const data: RegisterResponse = await this.http.post<RegisterResponse>(this.REGISTER_URL, JSON.stringify(userModel),
-      {headers: this.headers}).toPromise();
-      return data;
-    } catch (err) {
-	     console.warn("Something went wrong with the back-end: ", err);
-    }
+    const data: RegisterResponse = await this.http.post<RegisterResponse>(this.REGISTER_URL, JSON.stringify(userModel),
+    {headers: this.headers}).toPromise();
+    return data;
   }
 }
