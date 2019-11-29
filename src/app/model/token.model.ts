@@ -1,7 +1,7 @@
 export class TokenModel {
-    static currentToken: String;
+    static currentToken: string;
 
-    static setCurrentToken(token: String) {
+    static setCurrentToken(token: string) {
         TokenModel.currentToken = token;
     }
 

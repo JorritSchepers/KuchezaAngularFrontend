@@ -1,12 +1,12 @@
 import * as shajs from 'sha.js'
 
 export class RegisterModel {
-    name: String;
-    email: String;
-    password: String;
-    repeatPassword: String;
+    name: string;
+    email: string;
+    password: string;
+    repeatPassword: string;
 
-    constructor(name: String, email: String, password: String, repeatPassword: String) {
+    constructor(name: string, email: string, password: string, repeatPassword: string) {
       this.name = name;
       this.email = email;
       this.password = shajs('sha256').update({password}).digest('hex');

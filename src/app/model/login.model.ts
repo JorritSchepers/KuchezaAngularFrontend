@@ -1,10 +1,10 @@
 import * as shajs from 'sha.js'
 
 export class LoginModel {
-  email: String;
-  password: String;
+  email: string;
+  password: string;
 
-    constructor(email: String, password: String) {
+    constructor(email: string, password: string) {
       this.email = email;
       this.password = shajs('sha256').update({password}).digest('hex');
     }

@@ -6,10 +6,10 @@ export class PlotModel {
     animalID: number;
     waterManagerID: number;
     plantID: number;
-    image: String;
+    image: string;
     purchased: boolean;
 
-    constructor(ID: number, x: number, y: number, price: number, 
+    constructor(ID: number, x: number, y: number, price: number,
             animalID: number, waterManagerID: number, plantID: number, purchased: boolean) {
         this.ID = ID;
         this.x = x;

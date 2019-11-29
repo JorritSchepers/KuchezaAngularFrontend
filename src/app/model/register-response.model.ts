@@ -1,8 +1,11 @@
 import { UserModel } from "./user.model";
 
 export class RegisterResponse {
-    constructor(private user: UserModel, private token: String) {
-      this.user = user;
-      this.token = token;
-    }
+  user: UserModel;
+  token: string;
+
+  constructor(user: UserModel, token: string) {
+    this.user = user;
+    this.token = token;
+  }
 }
