@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './component/login/login.component';
+import { InventoryComponent } from './component/inventory/inventory.component';
 import { RegisterComponent } from './component/register/register.component';
 import { FarmComponent } from './component/farm/farm.component';
 import { LoginApi } from './api/login.api';
@@ -13,6 +14,7 @@ import { FarmApi } from './api/farm.api';
 import { PlotApi } from './api/plot.api';
 import { PlantApi } from './api/plant.api';
 import { LogoutApi } from './api/logout.api';
+import { InventoryApi } from './api/inventory.api';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,7 @@ import { LogoutApi } from './api/logout.api';
     ,LoginComponent
     ,RegisterComponent
     ,FarmComponent
+    ,InventoryComponent
   ],
   imports: [
     BrowserModule
@@ -35,6 +38,7 @@ import { LogoutApi } from './api/logout.api';
     ,LogoutApi
     ,PlotApi
     ,PlantApi
+    ,InventoryApi
   ],
   bootstrap: [
     AppComponent
