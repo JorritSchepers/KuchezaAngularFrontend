@@ -18,6 +18,10 @@ export class InventoryComponent {
   }
 
   private getInventory(): void {
-    this.inventory = this.inventoryApi.getInventory();
+    this.inventoryApi.getInventory().then(response => this.handleInventoryResponse(response));
+  }
+
+  private handleInventoryResponse(response: InventoryModel): void{
+    this.inventory = response;
   }
 }
