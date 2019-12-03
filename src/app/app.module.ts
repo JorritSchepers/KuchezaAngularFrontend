@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './component/login/login.component';
-import { InventoryComponent } from './component/inventory/inventory.component';
 import { RegisterComponent } from './component/register/register.component';
 import { FarmComponent } from './component/farm/farm.component';
 import { LoginApi } from './api/login.api';

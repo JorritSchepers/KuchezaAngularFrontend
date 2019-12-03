@@ -105,6 +105,7 @@ export class FarmComponent {
     this.handlePlantsException("");
     this.getFarm();
     this.initPlots();
+    this.getInventory();
   }
 
   private handlePlotException(exception: any): void {
