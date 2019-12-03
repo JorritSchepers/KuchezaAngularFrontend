@@ -22,7 +22,6 @@ import { InventoryApi } from './api/inventory.api';
     ,LoginComponent
     ,RegisterComponent
     ,FarmComponent
-    ,InventoryComponent
   ],
   imports: [
     BrowserModule

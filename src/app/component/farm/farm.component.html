@@ -1,3 +1,9 @@
+<header *ngIf="token">
+  <p>Money = {{inventory.money}}</p>
+  <p>Water = {{inventory.water}}</p>
+  <p>test</p>
+  <button type="button" (click)="logout()" name="button">logout</button>
+</header>
 <div class="row">
   <div class="column">
     <div class="plants-overview" *ngIf="plants">
@@ -18,4 +24,4 @@
     </div>
   </div>
 </div>
-<button type="button" *ngIf="token" (click)="logout()" name="button">logout</button>
+<!-- <button type="button" *ngIf="token" (click)="logout()" name="button">logout</button> -->

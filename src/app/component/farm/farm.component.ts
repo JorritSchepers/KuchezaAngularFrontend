@@ -12,6 +12,9 @@ import { FarmModel } from 'src/app/model/farm.model';
 import { TokenModel } from 'src/app/model/token.model';
 import { LogoutApi } from 'src/app/api/logout.api';
 
+import { InventoryApi } from 'src/app/api/inventory.api';
+import { InventoryModel } from 'src/app/model/inventory.model';
+
 @Component({
   templateUrl: './farm.component.html',
   styleUrls: ['./farm.component.css']
@@ -21,10 +24,20 @@ export class FarmComponent {
   plots: PlotModel[][] = new Array<Array<PlotModel>>();
   plotId: number;
   token = TokenModel.currentToken;
+  inventory: InventoryModel;
 
-  constructor(private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
+  constructor(private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
     this.generateGrassGrid();
     this.getFarm();
+    this.getInventory();
+  }
+
+  private getInventory(): void {
+    this.inventoryApi.getInventory().then(response => this.handleInventoryResponse(response));
+  }
+
+  private handleInventoryResponse(response: InventoryModel): void{
+    this.inventory = response;
   }
 
   private getFarm(): void {
