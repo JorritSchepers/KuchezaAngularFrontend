@@ -23,7 +23,7 @@ import { InventoryApi } from './api/inventory.api';
     ,FarmComponent
   ],
   imports: [
-    BrowserModule
+     BrowserModule
     ,FormsModule
     ,AppRoutingModule
     ,ReactiveFormsModule
