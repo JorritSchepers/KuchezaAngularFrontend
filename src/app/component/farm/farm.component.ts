@@ -13,6 +13,7 @@ import { LogoutApi } from 'src/app/api/logout.api';
 
 import { InventoryApi } from 'src/app/api/inventory.api';
 import { InventoryModel } from 'src/app/model/inventory.model';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   templateUrl: './farm.component.html',
@@ -24,14 +25,19 @@ export class FarmComponent {
   plotId: number;
   inventory: InventoryModel;
 
+  mySubscription: Subscription;
+
   constructor(private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
     this.generateGrassGrid();
     this.getFarm();
     this.getInventory();
+    this.mySubscription = interval(2000).subscribe((x =>{
+      this.growPlants();
+    }));
   }
 
   private getInventory(): void {
-    this.inventoryApi.getInventory().then(response => this.handleInventoryResponse(response));
+    // this.inventoryApi.getInventory().then(response => this.handleInventoryResponse(response));
   }
 
   private handleInventoryResponse(response: InventoryModel): void{
@@ -122,5 +128,9 @@ export class FarmComponent {
 
   private handleLogoutException(exception: any): void {
     console.warn("Exception:", exception);
+  }
+
+  private growPlants(): void {
+    console.warn("GROW THAT PLAAAANT","plant")
   }
 }
