@@ -2,7 +2,8 @@ html {
   box-sizing: border-box;
 }
 
-*, *:before, *:after {
+
+*, *:before, *:after, {
   box-sizing: inherit;
 }
 
@@ -16,13 +17,27 @@ figure {
   margin: 0;
 }
 
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: solid black 1px;
+  height: 9vh;
+  width: 100%;
+  position: fixed;
+}
+
+header p, header button {
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
 .farm-container {
-  border: 5px black solid;
-  height: 896px;
-  width: 896px;
+  padding-top: 9vh;
+  height: 90vh;
+  width: 90vh;
   margin: auto;
   display: fixed;
-  background-color: darksalmon;
 }
 
 .row {
@@ -34,6 +49,9 @@ figure {
 }
 
 .plant-container {
-  border: 1px black solid;
   background-color: #8634eb;
+}
+
+.plants-overview{
+  padding-top: 9vh;
 }

@@ -9,8 +9,10 @@ import { PlantModel } from 'src/app/model/plant.model';
 import { CurrentFarmModel } from 'src/app/model/current-farm.model';
 import { LogoutResponseModel } from 'src/app/model/logout-response.model';
 import { FarmModel } from 'src/app/model/farm.model';
-import { TokenModel } from 'src/app/model/token.model';
 import { LogoutApi } from 'src/app/api/logout.api';
+
+import { InventoryApi } from 'src/app/api/inventory.api';
+import { InventoryModel } from 'src/app/model/inventory.model';
 
 @Component({
   templateUrl: './farm.component.html',
@@ -20,13 +22,22 @@ export class FarmComponent {
   plants: PlantResponseModel;
   plots: PlotModel[][] = new Array<Array<PlotModel>>();
   plotId: number;
-  token = TokenModel.currentToken;
+  inventory: InventoryModel;
   FARM_SIZE_Y: number = 10;
   FARM_SIZE_X: number = 10;
 
-  constructor(private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
+  constructor(private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
     this.generateGrassGrid();
     this.getFarm();
+    this.getInventory();
+  }
+
+  private getInventory(): void {
+    this.inventoryApi.getInventory().then(response => this.handleInventoryResponse(response));
+  }
+
+  private handleInventoryResponse(response: InventoryModel): void{
+    this.inventory = response;
   }
 
   private getFarm(): void {
@@ -74,7 +85,7 @@ export class FarmComponent {
       return;
     }
     let plant = new PlantModel(WATERUSAGE_NUMBER, NAME, GROWINGTIME, plantID, PURCHASE_PRICE, PROFIT, AGE);
-    this.plotApi.harvest(plotId, plant).then(plot => this.handlePlotResponse(plot)).catch(any => this.handlePlotResponse(any));   
+    this.plotApi.harvest(plotId, plant).then(plot => this.handlePlotResponse(plot)).catch(any => this.handlePlotResponse(any));
   }
 
   private handlePlantsResponse(plants: PlantResponseModel): void {
@@ -90,6 +101,7 @@ export class FarmComponent {
     this.closeShop();
     this.getFarm();
     this.initPlots();
+    this.getInventory();
   }
 
   logout(): void {
@@ -98,7 +110,7 @@ export class FarmComponent {
   }
 
   private handleLogoutResponse(response: LogoutResponseModel): void {
-    TokenModel.deleteCurrentToken();
+    localStorage.removeItem('currentUser');
     this.router.navigateByUrl('/login');
   }
 

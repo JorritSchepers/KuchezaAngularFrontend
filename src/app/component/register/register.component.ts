@@ -4,7 +4,7 @@
   import { FormBuilder } from '@angular/forms';
   import { RegisterModel } from 'src/app/model/register.model';
   import { UserModel } from 'src/app/model/user.model';
-  import { TokenModel } from 'src/app/model/token.model';
+  import { RegisterResponse } from 'src/app/model/register-response.model';
   import { RegisterResponseModel } from 'src/app/model/register-response.model';
 
   @Component({
@@ -39,8 +39,8 @@
       }
     }
 
-    private handleRegisterResponse(response: RegisterResponseModel): void {
-      TokenModel.setCurrentToken(response.token);
+    private handleRegisterResponse(response: RegisterResponse): void {
+      localStorage.setItem('currentUser', response.token);
       this.router.navigateByUrl('/farm');
     }
 

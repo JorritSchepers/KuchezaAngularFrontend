@@ -1,26 +1,28 @@
-<h1>Register</h1>
-<form [formGroup]="registerForm" (ngSubmit)="registerUser(registerForm.value)">
-  <div class="container">
-    <p>Please fill in this form to create an account.</p>
-    <hr>
+<img id="background" src="../../../assets/ui/login/background.jpg">
+<div id="menuContainer">
+    <p id="logo">Kucheza</p>
+    <div id="pictureLayout">
+        <img src="../../../assets/ui/login/cow.gif">
+        <div id="loginBox">
+          <form [formGroup]="registerForm" (ngSubmit)="registerUser(registerForm.value)">
+              <p>Please fill in this form to create an account.</p>
 
-    <label for="name"><b>Name</b></label>
-    <input type="text" placeholder="Enter Name" formControlName="name" required>
+              <input type="text" class="menuPart" placeholder="Enter Name" formControlName="name" required>
 
-    <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" formControlName="email" required>
+              <input type="text" class="menuPart menuEnd" placeholder="Enter Email" formControlName="email" required>
 
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" formControlName="password" required>
+              <input type="password" class="menuPart" placeholder="Enter Password" formControlName="password" required>
+              
+              <input type="password" class="menuPart menuEnd" placeholder="Repeat Password" formControlName="repeatPassword" required>
 
-    <label for="psw-repeat"><b>Repeat Password</b></label>
-    <input type="password" placeholder="Repeat Password" formControlName="repeatPassword" required>
-    <hr>
+              <button type="submit" class="menuPart">Register</button>
 
-    <button type="submit" class="registerbtn">Register</button>
-  </div>
-
-  <div class="container signin">
-    <p>Already have an account? <a routerLink="/login">Sign in</a>.</p>
-  </div>
-</form>
+            <div class="container signin">
+              <p>Already have an account? <a routerLink="/login">Sign in</a>.</p>
+            </div>
+          </form>
+        </div>
+        <img src="../../../assets/ui/login/corn.gif">
+    </div>
+    <div style="height: 20vh; width: 10vw;"></div>
+</div>

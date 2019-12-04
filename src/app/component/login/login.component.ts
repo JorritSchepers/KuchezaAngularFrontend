@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { LoginModel } from '../../model/login.model';
-import { TokenModel } from '../../model/token.model';
 import { LoginApi } from 'src/app/api/login.api';
 import { LoginResponseModel } from 'src/app/model/login-response.model';
 import { Router } from '@angular/router';
@@ -29,7 +28,7 @@ export class LoginComponent {
   }
 
   private handleLoginResponse(response: LoginResponseModel): void {
-    TokenModel.setCurrentToken(response.token);
+    localStorage.setItem('currentUser', response.token);
     this.router.navigateByUrl('/farm');
   }
 

@@ -13,6 +13,7 @@ import { FarmApi } from './api/farm.api';
 import { PlotApi } from './api/plot.api';
 import { PlantApi } from './api/plant.api';
 import { LogoutApi } from './api/logout.api';
+import { InventoryApi } from './api/inventory.api';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { LogoutApi } from './api/logout.api';
     ,LogoutApi
     ,PlotApi
     ,PlantApi
+    ,InventoryApi
   ],
   bootstrap: [
     AppComponent
