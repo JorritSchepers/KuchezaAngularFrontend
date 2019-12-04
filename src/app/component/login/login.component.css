@@ -20,6 +20,7 @@
     align-items: center;
     padding: 20px;
     width:35vh;
+    height:40vh;
 }
 
 #logo {
@@ -31,12 +32,31 @@
     font-size: 2.5vh !important;
 }
 
+#pictureLayout {
+    display: flex;
+}
+
+#background {
+    position: absolute;
+    width:100vw;
+    height:100vh;
+    z-index: -10;
+    margin: 0px;
+    padding: 0px;
+}
+
+img {
+    width:30vh;
+    height: 40vh;
+}
+
 .menuPart {
     margin-top: 3vh;
     margin-bottom: 3vh;
     padding: 5px;
     font-size: 2.5vh;
     font-family: Roboto;
+    background-color: whitesmoke;
 }
 
 form {
@@ -48,6 +68,10 @@ form {
 
 button {
     width: 50%;
+    background-color: whitesmoke;
+    border: none;
+    text-align: center;
+  text-decoration: none;
 }
 
 p {

@@ -1,16 +1,21 @@
+<img id="background" src="../../../assets/ui/login/background.jpg">
 <div id="menuContainer">
     <p id="logo">Kucheza</p>
-    <div id="loginBox">
-        <form [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm.value)">
-            <div>
-                <input id="email" class="menuPart" type="text" formControlName="email" placeholder="Email">
-            </div>
-            <div>
-                <input id="password" class="menuPart" type="password" formControlName="password" placeholder="Password">
-            </div>
-            <button class="button" class="menuPart" type="submit">Login</button>
-        </form>
-        <p>Need an account? <a routerLink="/register">Register</a> now!</p>
+    <div id="pictureLayout">
+        <img src="../../../assets/ui/login/cow.gif">
+        <div id="loginBox">
+            <form [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm.value)">
+                <div>
+                    <input id="email" class="menuPart" type="text" formControlName="email" placeholder="Email">
+                </div>
+                <div>
+                    <input id="password" class="menuPart" type="password" formControlName="password" placeholder="Password">
+                </div>
+                <button class="button" class="menuPart" type="submit">Login</button>
+            </form>
+            <p>Need an account? <a routerLink="/register">Register</a> now!</p>
+        </div>
+        <img src="../../../assets/ui/login/corn.gif">
     </div>
     <div style="height: 20vh; width: 10vw;"></div>
 </div>
