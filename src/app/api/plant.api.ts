@@ -7,7 +7,7 @@ import { PlantResponseModel } from '../model/plant-response.model';
 export class PlantApi {
 	private headers = new HttpHeaders().set('Content-Type', 'application/json');
 	private PLANT_URL = 'http://localhost:8088/plant';
-	token: String = localStorage.getItem('currentUser');
+	private token: String = localStorage.getItem('currentUser');
 
 	constructor(private http?: HttpClient) { }
 

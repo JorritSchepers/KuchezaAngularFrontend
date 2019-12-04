@@ -8,7 +8,7 @@ import { PlotModel } from '../model/plot.model';
 export class PlotApi {
 	private headers = new HttpHeaders().set('Content-Type', 'application/json');
   private PLOT_URL = "http://localhost:8088/plot/";
-	token: String = localStorage.getItem('currentUser');
+	private token: String = localStorage.getItem('currentUser');
 
 	constructor(private http?: HttpClient) { }
 
