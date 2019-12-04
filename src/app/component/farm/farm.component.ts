@@ -68,24 +68,31 @@ export class FarmComponent {
     }
   }
 
-  getAllPlants(plotId: number,plantID: number,purchased: boolean): void {
+  handlePlotClick(plotId: number,plantID: number,purchased: boolean): void {
     let WATERUSAGE_NUMBER = 1;
     let NAME = "0";
     let GROWINGTIME: number = 1;
     let PURCHASE_PRICE: number = 50;
     let PROFIT: number = 100;
     let AGE: number = 1000;
-    if(purchased == false) {
-      this.handleException("You do not own this plot.");
-      return;
-    }
-    if(plantID == 0) {
-      this.plotId = plotId;
-      this.plantApi.getAllPlants().then(plants => this.handlePlantsResponse(plants)).catch(any => this.handleException(any));
-      return;
-    }
     let plant = new PlantModel(WATERUSAGE_NUMBER, NAME, GROWINGTIME, plantID, PURCHASE_PRICE, PROFIT, AGE);
-    this.plotApi.harvest(plotId, plant).then(plot => this.handlePlotResponse(plot)).catch(any => this.handlePlotResponse(any));
+
+    if(!purchased) {
+      /*Show model*/
+      /*Handle reactio*/
+      /*Call backend.*/
+      this.handleException("You do not own this plot.");
+    }
+
+    switch (plantID) {
+      case 0:
+          this.plotId = plotId;
+          this.plantApi.getAllPlants().then(plants => this.handlePlantsResponse(plants)).catch(any => this.handleException(any));
+          break;
+      default:
+          this.plotApi.harvest(plotId, plant).then(plot => this.handlePlotResponse(plot)).catch(any => this.handlePlotResponse(any));
+        break;
+      }
   }
 
   private handlePlantsResponse(plants: PlantResponseModel): void {
