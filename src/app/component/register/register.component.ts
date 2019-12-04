@@ -4,7 +4,6 @@
   import { FormBuilder } from '@angular/forms';
   import { RegisterModel } from 'src/app/model/register.model';
   import { UserModel } from 'src/app/model/user.model';
-  import { RegisterResponse } from 'src/app/model/register-response.model';
   import { RegisterResponseModel } from 'src/app/model/register-response.model';
 
   @Component({
@@ -39,7 +38,7 @@
       }
     }
 
-    private handleRegisterResponse(response: RegisterResponse): void {
+    private handleRegisterResponse(response: RegisterResponseModel): void {
       localStorage.setItem('currentUser', response.token);
       this.router.navigateByUrl('/farm');
     }
