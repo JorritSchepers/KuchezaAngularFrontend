@@ -35,7 +35,7 @@ export class PlotApi {
 
 	async purchasePlot(plot: number): Promise<AllPlotModel> {
 		try {
-			const data: PlotModel = await this.http.post<AllPlotModel>(this.PLOT_URL+ plot + "/purchase?token=" + this.token,
+			const data: AllPlotModel = await this.http.post<AllPlotModel>(this.PLOT_URL+ plot + "/purchase?token=" + this.token,
 			{headers: this.headers}).toPromise();
 			return data;
 		} catch (err) {
