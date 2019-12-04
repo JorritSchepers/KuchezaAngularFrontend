@@ -22,7 +22,6 @@ export class FarmComponent {
   plots: PlotModel[][] = new Array<Array<PlotModel>>();
   plotId: number;
   inventory: InventoryModel;
-  buyPlot: boolean;
   FARM_SIZE_Y: number = 10;
   FARM_SIZE_X: number = 10;
 
@@ -30,7 +29,6 @@ export class FarmComponent {
     this.generateGrassGrid();
     this.getFarm();
     this.getInventory();
-    this.buyPlot = false;
   }
 
   private getInventory(): void {
@@ -79,10 +77,8 @@ export class FarmComponent {
     let plant = new PlantModel(WATERUSAGE_NUMBER, NAME, GROWINGTIME, plantID, PURCHASE_PRICE, PROFIT, AGE);
 
     if(!purchased) {
-      this.buyPlot = true;
-      // TODO: add modal/popup for confirmation
-      // this.plotApi.purchasePlot(plotId).then(response => this.handleBuyPlotResponse(response))
-      //   .catch(exception => this.handleException(exception));
+      this.plotApi.purchasePlot(plotId).then(response => this.handleBuyPlotResponse(response))
+        .catch(exception => this.handleException(exception));
       return;
     }
 
@@ -97,9 +93,8 @@ export class FarmComponent {
       }
   }
 
-  private handleBuyPlotResponse(): void {
-    // TODO: handle exception
-    // CurrentFarmModel.setPlots(response.plots);
+  private handleBuyPlotResponse(plants: PlantResponseModel): void {
+    CurrentFarmModel.setPlots(response.plots);
     this.getInventory();
   }
 

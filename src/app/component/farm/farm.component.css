@@ -55,9 +55,3 @@ header p, header button {
 .plants-overview{
   padding-top: 9vh;
 }
-
-.plot-confirmation{
-  width: 50vh;
-  height: 50vh;
-  background-color: red;
-}
