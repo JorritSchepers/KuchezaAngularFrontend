@@ -30,7 +30,7 @@ export class PlotModel {
         } else if (this.plantID != 0) {
             this.image = "../../../assets/plant/" + this.plantID + ".jpg";
         } else if (this.purchased == true) {
-            this.image = "../../../assets/grass.jpg";
+            this.image = "../../../assets/EmptyPlot.jpg";
         } else {
             this.image = "../../../assets/buyable-plot.jpg";
         }

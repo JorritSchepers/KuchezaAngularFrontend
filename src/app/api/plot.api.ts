@@ -15,7 +15,7 @@ export class PlotApi {
 
 	async oogst(plot: number, plantModel: PlantModel): Promise<PlotModel> {
 		try {
-			const data: PlotModel = await this.http.post<PlotModel>(this.PLOT_URL+ plot + "/harvest?token=" + this.token,
+			const data: PlotModel = await this.http.post<PlotModel>(this.PLOT_URL+ plot + "/harvest?token=" + this.token, JSON.stringify(plantModel),
 			{headers: this.headers}).toPromise();
 			return data;
 		} catch (err) {
