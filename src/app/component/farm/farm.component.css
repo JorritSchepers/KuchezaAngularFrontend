@@ -3,7 +3,6 @@ html {
 }
 
 
-
 *, *:before, *:after, {
   box-sizing: inherit;
 }
@@ -24,7 +23,7 @@ header {
   justify-content: space-between;
   border: solid black 1px;
   height: 9vh;
-  width: 99%;
+  width: 100%;
   position: fixed;
 }
 
