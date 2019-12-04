@@ -5,7 +5,7 @@
   import { RegisterModel } from 'src/app/model/register.model';
   import { UserModel } from 'src/app/model/user.model';
   import { TokenModel } from 'src/app/model/token.model';
-  import { RegisterResponse } from 'src/app/model/register-response.model';
+  import { RegisterResponseModel } from 'src/app/model/register-response.model';
 
   @Component({
     selector: 'app-register',
@@ -39,7 +39,7 @@
       }
     }
 
-    private handleRegisterResponse(response: RegisterResponse): void {
+    private handleRegisterResponse(response: RegisterResponseModel): void {
       TokenModel.setCurrentToken(response.token);
       this.router.navigateByUrl('/farm');
     }
