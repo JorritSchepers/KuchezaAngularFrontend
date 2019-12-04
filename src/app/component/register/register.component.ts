@@ -5,6 +5,7 @@
   import { RegisterModel } from 'src/app/model/register.model';
   import { UserModel } from 'src/app/model/user.model';
   import { RegisterResponse } from 'src/app/model/register-response.model';
+  import { RegisterResponseModel } from 'src/app/model/register-response.model';
 
   @Component({
     selector: 'app-register',

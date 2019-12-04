@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { RegisterResponse } from '../model/register-response.model';
+import { RegisterResponseModel } from '../model/register-response.model';
 import { UserModel } from '../model/user.model';
 import { HttpHeaders } from '@angular/common/http';
 
@@ -11,8 +11,8 @@ export class RegisterApi {
 
 	constructor(private http: HttpClient) { }
 
-	async registerUser(userModel: UserModel): Promise<RegisterResponse> {
-    const data: RegisterResponse = await this.http.post<RegisterResponse>(this.REGISTER_URL, JSON.stringify(userModel),
+	async registerUser(userModel: UserModel): Promise<RegisterResponseModel> {
+    const data: RegisterResponseModel = await this.http.post<RegisterResponseModel>(this.REGISTER_URL, JSON.stringify(userModel),
     {headers: this.headers}).toPromise();
     return data;
   }

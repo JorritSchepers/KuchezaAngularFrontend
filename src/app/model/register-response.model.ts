@@ -1,6 +1,6 @@
 import { UserModel } from "./user.model";
 
-export class RegisterResponse {
+export class RegisterResponseModel {
   user: UserModel;
   token: string;
 

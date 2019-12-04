@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { HttpHeaders } from '@angular/common/http';
-import { FarmModel } from '../model/farm.model';
 import { HttpClient } from '@angular/common/http';
 import { PlantModel } from '../model/plant.model';
 import { PlotModel } from '../model/plot.model';
@@ -13,7 +12,7 @@ export class PlotApi {
 
 	constructor(private http?: HttpClient) { }
 
-	async oogst(plot: number, plantModel: PlantModel): Promise<PlotModel> {
+	async harvest(plot: number, plantModel: PlantModel): Promise<PlotModel> {
 		try {
 			const data: PlotModel = await this.http.post<PlotModel>(this.PLOT_URL+ plot + "/harvest?token=" + this.token, JSON.stringify(plantModel),
 			{headers: this.headers}).toPromise();
