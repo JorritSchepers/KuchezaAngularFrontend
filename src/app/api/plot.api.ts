@@ -3,7 +3,6 @@ import { HttpHeaders } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { PlantModel } from '../model/plant.model';
 import { PlotModel } from '../model/plot.model';
-import { AllPlotModel } from '../model/allPlotModel.model';
 
 @Injectable()
 export class PlotApi {
@@ -32,14 +31,4 @@ export class PlotApi {
 	     console.warn("Something went wrong with the back-end: ", err);
     }
   }
-
-	async purchasePlot(plot: number): Promise<AllPlotModel> {
-		try {
-			const data: PlotModel = await this.http.post<AllPlotModel>(this.PLOT_URL+ plot + "/purchase?token=" + this.token,
-			{headers: this.headers}).toPromise();
-			return data;
-		} catch (err) {
-			 console.warn("Something went wrong with the back-end: ", err);
-		}
-	}
 }

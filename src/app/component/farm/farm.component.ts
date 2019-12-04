@@ -10,6 +10,7 @@ import { CurrentFarmModel } from 'src/app/model/current-farm.model';
 import { LogoutResponseModel } from 'src/app/model/logout-response.model';
 import { FarmModel } from 'src/app/model/farm.model';
 import { LogoutApi } from 'src/app/api/logout.api';
+
 import { InventoryApi } from 'src/app/api/inventory.api';
 import { InventoryModel } from 'src/app/model/inventory.model';
 
@@ -77,9 +78,10 @@ export class FarmComponent {
     let plant = new PlantModel(WATERUSAGE_NUMBER, NAME, GROWINGTIME, plantID, PURCHASE_PRICE, PROFIT, AGE);
 
     if(!purchased) {
-      this.plotApi.purchasePlot(plotId).then(response => this.handleBuyPlotResponse(response))
-        .catch(exception => this.handleException(exception));
-      return;
+      /*Show model*/
+      /*Handle reactio*/
+      /*Call backend.*/
+      this.handleException("You do not own this plot.");
     }
 
     switch (plantID) {
@@ -91,11 +93,6 @@ export class FarmComponent {
           this.plotApi.harvest(plotId, plant).then(plot => this.handlePlotResponse(plot)).catch(any => this.handlePlotResponse(any));
         break;
       }
-  }
-
-  private handleBuyPlotResponse(plants: PlantResponseModel): void {
-    CurrentFarmModel.setPlots(response.plots);
-    this.getInventory();
   }
 
   private handlePlantsResponse(plants: PlantResponseModel): void {
