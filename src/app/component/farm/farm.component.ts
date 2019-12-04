@@ -9,7 +9,6 @@ import { PlantModel } from 'src/app/model/plant.model';
 import { CurrentFarmModel } from 'src/app/model/current-farm.model';
 import { LogoutResponseModel } from 'src/app/model/logout-response.model';
 import { FarmModel } from 'src/app/model/farm.model';
-import { TokenModel } from 'src/app/model/token.model';
 import { LogoutApi } from 'src/app/api/logout.api';
 
 import { InventoryApi } from 'src/app/api/inventory.api';
@@ -23,7 +22,6 @@ export class FarmComponent {
   plants: PlantResponseModel;
   plots: PlotModel[][] = new Array<Array<PlotModel>>();
   plotId: number;
-  token = TokenModel.currentToken;
   inventory: InventoryModel;
 
   constructor(private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
@@ -118,7 +116,7 @@ export class FarmComponent {
   }
 
   private handleLogoutResponse(response: LogoutResponseModel): void {
-    TokenModel.deleteCurrentToken();
+    localStorage.removeItem('currentUser');
     this.router.navigateByUrl('/login');
   }
 

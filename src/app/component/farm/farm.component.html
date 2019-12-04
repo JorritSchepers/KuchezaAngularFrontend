@@ -1,4 +1,4 @@
-<header *ngIf="token">
+<header>
   <p>Money: {{inventory.money * 0.01| currency : "€"}}</p>
   <p>Water: {{inventory.water * 0.01}} litre</p>
   <button type="button" (click)="logout()" name="button">logout</button>

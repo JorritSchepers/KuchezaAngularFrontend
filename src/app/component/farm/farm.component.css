@@ -16,13 +16,18 @@ figure {
   margin: 0;
 }
 
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: brown;
+}
+
 .farm-container {
-  border: 5px black solid;
-  height: 896px;
-  width: 896px;
+  height: 90vh;
+  width: 90vh;
   margin: auto;
   display: fixed;
-  background-color: darksalmon;
 }
 
 .row {
@@ -34,6 +39,5 @@ figure {
 }
 
 .plant-container {
-  border: 1px black solid;
   background-color: #8634eb;
 }
