@@ -11,7 +11,7 @@ export class PlantApi {
 
 	constructor(private http?: HttpClient) { }
 
-  async query(): Promise<PlantResponseModel> {
+  async getAllPlants(): Promise<PlantResponseModel> {
     const data: PlantResponseModel = await this.http.get<PlantResponseModel>(this.PLANT_URL + "?token=" + this.token,
     {headers: this.headers}).toPromise();
     return data;
