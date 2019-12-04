@@ -1,0 +1,56 @@
+@font-face {
+    font-family: "Roboto";
+    src: url("src\assets\fonts\Roboto-Regular.ttf");
+}
+
+#menuContainer {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#loginBox {
+    background-color: darksalmon;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    width:35vh;
+}
+
+#logo {
+    background-color: darksalmon;
+    width:35vh;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    font-size: 2.5vh !important;
+}
+
+.menuPart {
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+    padding: 5px;
+    font-size: 2.5vh;
+    font-family: Roboto;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+button {
+    width: 50%;
+}
+
+p {
+    font-family: Roboto;
+    font-size: 2vh;
+}

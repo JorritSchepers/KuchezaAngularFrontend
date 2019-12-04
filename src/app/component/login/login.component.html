@@ -1,13 +1,16 @@
-<h2>Login</h2>
-<form [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm.value)">
-    <div>
-        <label for="email">Email</label>
-        <input id="email" type="text" formControlName="email">
+<div id="menuContainer">
+    <p id="logo">Kucheza</p>
+    <div id="loginBox">
+        <form [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm.value)">
+            <div>
+                <input id="email" class="menuPart" type="text" formControlName="email" placeholder="Email">
+            </div>
+            <div>
+                <input id="password" class="menuPart" type="password" formControlName="password" placeholder="Password">
+            </div>
+            <button class="button" class="menuPart" type="submit">Login</button>
+        </form>
+        <p>Need an account? <a routerLink="/register">Register</a> now!</p>
     </div>
-    <div>
-        <label for="password">Password</label>
-        <input id="password" type="password" formControlName="password">
-    </div>
-    <button class="button" type="submit">Login</button>
-</form>
-<p>Need an account? <a routerLink="/register">Register</a> now!</p>
+    <div style="height: 20vh; width: 10vw;"></div>
+</div>
