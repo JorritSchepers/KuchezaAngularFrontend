@@ -94,7 +94,7 @@ export class FarmComponent {
 
   logout(): void {
     this.logoutApi.logout().then(response => this.handleLogoutResponse(response))
-      .catch(any => this.handleException(any));
+      .catch(exception => this.handleException(exception));
   }
 
   private handleLogoutResponse(response: LogoutResponseModel): void {
