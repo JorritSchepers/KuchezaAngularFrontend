@@ -103,9 +103,9 @@ export class FarmComponent {
   }
 
   handlePlotClick(plot: PlotModel): void {
+    this.plotId = plot.ID;
     if(plot.purchased == true) {
       if(plot.plantID == 0) {
-        this.plotId = plot.ID;
         this.plantApi.getAllPlants().then(plants => this.handlePlantsResponse(plants))
           .catch(any => this.handleException(any));
       } else {
