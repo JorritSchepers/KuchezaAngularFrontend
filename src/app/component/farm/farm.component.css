@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "Roboto";
+    src: url("src\assets\fonts\Roboto-Regular.ttf");
+}
+
 html {
   box-sizing: border-box;
 }
@@ -32,6 +37,12 @@ header p, header button {
   margin-right: 2%;
 }
 
+h1{
+  font-family: Roboto;
+  color: black;
+  font-size: 18px;
+}
+
 .farm-container {
   padding-top: 9vh;
   height: 90vh;
@@ -54,4 +65,23 @@ header p, header button {
 
 .plants-overview{
   padding-top: 9vh;
+}
+
+.popUp{
+  width: 40vh;
+  height: 25vh;
+  position: absolute;
+  z-index: 9 !important;
+  background-color: whitesmoke;
+  text-align: center;
+}
+
+.PopupBG{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(100,100,100,0.5);
+  position: absolute;
 }

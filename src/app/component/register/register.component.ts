@@ -5,6 +5,7 @@
   import { RegisterModel } from 'src/app/model/register.model';
   import { UserModel } from 'src/app/model/user.model';
   import { RegisterResponseModel } from 'src/app/model/register-response.model';
+  import {Title} from "@angular/platform-browser";
 
   @Component({
     selector: 'app-register',
@@ -19,18 +20,19 @@
     repeatPassword: string;
     registerForm: any;
 
-    constructor(private formBuilder: FormBuilder, private registerApi: RegisterApi, private router: Router) {
+    constructor(private titleService:Title,private formBuilder: FormBuilder, private registerApi: RegisterApi, private router: Router) {
       this.registerForm = this.formBuilder.group({
         name: '',
         email: '',
         password: '',
         repeatPassword: ''
       });
+      this.titleService.setTitle("Kucheza");
     }
 
     registerUser(registerModel: RegisterModel): void {
       if(registerModel.password == registerModel.repeatPassword) {
-        this.registerApi.registerUser(new UserModel(-1, registerModel.name, registerModel.password, registerModel.email)).then(response => this.handleRegisterResponse(response))
+        this.registerApi.registerUser(new UserModel(-1, registerModel.name, registerModel.password, registerModel.email)).then(response => this.handleRegisterResponseModel(response))
           .catch(any => this.handleRegisterException(any));
         this.registerForm.reset();
       } else {

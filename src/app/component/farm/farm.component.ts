@@ -10,9 +10,9 @@ import { CurrentFarmModel } from 'src/app/model/current-farm.model';
 import { LogoutResponseModel } from 'src/app/model/logout-response.model';
 import { FarmModel } from 'src/app/model/farm.model';
 import { LogoutApi } from 'src/app/api/logout.api';
-
 import { InventoryApi } from 'src/app/api/inventory.api';
 import { InventoryModel } from 'src/app/model/inventory.model';
+import { AllPlotModel } from 'src/app/model/allplot.model';
 
 @Component({
   templateUrl: './farm.component.html',
@@ -22,11 +22,14 @@ export class FarmComponent {
   plants: PlantResponseModel;
   plots: PlotModel[][] = new Array<Array<PlotModel>>();
   plotId: number;
+  price: number;
   inventory: InventoryModel;
+  purchasePlot: boolean;
   FARM_SIZE_Y: number = 10;
   FARM_SIZE_X: number = 10;
 
   constructor(private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
+    this.purchasePlot = false;
     this.generateGrassGrid();
     this.getFarm();
     this.getInventory();
@@ -68,24 +71,30 @@ export class FarmComponent {
     }
   }
 
-  getAllPlants(plotId: number,plantID: number,purchased: boolean): void {
+  handlePlotClick(plot: PlotModel): void {
     let WATERUSAGE_NUMBER = 1;
     let NAME = "0";
     let GROWINGTIME: number = 1;
     let PURCHASE_PRICE: number = 50;
     let PROFIT: number = 100;
     let AGE: number = 1000;
-    if(purchased == false) {
-      this.handleException("You do not own this plot.");
+    let plant = new PlantModel(WATERUSAGE_NUMBER, NAME, GROWINGTIME, plot.plantID, PURCHASE_PRICE, PROFIT, AGE);
+    this.plotId = plot.ID
+
+    if(!plot.purchased) {
+      this.price = plot.price;
+      this.purchasePlot = true;
       return;
     }
-    if(plantID == 0) {
-      this.plotId = plotId;
-      this.plantApi.getAllPlants().then(plants => this.handlePlantsResponse(plants)).catch(any => this.handleException(any));
-      return;
-    }
-    let plant = new PlantModel(WATERUSAGE_NUMBER, NAME, GROWINGTIME, plantID, PURCHASE_PRICE, PROFIT, AGE);
-    this.plotApi.harvest(plotId, plant).then(plot => this.handlePlotResponse(plot)).catch(any => this.handlePlotResponse(any));
+
+    switch (plot.plantID) {
+      case 0:
+          this.plantApi.getAllPlants().then(plants => this.handlePlantsResponse(plants)).catch(any => this.handleException(any));
+          break;
+      default:
+          this.plotApi.harvest(plot.ID, plant).then(plot => this.handlePlotResponse(plot)).catch(any => this.handlePlotResponse(any));
+        break;
+      }
   }
 
   private handlePlantsResponse(plants: PlantResponseModel): void {
@@ -98,6 +107,7 @@ export class FarmComponent {
   }
 
   private handlePlotResponse(response: any): void {
+    this.purchasePlot = false;
     this.closeShop();
     this.getFarm();
     this.initPlots();
@@ -120,5 +130,14 @@ export class FarmComponent {
 
   private handleException(exception: any): void {
     console.warn("Exception:", exception);
+  }
+
+  closePlotModal(): void{
+    this.purchasePlot = false;
+  }
+
+  callPurchasePlot(id: number): void{
+    this.plotApi.purchasePlot(id).then(response => this.handlePlotResponse(response))
+      .catch(exception => this.handleException(exception));
   }
 }
