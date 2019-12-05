@@ -1,5 +1,5 @@
 export class PlotModel {
-    ID: number;
+    public ID: number;
     x: number;
     y: number;
     price: number;

@@ -4,7 +4,6 @@
   import { FormBuilder } from '@angular/forms';
   import { RegisterModel } from 'src/app/model/register.model';
   import { UserModel } from 'src/app/model/user.model';
-  import { RegisterResponse } from 'src/app/model/register-response.model';
   import { RegisterResponseModel } from 'src/app/model/register-response.model';
 
   @Component({
@@ -31,7 +30,7 @@
 
     registerUser(registerModel: RegisterModel): void {
       if(registerModel.password == registerModel.repeatPassword) {
-        this.registerApi.registerUser(new UserModel(-1, registerModel.name, registerModel.password, registerModel.email)).then(response => this.handleRegisterResponse(response))
+        this.registerApi.registerUser(new UserModel(-1, registerModel.name, registerModel.password, registerModel.email)).then(response => this.handleRegisterResponseModel(response))
           .catch(any => this.handleRegisterException(any));
         this.registerForm.reset();
       } else {
@@ -39,7 +38,7 @@
       }
     }
 
-    private handleRegisterResponse(response: RegisterResponse): void {
+    private handleRegisterResponseModel(response: RegisterResponseModel): void {
       localStorage.setItem('currentUser', response.token);
       this.router.navigateByUrl('/farm');
     }
