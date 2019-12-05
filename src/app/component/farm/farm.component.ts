@@ -41,7 +41,7 @@ export class FarmComponent {
   }
 
   private getInventory(): void {
-    // this.inventoryApi.getInventory().then(response => this.handleInventoryResponse(response));
+    this.inventoryApi.getInventory().then(response => this.handleInventoryResponse(response));
   }
 
   private handleInventoryResponse(response: InventoryModel): void{
