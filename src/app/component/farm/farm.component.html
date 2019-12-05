@@ -17,7 +17,9 @@
     <div class="farm-container">
       <div class="row" *ngFor="let plotsX of plots">
         <div class="column" *ngFor="let plot of plotsX">
-          <img src="{{plot.image}}" alt="" (click)="getAllPlants(plot.ID,plot.plantID,plot.purchased)">
+          <div class="plotBackground">
+            <img src="{{plot.image}}" class="plot" alt="" (click)="handlePlotClick(plot,plot.ID,plot.plantID,plot.purchased)">
+          </div>
         </div>
       </div>
     </div>

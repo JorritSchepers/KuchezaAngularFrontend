@@ -34,8 +34,7 @@ header p, header button {
 
 .farm-container {
   padding-top: 9vh;
-  height: 90vh;
-  width: 90vh;
+  width: 85vw;
   margin: auto;
   display: fixed;
 }
@@ -54,4 +53,14 @@ header p, header button {
 
 .plants-overview{
   padding-top: 9vh;
+}
+
+.plot:hover {
+  opacity: 80%;
+}
+
+.plotBackground {
+  height: 100%;
+  width: 100%;
+  background-color: whitesmoke;
 }

@@ -13,9 +13,9 @@ export class PlotApi {
 
 	constructor(private http?: HttpClient) { }
 
-	async oogst(plot: number, plantModel: PlantModel): Promise<PlotModel> {
+	async oogst(plot: number, plotModel: PlotModel): Promise<PlotModel> {
 		try {
-			const data: PlotModel = await this.http.post<PlotModel>(this.PLOT_URL+ plot + "/harvest?token=" + this.token, JSON.stringify(plantModel),
+			const data: PlotModel = await this.http.post<PlotModel>(this.PLOT_URL+ plot + "/harvest?token=" + this.token, JSON.stringify(plotModel),
 			{headers: this.headers}).toPromise();
 			return data;
 		} catch (err) {
@@ -30,6 +30,15 @@ export class PlotApi {
       return data;
     } catch (err) {
 	     console.warn("Something went wrong with the back-end: ", err);
+    }
+  }
+
+  async updateAge(age: number, plotModel: PlotModel): Promise<PlotModel> {
+    try {
+      const data: PlotModel = await this.http.post<PlotModel>(this.PLOT_URL+ plotModel.ID + "/updateAge/"+age+"?token=" + this.token, JSON.stringify(plotModel),
+      {headers: this.headers}).toPromise();
+      return data;
+    } catch (err) {
     }
   }
 }
