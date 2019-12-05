@@ -13,23 +13,28 @@
 }
 
 #loginBox {
-    background-color: darksalmon;
+    background-color: rgb(153,185,95);
+    border-radius: 6%;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    width:35vh;
+    width:50vh;
     height:40vh;
+    padding-top: 6vh;
+    padding-top: 6vh;
 }
 
 #logo {
-    background-color: darksalmon;
-    width:35vh;
+    background-color: rgb(103,159,214);
+    width:30vh;
     padding: 20px;
     display: flex;
     justify-content: center;
-    font-size: 2.5vh !important;
+    font-size: 3vh !important;
+    border-radius: 30px;
+    color: whitesmoke;
 }
 
 #pictureLayout {
@@ -46,7 +51,7 @@
 }
 
 img {
-    width:30vh;
+    width:40vh;
     height: 40vh;
 }
 
@@ -57,7 +62,17 @@ img {
     font-size: 2.5vh;
     font-family: Roboto;
     background-color: whitesmoke;
+    box-shadow: inset 0px 0px 0px 0px red;
+    border: none;
+    width: 30vh;
+    height: 7vh;
+    border-radius: 20px;
+    padding-left: 15px;
 }
+
+::placeholder {
+    color: black;
+  }
 
 form {
     display: flex;
@@ -68,10 +83,14 @@ form {
 
 button {
     width: 50%;
-    background-color: whitesmoke;
+    background-color: rgb(128,141,90) !important;
+    color: whitesmoke;
     border: none;
     text-align: center;
-  text-decoration: none;
+    text-decoration: none;
+    border-radius: 30px !important;
+    width: 25vh !important;
+    height: 6vh !important;
 }
 
 p {
