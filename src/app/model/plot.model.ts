@@ -32,7 +32,7 @@ export class PlotModel {
         } else if (this.purchased == true) {
             this.image = "../../../assets/EmptyPlot.jpg";
         } else {
-            this.image = "../../../assets/buyable-plot.jpg";
+            this.image = "../../../assets/BuyablePlot.jpg";
         }
     }
 }
