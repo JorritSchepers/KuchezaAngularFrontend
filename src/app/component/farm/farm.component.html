@@ -3,6 +3,14 @@
   <p>Water: {{inventory.water * 0.01}} litre</p> -->
   <button type="button" (click)="logout()" name="button">logout</button>
 </header>
+<div class="PopupBG" *ngIf="purchasePlot">
+  <div class="popUp">
+    <h2>Do you want to buy this plot?</h2>
+    <p>The price is {{price * 0.01| currency : "€"}}</p>
+    <button type="submit" (click)="callPurchasePlot(plotId)" class="modalButton">Confirm</button>
+    <button type="submit" (click)="closePlotModal()" class="modalButton">Cancel</button>
+  </div>
+</div>
 <div class="row">
   <div class="column">
     <div class="plants-overview" *ngIf="plants">
@@ -18,7 +26,7 @@
       <div class="row" *ngFor="let plotsX of plots">
         <div class="column" *ngFor="let plot of plotsX">
           <div class="plotBackground">
-            <img src="{{plot.image}}" class="plot" alt="" (click)="handlePlotClick(plot,plot.ID,plot.plantID,plot.purchased)">
+            <img src="{{plot.image}}" class="plot" alt="" (click)="handlePlotClick(plot)">
           </div>
         </div>
       </div>

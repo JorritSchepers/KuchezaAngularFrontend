@@ -1,15 +1,15 @@
 import { Injectable } from "@angular/core";
 import { HttpHeaders } from '@angular/common/http';
-import { FarmModel } from '../model/farm.model';
 import { HttpClient } from '@angular/common/http';
 import { PlantModel } from '../model/plant.model';
 import { PlotModel } from '../model/plot.model';
+import { AllPlotModel } from '../model/allplot.model';
 
 @Injectable()
 export class PlotApi {
 	private headers = new HttpHeaders().set('Content-Type', 'application/json');
   private PLOT_URL = "http://localhost:8088/plot/";
-	token: String = localStorage.getItem('currentUser');
+	private token: String = localStorage.getItem('currentUser');
 
 	constructor(private http?: HttpClient) { }
 
@@ -41,4 +41,13 @@ export class PlotApi {
     } catch (err) {
     }
   }
+	async purchasePlot(plot: number): Promise<AllPlotModel>{
+		try {
+			const data: AllPlotModel = await this.http.post<AllPlotModel>(this.PLOT_URL+ plot + "/purchase?token=" + this.token,
+			{headers: this.headers}).toPromise();
+			return data;
+		} catch (err) {
+			 console.warn("Something went wrong with the back-end: ", err);
+		}
+	}
 }

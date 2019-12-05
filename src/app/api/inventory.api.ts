@@ -7,7 +7,7 @@ import { InventoryModel } from '../model/inventory.model';
 export class InventoryApi {
 	private headers: HttpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 	private INVENTORY_URL: string = 'http://localhost:8088/inventory';
-	token: String = localStorage.getItem('currentUser');
+	private token: String = localStorage.getItem('currentUser');
 
 	constructor(private http?: HttpClient) { }
 

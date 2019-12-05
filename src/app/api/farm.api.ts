@@ -8,7 +8,7 @@ import { CurrentFarmModel } from '../model/current-farm.model';
 export class FarmApi {
 	private headers = new HttpHeaders().set('Content-Type', 'application/json');
 	private FARM_URL = 'http://localhost:8088/farm';
-	token: String = localStorage.getItem('currentUser');
+	private token: String = localStorage.getItem('currentUser');
 
 	constructor(private http?: HttpClient) { }
 

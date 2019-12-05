@@ -10,10 +10,10 @@ import { CurrentFarmModel } from 'src/app/model/current-farm.model';
 import { LogoutResponseModel } from 'src/app/model/logout-response.model';
 import { FarmModel } from 'src/app/model/farm.model';
 import { LogoutApi } from 'src/app/api/logout.api';
-
 import { InventoryApi } from 'src/app/api/inventory.api';
 import { InventoryModel } from 'src/app/model/inventory.model';
 import { interval, Subscription } from 'rxjs';
+import { AllPlotModel } from 'src/app/model/allplot.model';
 
 @Component({
   templateUrl: './farm.component.html',
@@ -23,7 +23,11 @@ export class FarmComponent {
   plants: PlantResponseModel;
   plots: PlotModel[][] = new Array<Array<PlotModel>>();
   plotId: number;
+  price: number;
   inventory: InventoryModel;
+  purchasePlot: boolean;
+  FARM_SIZE_Y: number = 10;
+  FARM_SIZE_X: number = 10;
 
   WIDTH: number;
   HEIGHT: number;
@@ -46,12 +50,12 @@ export class FarmComponent {
 
   private getFarm(): void {
     this.farmApi.getFarm().then(response => this.handleFarmResponse(response))
-      .catch(any => this.handleFarmException(any));
+      .catch(any => this.handleException(any));
   }
 
   private prepareFarm(): void {
     this.farmApi.getFarm().then(response => this.preparePlots(response))
-      .catch(any => this.handleFarmException(any));
+      .catch(any => this.handleException(any));
   }
 
   private handleFarmResponse(response: FarmModel): void {
@@ -62,6 +66,7 @@ export class FarmComponent {
   }
 
   private preparePlots(response: FarmModel): void {
+    this.purchasePlot = false;
     CurrentFarmModel.setWIDTH(response.WIDTH);
     CurrentFarmModel.setHEIGHT(response.HEIGHT);
     this.generateGrassGrid(CurrentFarmModel.WIDTH,CurrentFarmModel.HEIGHT);
@@ -73,12 +78,8 @@ export class FarmComponent {
     this.getInventory();
 
     setInterval(this.growPlants,2000,this);
-    this.plantApi.query().then(plants => this.getAllPlantTypes(plants))
-          .catch(any => this.handlePlantsException(any));
-  }
-
-  private handleFarmException(exception: any): void {
-    console.warn("Exception:", exception);
+    this.plantApi.getAllPlants().then(plants => this.getAllPlantTypes(plants))
+          .catch(any => this.handleException(any));
   }
 
   private initPlots(): void {
@@ -101,19 +102,20 @@ export class FarmComponent {
     }
   }
 
-  handlePlotClick(plot: PlotModel,plotId: number,plantID: number,purchased: boolean): void {
-    if(purchased == true) {
-      if(plantID == 0) {
-        this.plotId = plotId;
-        this.plantApi.query().then(plants => this.handlePlantsResponse(plants))
-          .catch(any => this.handlePlantsException(any));
+  handlePlotClick(plot: PlotModel): void {
+    if(plot.purchased == true) {
+      if(plot.plantID == 0) {
+        this.plotId = plot.ID;
+        this.plantApi.getAllPlants().then(plants => this.handlePlantsResponse(plants))
+          .catch(any => this.handleException(any));
       } else {
-        let plant = new PlantModel(1,"0",1,plantID,50,100,1000);
-        this.plotApi.oogst(plotId, plot).then(plot => this.handlePlotResponse(plot))
+        let plant = new PlantModel(1,"0",1,plot.plantID,50,100,1000);
+        this.plotApi.oogst(plot.ID, plot).then(plot => this.handlePlotResponse(plot))
           .catch(any => this.handlePlotResponse(any));
       }
     } else {
-      this.handlePlantsException("U do not own this plot");
+      this.price = plot.price;
+      this.purchasePlot = true;
     }
   }
 
@@ -121,29 +123,22 @@ export class FarmComponent {
     this.plants = plants;
   }
 
-  private handlePlantsException(exception: any): void {
-    this.plants = new PlantResponseModel([]);
-  }
-
   placePlantOnPlot(plotId: number, plant: PlantModel): void {
     this.plotApi.placePlantOnPlot(plotId, plant).then(plant => this.handlePlotResponse(plant))
-      .catch(any => this.handlePlotException(any));
+      .catch(any => this.handleException(any));
   }
 
   private handlePlotResponse(response: any): void {
-    this.handlePlantsException("");
+    this.purchasePlot = false;
+    this.closeShop();
     this.getFarm();
     this.initPlots();
     this.getInventory();
   }
 
-  private handlePlotException(exception: any): void {
-    console.warn("Exception:", exception);
-  }
-
   logout(): void {
     this.logoutApi.logout().then(response => this.handleLogoutResponse(response))
-      .catch(any => this.handleLogoutException(any));
+      .catch(exception => this.handleException(exception));
   }
 
   private handleLogoutResponse(response: LogoutResponseModel): void {
@@ -151,7 +146,11 @@ export class FarmComponent {
     this.router.navigateByUrl('/login');
   }
 
-  private handleLogoutException(exception: any): void {
+  private closeShop(): void {
+    this.plants = new PlantResponseModel([]);
+  }
+
+  private handleException(exception: any): void {
     console.warn("Exception:", exception);
   }
 
@@ -180,5 +179,14 @@ export class FarmComponent {
         }
     }
     return 0;
+  }
+
+  closePlotModal(): void{
+    this.purchasePlot = false;
+  }
+
+  callPurchasePlot(id: number): void{
+    this.plotApi.purchasePlot(id).then(response => this.handlePlotResponse(response))
+      .catch(exception => this.handleException(exception));
   }
 }

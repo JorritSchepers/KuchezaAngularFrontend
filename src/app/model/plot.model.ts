@@ -1,5 +1,5 @@
 export class PlotModel {
-    ID: number;
+    public ID: number;
     x: number;
     y: number;
     price: number;
@@ -36,7 +36,7 @@ export class PlotModel {
         } else if (this.purchased == true) {
             this.image = "../../../assets/EmptyPlot.jpg";
         } else {
-            this.image = "../../../assets/buyable-plot.jpg";
+            this.image = "../../../assets/BuyablePlot.jpg";
         }
     }
 
