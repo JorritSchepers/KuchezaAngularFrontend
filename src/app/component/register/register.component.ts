@@ -40,7 +40,7 @@
       }
     }
 
-    private handleRegisterResponseModel(response: RegisterResponseModel): void {
+    private handleRegisterResponse(response: RegisterResponseModel): void {
       localStorage.setItem('currentUser', response.token);
       this.router.navigateByUrl('/farm');
     }
