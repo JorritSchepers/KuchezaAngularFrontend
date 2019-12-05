@@ -69,7 +69,7 @@ export class FarmComponent {
     this.purchasePlot = false;
     CurrentFarmModel.setWIDTH(response.WIDTH);
     CurrentFarmModel.setHEIGHT(response.HEIGHT);
-    this.generateGrassGrid(CurrentFarmModel.WIDTH,CurrentFarmModel.HEIGHT);
+    this.createGrid(CurrentFarmModel.WIDTH,CurrentFarmModel.HEIGHT);
     CurrentFarmModel.setFarmID(response.farmID);
 		CurrentFarmModel.setOwnerID(response.ownerID);
     CurrentFarmModel.setPlots(response.plots);
@@ -90,7 +90,7 @@ export class FarmComponent {
     }
   }
 
-  private generateGrassGrid(WIDTH:number, HEIGHT:number): void {
+  private createGrid(WIDTH:number, HEIGHT:number): void {
     this.WIDTH = WIDTH;
     this.HEIGHT = HEIGHT;
     for(let i=0;i<this.HEIGHT;i++) {

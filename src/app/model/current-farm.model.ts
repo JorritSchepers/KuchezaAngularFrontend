@@ -11,7 +11,6 @@ export class CurrentFarmModel {
         for (let newPlot of plots) {
             this.plots.push(new PlotModel(newPlot.ID, newPlot.x, newPlot.y, newPlot.price
                 , newPlot.animalID, newPlot.waterManagerID, newPlot.plantID, newPlot.purchased,newPlot.age));
-                console.warn("AGE",newPlot.age);
         }
     }
 
