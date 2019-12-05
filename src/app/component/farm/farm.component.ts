@@ -12,6 +12,7 @@ import { FarmModel } from 'src/app/model/farm.model';
 import { LogoutApi } from 'src/app/api/logout.api';
 import { InventoryApi } from 'src/app/api/inventory.api';
 import { InventoryModel } from 'src/app/model/inventory.model';
+import { interval, Subscription } from 'rxjs';
 import { AllPlotModel } from 'src/app/model/allplot.model';
 
 @Component({
@@ -28,11 +29,15 @@ export class FarmComponent {
   FARM_SIZE_Y: number = 10;
   FARM_SIZE_X: number = 10;
 
+  WIDTH: number;
+  HEIGHT: number;
+
+  mySubscription: Subscription;
+
+  plantTypes: PlantModel[];
+
   constructor(private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
-    this.purchasePlot = false;
-    this.generateGrassGrid();
-    this.getFarm();
-    this.getInventory();
+    this.prepareFarm();
   }
 
   private getInventory(): void {
@@ -48,53 +53,70 @@ export class FarmComponent {
       .catch(any => this.handleException(any));
   }
 
+  private prepareFarm(): void {
+    this.farmApi.getFarm().then(response => this.preparePlots(response))
+      .catch(any => this.handleException(any));
+  }
+
   private handleFarmResponse(response: FarmModel): void {
     CurrentFarmModel.setFarmID(response.farmID);
 		CurrentFarmModel.setOwnerID(response.ownerID);
-		CurrentFarmModel.setPlots(response.plots);
+    CurrentFarmModel.setPlots(response.plots);
     this.initPlots();
+  }
+
+  private preparePlots(response: FarmModel): void {
+    this.purchasePlot = false;
+    CurrentFarmModel.setWIDTH(response.WIDTH);
+    CurrentFarmModel.setHEIGHT(response.HEIGHT);
+    this.createGrid(CurrentFarmModel.WIDTH,CurrentFarmModel.HEIGHT);
+    CurrentFarmModel.setFarmID(response.farmID);
+		CurrentFarmModel.setOwnerID(response.ownerID);
+    CurrentFarmModel.setPlots(response.plots);
+    this.initPlots();
+
+    this.getInventory();
+
+    setInterval(this.growPlants,2000,this);
+    this.plantApi.getAllPlants().then(plants => this.getAllPlantTypes(plants))
+          .catch(any => this.handleException(any));
   }
 
   private initPlots(): void {
     for(let plot of CurrentFarmModel.plots) {
+      plot.growTime = this.plots[plot.y][plot.x].growTime;
       this.plots[plot.y][plot.x] = plot;
+      this.plots[plot.y][plot.x].initImage();
     }
   }
 
-  private generateGrassGrid(): void {
-    for(let i=0;i<this.FARM_SIZE_Y;i++) {
+  private createGrid(WIDTH:number, HEIGHT:number): void {
+    this.WIDTH = WIDTH;
+    this.HEIGHT = HEIGHT;
+    for(let i=0;i<this.HEIGHT;i++) {
       let row:PlotModel[]  = new Array<PlotModel>();
-      for(let j=0;j<this.FARM_SIZE_X;j++) {
-        row.push(new PlotModel(-1, j+1, i+1, 0, 0, 0, 0, false));
+      for(let j=0;j<this.WIDTH;j++) {
+        row.push(new PlotModel(-1, j+1, i+1, 0, 0, 0, 0, false, 0));
       }
       this.plots.push(row);
     }
   }
 
   handlePlotClick(plot: PlotModel): void {
-    let WATERUSAGE_NUMBER = 1;
-    let NAME = "0";
-    let GROWINGTIME: number = 1;
-    let PURCHASE_PRICE: number = 50;
-    let PROFIT: number = 100;
-    let AGE: number = 1000;
-    let plant = new PlantModel(WATERUSAGE_NUMBER, NAME, GROWINGTIME, plot.plantID, PURCHASE_PRICE, PROFIT, AGE);
-    this.plotId = plot.ID
-
-    if(!plot.purchased) {
+    if(plot.purchased == true) {
+      if(plot.plantID == 0) {
+        this.plotId = plot.ID;
+        this.plantApi.getAllPlants().then(plants => this.handlePlantsResponse(plants))
+          .catch(any => this.handleException(any));
+      } else {
+        let plant = new PlantModel(1,"0",1,plot.plantID,50,100,1000);
+        this.plotApi.oogst(plot.ID, plot).then(plot => this.handlePlotResponse(plot))
+          .catch(any => this.handlePlotResponse(any));
+      }
+    } else {
       this.price = plot.price;
       this.purchasePlot = true;
-      return;
     }
-
-    switch (plot.plantID) {
-      case 0:
-          this.plantApi.getAllPlants().then(plants => this.handlePlantsResponse(plants)).catch(any => this.handleException(any));
-          break;
-      default:
-          this.plotApi.harvest(plot.ID, plant).then(plot => this.handlePlotResponse(plot)).catch(any => this.handlePlotResponse(any));
-        break;
-      }
   }
 
   private handlePlantsResponse(plants: PlantResponseModel): void {
@@ -130,6 +152,33 @@ export class FarmComponent {
 
   private handleException(exception: any): void {
     console.warn("Exception:", exception);
+  }
+
+  private growPlants(farm: FarmComponent): void {
+    if(farm.WIDTH != null) {
+      for(let i=0;i<farm.HEIGHT;i++) {
+        for(let j=0;j<farm.WIDTH;j++) {
+          if(farm.plots[i][j].plantID > 0) {
+            farm.plotApi.updateAge(farm.plots[i][j].age+2,farm.plots[i][j]);
+            farm.plots[i][j].age += 2;
+            farm.plots[i][j].updatePlantState(farm.getGrowTime(farm.plots[i][j].plantID));
+          }
+        }
+      }
+    }
+  }
+
+  private getAllPlantTypes(plants: PlantResponseModel): void {
+    this.plantTypes = plants.plants;
+  }
+
+  public getGrowTime(plantID:number): any {
+    for(let plantType of this.plantTypes) {
+        if(plantType.ID == plantID) {
+          return plantType.growingTime;
+        }
+    }
+    return 0;
   }
 
   closePlotModal(): void{
