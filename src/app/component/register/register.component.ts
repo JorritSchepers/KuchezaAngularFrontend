@@ -32,7 +32,7 @@
 
     registerUser(registerModel: RegisterModel): void {
       if(registerModel.password == registerModel.repeatPassword) {
-        this.registerApi.registerUser(new UserModel(-1, registerModel.name, registerModel.password, registerModel.email)).then(response => this.handleRegisterResponseModel(response))
+        this.registerApi.registerUser(new UserModel(-1, registerModel.name, registerModel.password, registerModel.email)).then(response => this.handleRegisterResponse(response))
           .catch(any => this.handleRegisterException(any));
         this.registerForm.reset();
       } else {
