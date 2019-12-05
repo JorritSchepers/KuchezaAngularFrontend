@@ -92,8 +92,6 @@ export class FarmComponent {
   private generateGrassGrid(WIDTH:number, HEIGHT:number): void {
     this.WIDTH = WIDTH;
     this.HEIGHT = HEIGHT;
-    console.warn("WIDTH",this.WIDTH);
-    console.warn("HEIGHT",this.HEIGHT);
     for(let i=0;i<this.HEIGHT;i++) {
       let row:PlotModel[]  = new Array<PlotModel>();
       for(let j=0;j<this.WIDTH;j++) {
@@ -106,7 +104,6 @@ export class FarmComponent {
   handlePlotClick(plot: PlotModel,plotId: number,plantID: number,purchased: boolean): void {
     if(purchased == true) {
       if(plantID == 0) {
-        console.warn("OOGST")
         this.plotId = plotId;
         this.plantApi.query().then(plants => this.handlePlantsResponse(plants))
           .catch(any => this.handlePlantsException(any));
