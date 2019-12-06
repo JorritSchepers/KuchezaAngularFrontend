@@ -1,25 +1,9 @@
-@font-face {
-    font-family: "Roboto";
-    src: url("src\assets\fonts\Roboto-Regular.ttf");
-}
-
 html {
   box-sizing: border-box;
 }
 
-
 *, *:before, *:after {
   box-sizing: inherit;
-}
-
-img {
-  height: 100%;
-  width: 100%;
-  display: block;
-}
-
-figure {
-  margin: 0;
 }
 
 header {
@@ -37,46 +21,11 @@ header p, header button {
   margin-right: 2%;
 }
 
-h1{
-  font-family: Roboto;
-  color: black;
-  font-size: 18px;
+td {
+  border: 2px solid black;
 }
 
-.farm-container {
-  padding-top: 9vh;
-  width: 85vw;
-  margin: auto;
-  display: fixed;
-}
-
-.row {
-  display: flex;
-}
-
-.column {
-    width: 10%;
-}
-
-.plant-container {
-  background-color: #8634eb;
-}
-
-.plants-overview{
-  padding-top: 9vh;
-}
-
-.plot:hover {
-  opacity: 80%;
-}
-
-.plotBackground {
-  height: 100%;
-  width: 100%;
-  background-color: whitesmoke;
-}
-
-.popUp{
+.deletePopUp{
   width: 40vh;
   height: 25vh;
   position: absolute;
@@ -85,7 +34,7 @@ h1{
   text-align: center;
 }
 
-.PopupBG{
+.popUpBG{
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -93,4 +42,8 @@ h1{
   align-items: center;
   background-color: rgb(100,100,100,0.5);
   position: absolute;
+}
+
+.popUpName {
+  color: red;
 }
