@@ -25,9 +25,6 @@ export class FarmComponent {
   price: number;
   inventory: InventoryModel;
   purchasePlot: boolean;
-  FARM_SIZE_Y: number = 10;
-  FARM_SIZE_X: number = 10;
-
   WIDTH: number;
   HEIGHT: number;
 
