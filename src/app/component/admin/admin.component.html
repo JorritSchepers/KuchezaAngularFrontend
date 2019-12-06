@@ -2,10 +2,14 @@
   <button type="button" (click)="logout()" name="button">logout</button>
 </header>
 <body>
-<br><br><br><br><br><br><br>
-<div class="popUp" *ngIf="popUpIsActive">
-    yes
+<div class="popUpBG" *ngIf="popUpIsActive">
+  <div class="deletePopUp">
+      <h2>Are you sure you want to delete <span class="popUpName">{{currentSelectedUser.name}}</span>?</h2>
+      <button type="submit" (click)="deleteUser(currentSelectedUser.ID)">Confirm</button>
+      <button type="submit" (click)="closeDeletePopUp()">Cancel</button>
+  </div>
 </div>
+<br><br><br><br><br><br><br>
 <div class="container">
   <table>
     <tr>
@@ -18,7 +22,7 @@
       <td>{{user.ID}}</td>
       <td>{{user.name}}</td>
       <td>{{user.email}}</td>
-      <td (click)="showDeletePopUp(user.ID)"><button>DELETE</button></td>
+      <td (click)="showDeletePopUp(user)"><button>DELETE</button></td>
     </tr>
   </table>
 </div>
