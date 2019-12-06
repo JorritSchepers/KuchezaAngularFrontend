@@ -5,10 +5,12 @@
         <img src="../../../assets/ui/login/cow.gif">
         <div id="loginBox">
             <form [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm.value)">
-                <div>
+                <div class="horizontalContainer">
+                    <img src="../../../assets/ui/login/userLogo.png" class="smallLogo">
                     <input id="email" class="menuPart" type="text" formControlName="email" placeholder="Email">
                 </div>
-                <div>
+                <div class="horizontalContainer">
+                    <img src="../../../assets/ui/login/passwordLogo.png" class="smallLogo">
                     <input id="password" class="menuPart" type="password" formControlName="password" placeholder="Password">
                 </div>
                 <button class="button" class="menuPart" type="submit">Login</button>

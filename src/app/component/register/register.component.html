@@ -4,21 +4,29 @@
     <div id="pictureLayout">
         <img src="../../../assets/ui/login/cow.gif">
         <div id="loginBox">
+            <p>Please fill in this form to create an account.</p>
           <form [formGroup]="registerForm" (ngSubmit)="registerUser(registerForm.value)">
-              <p>Please fill in this form to create an account.</p>
 
-              <input type="text" class="menuPart" placeholder="Enter Name" formControlName="name" required>
-
-              <input type="text" class="menuPart menuEnd" placeholder="Enter Email" formControlName="email" required>
-
-              <input type="password" class="menuPart" placeholder="Enter Password" formControlName="password" required>
+              <div class="horizontalContainer" style="margin-bottom: 2vh;">
+                <img src="../../../assets/ui/login/userLogo.png" class="smallLogo">
+                <div class="verticalContainer">
+                  <input type="text" class="menuPart" placeholder="Enter Name" formControlName="name" required>
+                  <input type="text" class="menuPart menuEnd" placeholder="Enter Email" formControlName="email" required>
+                </div>
+              </div>
               
-              <input type="password" class="menuPart menuEnd" placeholder="Repeat Password" formControlName="repeatPassword" required>
+              <div class="horizontalContainer"style="margin-bottom: 1vh;">
+                <img src="../../../assets/ui/login/passwordLogo.png" class="smallLogo">
+                <div class="verticalContainer">
+                  <input type="password" class="menuPart" placeholder="Enter Password" formControlName="password" required>
+                  <input type="password" class="menuPart menuEnd" placeholder="Repeat Password" formControlName="repeatPassword" required>
+                </div>
+              </div>
 
               <button type="submit" class="menuPart">Register</button>
 
             <div class="container signin">
-              <p>Already have an account? <a routerLink="/login">Sign in</a>.</p>
+              <p style="margin-top: 1vh; margin-bottom: 0vh;">Already have an account? <a routerLink="/login">Sign in</a>.</p>
             </div>
           </form>
         </div>
