@@ -41,6 +41,7 @@ export class PlotApi {
     } catch (err) {
     }
   }
+
 	async purchasePlot(plot: number): Promise<AllPlotModel>{
 		try {
 			const data: AllPlotModel = await this.http.post<AllPlotModel>(this.PLOT_URL+ plot + "/purchase?token=" + this.token,

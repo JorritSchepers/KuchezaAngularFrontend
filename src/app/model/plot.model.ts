@@ -9,7 +9,6 @@ export class PlotModel {
     image: string;
     purchased: boolean;
     age:number;
-
     stages: number = 3;
     growTime: number = 1000;
 

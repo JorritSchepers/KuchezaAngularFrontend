@@ -19,7 +19,12 @@ import { AllPlotModel } from 'src/app/model/allplot.model';
   templateUrl: './farm.component.html',
   styleUrls: ['./farm.component.css']
 })
+
 export class FarmComponent {
+  FARM_SIZE_Y: number = 10;
+  FARM_SIZE_X: number = 10;
+  WIDTH: number;
+  HEIGHT: number;
   plants: PlantResponseModel;
   plots: PlotModel[][] = new Array<Array<PlotModel>>();
   plotId: number;
@@ -27,12 +32,6 @@ export class FarmComponent {
   inventory: InventoryModel;
   purchasePlot: boolean;
   wantToGiveWater: boolean;
-  FARM_SIZE_Y: number = 10;
-  FARM_SIZE_X: number = 10;
-
-  WIDTH: number;
-  HEIGHT: number;
-
   mySubscription: Subscription;
   plantTypes: PlantModel[];
 
