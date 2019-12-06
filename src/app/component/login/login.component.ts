@@ -31,6 +31,11 @@ export class LoginComponent {
 
   private handleLoginResponse(response: LoginResponseModel): void {
     localStorage.setItem('currentUser', response.token);
+    console.warn(response.user.admin);
+    if (response.user.admin) { 
+      this.router.navigateByUrl('/admin'); 
+      return;
+    }
     this.router.navigateByUrl('/farm');
   }
 
