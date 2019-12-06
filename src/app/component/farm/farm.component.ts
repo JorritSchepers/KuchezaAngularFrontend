@@ -12,8 +12,7 @@ import { FarmModel } from 'src/app/model/farm.model';
 import { LogoutApi } from 'src/app/api/logout.api';
 import { InventoryApi } from 'src/app/api/inventory.api';
 import { InventoryModel } from 'src/app/model/inventory.model';
-import { interval, Subscription } from 'rxjs';
-import { AllPlotModel } from 'src/app/model/allplot.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   templateUrl: './farm.component.html',

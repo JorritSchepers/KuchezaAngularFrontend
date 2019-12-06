@@ -1,0 +1,25 @@
+<header>
+  <button type="button" (click)="logout()" name="button">logout</button>
+</header>
+<body>
+<br><br><br><br><br><br><br>
+<div class="popUp" *ngIf="popUpIsActive">
+    yes
+</div>
+<div class="container">
+  <table>
+    <tr>
+        <th>User ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Delete</th>
+    </tr>
+    <tr *ngFor="let user of users">
+      <td>{{user.ID}}</td>
+      <td>{{user.name}}</td>
+      <td>{{user.email}}</td>
+      <td (click)="showDeletePopUp(user.ID)"><button>DELETE</button></td>
+    </tr>
+  </table>
+</div>
+</body>

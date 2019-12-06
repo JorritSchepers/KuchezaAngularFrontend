@@ -14,6 +14,8 @@ import { PlotApi } from './api/plot.api';
 import { PlantApi } from './api/plant.api';
 import { LogoutApi } from './api/logout.api';
 import { InventoryApi } from './api/inventory.api';
+import { AdminComponent } from './component/admin/admin.component';
+import { AdminApi } from './api/admin.api';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { InventoryApi } from './api/inventory.api';
     ,LoginComponent
     ,RegisterComponent
     ,FarmComponent
+    ,AdminComponent
   ],
   imports: [
     BrowserModule
@@ -37,6 +40,7 @@ import { InventoryApi } from './api/inventory.api';
     ,PlotApi
     ,PlantApi
     ,InventoryApi
+    ,AdminApi
   ],
   bootstrap: [
     AppComponent
