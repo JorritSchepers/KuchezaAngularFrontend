@@ -50,4 +50,14 @@ export class PlotApi {
 			 console.warn("Something went wrong with the back-end: ", err);
 		}
 	}
+
+	async giveWater(plot: number): Promise<PlotModel>{
+	try {
+		const data: PlotModel = await this.http.post<PlotModel>(this.PLOT_URL+ plot + "/water?token=" + this.token,
+		{headers: this.headers}).toPromise();
+		return data;
+		} catch (err) {
+		 console.warn("Something went wrong with the back-end: ", err);
+		}
+	}
 }
