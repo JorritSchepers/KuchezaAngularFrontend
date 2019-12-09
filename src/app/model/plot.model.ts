@@ -9,12 +9,12 @@ export class PlotModel {
     image: string;
     purchased: boolean;
     age:number;
-
     stages: number = 3;
     growTime: number = 1000;
+    waterAvailable: number;
 
     constructor(ID: number, x: number, y: number, price: number,
-            animalID: number, waterManagerID: number, plantID: number, purchased: boolean, age:number) {
+            animalID: number, waterManagerID: number, plantID: number, purchased: boolean, age:number, waterAvailable: number) {
         this.ID = ID;
         this.x = x;
         this.y = y;
@@ -24,6 +24,7 @@ export class PlotModel {
         this.plantID = plantID;
         this.purchased = purchased;
         this.age = age;
+        this.waterAvailable = waterAvailable;
     }
 
     initImage() {
