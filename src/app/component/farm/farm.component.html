@@ -25,7 +25,9 @@
     <div class="farm-container">
       <div class="row" *ngFor="let plotsX of plots">
         <div class="column" *ngFor="let plot of plotsX">
-          <div class="plotBackground">
+          <div (mouseover)="hover=true" (mouseleave)="hover=false">
+          <div class="plotBackground" (mouseover)="hover=true" (mouseleave)="hover=false">
+            <span *ngIf="hover">hello {{plot.waterAvailable}}</span>
             <img src="{{plot.image}}" class="plot" alt="" (click)="handlePlotClick(plot)">
           </div>
         </div>

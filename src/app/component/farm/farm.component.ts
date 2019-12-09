@@ -95,7 +95,7 @@ export class FarmComponent {
     for(let i=0;i<this.HEIGHT;i++) {
       let row:PlotModel[]  = new Array<PlotModel>();
       for(let j=0;j<this.WIDTH;j++) {
-        row.push(new PlotModel(-1, j+1, i+1, 0, 0, 0, 0, false, 0));
+        row.push(new PlotModel(-1, j+1, i+1, 0, 0, 0, 0, false, 0,0));
       }
       this.plots.push(row);
     }
@@ -106,22 +106,16 @@ export class FarmComponent {
 
     if(!plot.purchased) {
       this.openPlotShop(plot.price);
-      return;
-    }
-
-    if (plot.waterManagerID !=0){
+    } else if (plot.waterManagerID !=0){
         this.gatherWater();
-        return;
     } else if(plot.plantID == 0){
         this.openPlantShop();
-        return;
+    } else if(this.wantToGiveWater){
+          this.givePlantWater(plot);
     } else {
-        if(this.wantToGiveWater){this.givePlantWater(plot);
-        return;}
         this.harvestPlantFromPlot(plot,plot.plantID);
-        return;
     }
-  }
+}
 
   private givePlantWater(plot: PlotModel){
     this.plotApi.giveWater(plot.ID).then(plot => this.handlePlotResponse(plot))
@@ -129,7 +123,7 @@ export class FarmComponent {
   }
 
   private gatherWater(){
-      wantToGiveWater = true;
+      this.wantToGiveWater = true;
   }
 
   private openPlantShop(){
@@ -137,13 +131,14 @@ export class FarmComponent {
       .catch(any => this.handleException(any));
   }
 
-  private harvestPlantFromPlot(plot: PlotModel,plantID: int): void{
+  private harvestPlantFromPlot(plot: PlotModel,plantID: number): void{
     let plant = new PlantModel(1,"0",1,plantID,50,100,1000);
     this.plotApi.oogst(plot.ID, plot).then(plot => this.handlePlotResponse(plot))
       .catch(any => this.handlePlotResponse(any));
   }
 
-  private openPlotShop(plotprice: int): void{
+  private openPlotShop(plotprice: number): void{
+    this.plants = new PlantResponseModel([]);
     this.price = plotprice;
     this.purchasePlot = true;
   }
@@ -158,6 +153,7 @@ export class FarmComponent {
   }
 
   private handlePlotResponse(response: any): void {
+    this.plants = new PlantResponseModel([]);
     this.purchasePlot = false;
     this.wantToGiveWater = false;
     this.closeShop();
