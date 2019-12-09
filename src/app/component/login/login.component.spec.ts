@@ -6,35 +6,47 @@ import { UserModel } from 'src/app/model/user.model';
 import { TokenModel } from "src/app/model/token.model";
 import { LoginResponseModel } from 'src/app/model/login-response.model';
 import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Title } from "@angular/platform-browser";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('LoginComponent', () => {
-    let mockedLoginApi: any;
-    let sut: LoginComponent;
+  let mockedTitle: any;
+  let mockedLoginApi: any;
+  let mockedRouter: any;
+  let sut: any;
+  let loginResponseModel = new LoginResponseModel(new UserModel(1, "testNaam", "testWachtwoord", "testWachtwoord", false), "testtoken123");
 
-    beforeEach(() => {
-        mockedLoginApi = jasmine.createSpyObj("LoginApi", ["query"]);
-        mockedLoginApi.query.and.returnValue(new LoginResponseModel(new UserModel(-1, "", "", ""), "1234"));
+  beforeEach(() => {
+    mockedTitle = jasmine.createSpyObj("Title", ["setTitle"]);
+    mockedRouter = jasmine.createSpyObj("Router", [""]);
+    mockedLoginApi = jasmine.createSpyObj("LoginApi", ["login"]);
+    mockedLoginApi.login.and.returnValue(Promise.resolve(loginResponseModel).then(response => this.handleLoginResponse(response))
+          .catch(any => this.handleLoginException(any)));
 
-        TestBed.configureTestingModule({
-			declarations: [LoginComponent],
-			providers: [{ provide: LoginApi, useValue: mockedLoginApi }],
-		});
-        sut = new LoginComponent(new FormBuilder(), mockedLoginApi);
-	});
-
-    it('should call LoginApi', () => {
-        sut.login(new LoginModel("", ""));
-		    expect(mockedLoginApi.query).toHaveBeenCalled();
+    TestBed.configureTestingModule({
+  		declarations: [LoginComponent],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule
+      ],
+  		providers: [{provide: LoginApi, useValue: mockedLoginApi}]
     });
 
-    it("should declare currentToken in TokenModel", () => {
-        TokenModel.setCurrentToken("1234");
-        expect(TokenModel.currentToken).toBe("1234");
-    });
+    sut = new LoginComponent(mockedTitle, new FormBuilder(), mockedLoginApi, mockedRouter);
+  });
 
-    it("should declare token", () => {
-        TokenModel.currentToken = "1234";
-        sut.setToken();
-        expect(sut.token).toBe("1234");
-    });
+  it('should instantiate LoginComponent', () => {
+    expect(sut instanceof LoginComponent).toBe(true, 'should create LoginComponent');
+  });
+
+  it('should call LoginApi', () => {
+    sut.loginUser(new LoginModel("test@test.nl", "test123"));
+    expect(mockedLoginApi.login).toHaveBeenCalled();
+  });
+
+  it("should set token in localStorage", () => {
+    localStorage.setItem('currentUser', "1234");
+    expect(localStorage.getItem('currentUser')).toBe("1234");
+  });
 });
