@@ -1,0 +1,49 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: solid black 1px;
+  height: 9vh;
+  width: 100%;
+  position: fixed;
+}
+
+header p, header button {
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+td {
+  border: 2px solid black;
+}
+
+.deletePopUp{
+  width: 40vh;
+  height: 25vh;
+  position: absolute;
+  z-index: 9 !important;
+  background-color: whitesmoke;
+  text-align: center;
+}
+
+.popUpBG{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(100,100,100,0.5);
+  position: absolute;
+}
+
+.popUpName {
+  color: red;
+}
