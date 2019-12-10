@@ -34,6 +34,10 @@ export class FarmComponent {
   mySubscription: Subscription;
   plantTypes: PlantModel[];
 
+  GROWDELAY: number = 2000;
+  WATERDELAY: number = 10000;
+  WATERPLANTAMOUNT: number = 20;
+
   constructor(private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
     this.prepareFarm();
   }
@@ -75,8 +79,8 @@ export class FarmComponent {
     this.initPlots();
     this.getInventory();
 
-    setInterval(this.growPlants,2000,this);
-    setInterval(this.useWater,10000,this);
+    setInterval(this.growPlants,this.GROWDELAY,this);
+    setInterval(this.useWater,this.WATERDELAY,this);
     this.plantApi.getAllPlants().then(plants => this.getAllPlantTypes(plants))
           .catch(any => this.handleException(any));
   }
@@ -118,7 +122,7 @@ export class FarmComponent {
 }
 
   private givePlantWater(plot: PlotModel){
-    this.plotApi.editWater(plot.ID, 20).then(plot => this.handlePlotResponse(plot))
+    this.plotApi.editWater(plot.ID, this.WATERPLANTAMOUNT).then(plot => this.handlePlotResponse(plot))
       .catch(any => this.handleException(any));
   }
 
