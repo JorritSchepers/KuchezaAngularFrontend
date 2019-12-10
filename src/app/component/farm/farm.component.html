@@ -27,7 +27,7 @@
         <div class="column" *ngFor="let plot of plotsX">
           <div class="plotBackground">
             <img src="{{plot.image}}" class="plot" alt="" (click)="handlePlotClick(plot)">
-            <span class="waterAmount">{{plot.getWater()}}</span>
+            <span class="waterAmount" (click)="handlePlotClick(plot)">{{plot.getWater()}}</span>
           </div>
         </div>
       </div>
