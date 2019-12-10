@@ -1,6 +1,6 @@
 <header>
-  <p>Money: {{inventory.money * 0.01| currency : "€"}}</p>
-  <p>Water: {{inventory.water * 0.01}} litre</p>
+  <p>Money: {{inventory.money*0.01 | currency : "€"}}</p>
+  <p>Water: {{inventory.water}} litre</p>
   <button type="button" (click)="logout()" name="button">logout</button>
 </header>
 <div class="PopupBG" *ngIf="purchasePlot">
@@ -27,7 +27,7 @@
         <div class="column" *ngFor="let plot of plotsX">
           <div class="plotBackground">
             <img src="{{plot.image}}" class="plot" alt="" (click)="handlePlotClick(plot)">
-            <span class="waterAmount">{{plot.waterAvailable}}</span>
+            <span class="waterAmount">{{plot.getWater()}} L</span>
           </div>
         </div>
       </div>
