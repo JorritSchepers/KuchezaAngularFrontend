@@ -51,7 +51,11 @@ export class PlotModel {
         this.image = "../../../assets/plant/" + this.plantID +"/"+stage+".png";
     }
 
-    public getWater(): number {
-        return Math.round(this.waterAvailable)
+    public getWater(): String {
+        if (this.plantID > 0) {
+            return Math.round(this.waterAvailable)+" L"
+        } else {
+            return ""
+        }
     }
 }
