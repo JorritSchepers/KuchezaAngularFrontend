@@ -210,7 +210,7 @@ export class FarmComponent {
         for(let i=0;i<farm.HEIGHT;i++) {
           for(let j=0;j<farm.WIDTH;j++) {
             if(farm.plots[i][j].plantID > 0) {
-              let waterUsage = farm.getWaterUsage(farm.plots[i][j].plantID)/2
+              let waterUsage = farm.getWaterUsage(farm.plots[i][j].plantID)
 
               if(waterUsage < farm.plots[i][j].waterAvailable) {
                 farm.plots[i][j].waterAvailable -= waterUsage
