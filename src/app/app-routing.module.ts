@@ -7,7 +7,7 @@ import { FarmComponent } from './component/farm/farm.component';
 import { AdminComponent } from './component/admin/admin.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/register', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'farm' , component: FarmComponent},
