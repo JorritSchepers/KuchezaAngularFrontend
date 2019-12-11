@@ -66,7 +66,7 @@ h1{
   padding-top: 9vh;
 }
 
-.plot:hover+.waterAmount{
+.plot:hover+.waterAmount, .waterAmount:hover{
   display: block;
   text-align: center;
   margin-top: -4%;

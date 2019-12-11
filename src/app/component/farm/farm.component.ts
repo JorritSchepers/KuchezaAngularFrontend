@@ -34,6 +34,10 @@ export class FarmComponent {
   mySubscription: Subscription;
   plantTypes: PlantModel[];
 
+  GROWDELAY: number = 2000;
+  WATERDELAY: number = 10000;
+  WATERPLANTAMOUNT: number = 20;
+
   constructor(private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
     this.prepareFarm();
   }
@@ -75,7 +79,8 @@ export class FarmComponent {
     this.initPlots();
     this.getInventory();
 
-    setInterval(this.growPlants,2000,this);
+    setInterval(this.growPlants,this.GROWDELAY,this);
+    setInterval(this.useWater,this.WATERDELAY,this);
     this.plantApi.getAllPlants().then(plants => this.getAllPlantTypes(plants))
           .catch(any => this.handleException(any));
   }
@@ -117,7 +122,7 @@ export class FarmComponent {
 }
 
   private givePlantWater(plot: PlotModel){
-    this.plotApi.giveWater(plot.ID).then(plot => this.handlePlotResponse(plot))
+    this.plotApi.editWater(plot.ID, this.WATERPLANTAMOUNT).then(plot => this.handlePlotResponse(plot))
       .catch(any => this.handleException(any));
   }
 
@@ -193,6 +198,26 @@ export class FarmComponent {
     }
   }
 
+  private useWater(farm: FarmComponent): void {
+    if(farm.WIDTH != null) {
+      for(let i=0;i<farm.HEIGHT;i++) {
+        for(let j=0;j<farm.WIDTH;j++) {
+          if(farm.plots[i][j].plantID > 0) {
+            let waterUsage = farm.getWaterUsage(farm.plots[i][j].plantID)/2
+
+            if(waterUsage < farm.plots[i][j].waterAvailable) {
+              farm.plots[i][j].waterAvailable -= waterUsage
+              farm.plotApi.editWater(farm.plots[i][j].ID,-Math.ceil(waterUsage))
+            } else {
+              farm.plots[i][j].waterAvailable = 0
+              farm.plotApi.editWater(farm.plots[i][j].ID,-Math.ceil(waterUsage))
+            }
+          }
+        }
+      }
+    }
+  }
+
   private getAllPlantTypes(plants: PlantResponseModel): void {
     this.plantTypes = plants.plants;
   }
@@ -201,6 +226,15 @@ export class FarmComponent {
     for(let plantType of this.plantTypes) {
         if(plantType.ID == plantID) {
           return plantType.growingTime;
+        }
+    }
+    return 0;
+  }
+
+  public getWaterUsage(plantID:number): any {
+    for(let plantType of this.plantTypes) {
+        if(plantType.ID == plantID) {
+          return plantType.waterUsage;
         }
     }
     return 0;

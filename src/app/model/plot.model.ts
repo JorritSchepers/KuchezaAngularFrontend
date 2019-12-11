@@ -12,6 +12,7 @@ export class PlotModel {
     stages: number = 3;
     growTime: number = 1000;
     waterAvailable: number;
+    
 
     constructor(ID: number, x: number, y: number, price: number,
             animalID: number, waterManagerID: number, plantID: number, purchased: boolean, age:number, waterAvailable: number) {
@@ -48,5 +49,13 @@ export class PlotModel {
             stage = this.stages;
         }
         this.image = "../../../assets/plant/" + this.plantID +"/"+stage+".png";
+    }
+
+    public getWater(): String {
+        if (this.plantID > 0) {
+            return Math.round(this.waterAvailable)+" L"
+        } else {
+            return ""
+        }
     }
 }
