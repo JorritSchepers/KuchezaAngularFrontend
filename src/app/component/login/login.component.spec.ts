@@ -3,25 +3,25 @@ import { LoginApi } from '../../api/login.api';
 import { LoginComponent } from '../../component/login/login.component';
 import { LoginModel } from 'src/app/model/login.model';
 import { UserModel } from 'src/app/model/user.model';
-import { TokenModel } from "src/app/model/token.model";
 import { LoginResponseModel } from 'src/app/model/login-response.model';
 import { FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Title } from "@angular/platform-browser";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+const USER_MODEL: UserModel = new UserModel(1, "testNaam", "testWachtwoord", "testWachtwoord", false);
+const LOGIN_REPONSE_MODEL: LoginResponseModel = new LoginResponseModel(USER_MODEL, "testtoken123");
+const LOGIN_MODEL: LoginModel = new LoginModel("test@test.nl", "test123");
 
 describe('LoginComponent', () => {
   let mockedTitle: any;
   let mockedLoginApi: any;
   let mockedRouter: any;
-  let sut: any;
-  let loginResponseModel = new LoginResponseModel(new UserModel(1, "testNaam", "testWachtwoord", "testWachtwoord", false), "testtoken123");
+  let sut: LoginComponent;
 
   beforeEach(() => {
     mockedTitle = jasmine.createSpyObj("Title", ["setTitle"]);
     mockedRouter = jasmine.createSpyObj("Router", [""]);
     mockedLoginApi = jasmine.createSpyObj("LoginApi", ["login"]);
-    mockedLoginApi.login.and.returnValue(Promise.resolve(loginResponseModel).then(response => this.handleLoginResponse(response))
+    mockedLoginApi.login.and.returnValue(Promise.resolve(LOGIN_REPONSE_MODEL).then(response => this.handleLoginResponse(response))
           .catch(any => this.handleLoginException(any)));
 
     TestBed.configureTestingModule({
@@ -32,7 +32,6 @@ describe('LoginComponent', () => {
       ],
   		providers: [{provide: LoginApi, useValue: mockedLoginApi}]
     });
-
     sut = new LoginComponent(mockedTitle, new FormBuilder(), mockedLoginApi, mockedRouter);
   });
 
@@ -41,12 +40,7 @@ describe('LoginComponent', () => {
   });
 
   it('should call LoginApi', () => {
-    sut.loginUser(new LoginModel("test@test.nl", "test123"));
+    sut.loginUser(LOGIN_MODEL);
     expect(mockedLoginApi.login).toHaveBeenCalled();
-  });
-
-  it("should set token in localStorage", () => {
-    localStorage.setItem('currentUser', "1234");
-    expect(localStorage.getItem('currentUser')).toBe("1234");
   });
 });
