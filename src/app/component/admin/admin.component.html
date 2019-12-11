@@ -1,6 +1,16 @@
 <header>
-  <button type="button" (click)="logout()" name="button">logout</button>
+  <!-- <div class="headerItem">Home</div>
+  <div class="verticalLine"></div> -->
+  <div class="headerItem">Accounts</div>
+  <div class="verticalLine"></div>
+  <div class="headerItem">Plants</div>
+  <div class="verticalLine"></div>
+  <div class="headerItem">Animals</div>
+  <div class="headerItem"></div><div class="headerItem"></div>
+  <div class="headerItem"></div><div class="headerItem"></div>
+  <div class="headerItem" (click)="logout()">Logout</div>
 </header>
+
 <body>
 <div class="popUpBG" *ngIf="popUpIsActive">
   <div class="deletePopUp">
@@ -9,21 +19,17 @@
       <button type="submit" (click)="closeDeletePopUp()">Cancel</button>
   </div>
 </div>
-<br><br><br><br><br><br><br>
-<div class="container">
-  <table>
-    <tr>
-        <th>User ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Delete</th>
-    </tr>
-    <tr *ngFor="let user of users">
-      <td>{{user.ID}}</td>
-      <td>{{user.name}}</td>
-      <td>{{user.email}}</td>
-      <td (click)="showDeletePopUp(user)"><button>DELETE</button></td>
-    </tr>
-  </table>
-</div>
+<!-- <h1>Accounts</h1> -->
+<table class="container">
+  <tr class="row" *ngFor="let user of users">
+    <td class="userID">{{user.ID}}</td>
+    <td class="userName">
+      <span>{{user.name}}</span>
+    </td>
+    <td class="userEmail">
+      <span>{{user.email}}</span>
+    </td>
+    <td class="deleteButton"><img src="../../../assets/ui/admin/delete-button.png" (click)="showDeletePopUp(user)"/></td>
+  </tr>
+</table>
 </body>
