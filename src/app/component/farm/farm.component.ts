@@ -184,37 +184,44 @@ export class FarmComponent {
     console.warn("Exception:", exception);
   }
 
+  timerActive(): boolean {
+    return (window.location.href.includes("farm") && localStorage.hasOwnProperty('currentUser') && this.WIDTH != null && this.HEIGHT != null)
+  }
+
   private growPlants(farm: FarmComponent): void {
-    if(farm.WIDTH != null) {
-      for(let i=0;i<farm.HEIGHT;i++) {
-        for(let j=0;j<farm.WIDTH;j++) {
-          if(farm.plots[i][j].plantID > 0) {
-            farm.plotApi.updateAge(farm.plots[i][j].age+2,farm.plots[i][j]);
-            farm.plots[i][j].age += 2;
-            farm.plots[i][j].updatePlantState(farm.getGrowTime(farm.plots[i][j].plantID));
+    if(farm.timerActive()) {
+        for(let i=0;i<farm.HEIGHT;i++) {
+          for(let j=0;j<farm.WIDTH;j++) {
+            let plot = farm.plots[i][j];
+            if(plot.plantID > 0) {
+              farm.plotApi.updateAge(plot.age+farm.GROWDELAY/1000,plot);
+              plot.age += farm.GROWDELAY/1000;
+              plot.updatePlantState(farm.getGrowTime(plot.plantID));
+            }
           }
         }
-      }
     }
   }
 
   private useWater(farm: FarmComponent): void {
-    if(farm.WIDTH != null) {
-      for(let i=0;i<farm.HEIGHT;i++) {
-        for(let j=0;j<farm.WIDTH;j++) {
-          if(farm.plots[i][j].plantID > 0) {
-            let waterUsage = farm.getWaterUsage(farm.plots[i][j].plantID)/2
+    if(farm.timerActive()) {
+        for(let i=0;i<farm.HEIGHT;i++) {
+          for(let j=0;j<farm.WIDTH;j++) {
+            let plot = farm.plots[i][j];
+            if(plot.plantID > 0) {
+              let waterUsage = farm.getWaterUsage(plot.plantID)
 
-            if(waterUsage < farm.plots[i][j].waterAvailable) {
-              farm.plots[i][j].waterAvailable -= waterUsage
-              farm.plotApi.editWater(farm.plots[i][j].ID,-Math.ceil(waterUsage))
-            } else {
-              farm.plots[i][j].waterAvailable = 0
-              farm.plotApi.editWater(farm.plots[i][j].ID,-Math.ceil(waterUsage))
+              if(waterUsage < plot.waterAvailable) {
+                plot.waterAvailable -= waterUsage
+                farm.plotApi.editWater(plot.ID,-Math.ceil(waterUsage))
+              } else {
+                plot.waterAvailable = 0
+                farm.plotApi.editWater(plot.ID,-Math.ceil(waterUsage))
+              }
             }
           }
         }
-      }
+
     }
   }
 

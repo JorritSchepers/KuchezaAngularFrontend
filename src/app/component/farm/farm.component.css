@@ -73,6 +73,10 @@ h1{
   margin-left: 2%;
 }
 
+.waterAmount:hover + .plot {
+  opacity: 80%;
+}
+
 .plot:hover {
   opacity: 80%;
 }
