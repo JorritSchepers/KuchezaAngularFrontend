@@ -7,38 +7,39 @@ import { UserModel } from 'src/app/model/user.model';
 import { FormBuilder } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+const REGISTER_REPONSE_MODEL: RegisterResponseModel = new RegisterResponseModel(new UserModel(-1, "", "", ""), "1234");
+const REGISTER_MODEL: RegisterModel = new RegisterModel("Test", "test@test.nl", "Test123", "Test123");
+
 describe('RegisterComponent', () => {
 	let mockedTitle: any;
 	let mockRegisterApi: any;
 	let mockRouter: any;
 	let sut: RegisterComponent;
-	let registerResponseModel = new RegisterResponseModel(new UserModel(-1, "", "", ""), "1234");
 
 	beforeEach(() => {
 		mockedTitle = jasmine.createSpyObj("Title", ["setTitle"]);
 		mockRegisterApi = jasmine.createSpyObj('RegisterApi', ['registerUser']);
 		mockRouter = jasmine.createSpyObj('Router', ['query']);
-		mockRegisterApi.registerUser.and.returnValue(Promise.resolve(registerResponseModel).then(response => this.handleRegisterResponse(response))
+		mockRegisterApi.registerUser.and.returnValue(Promise.resolve(REGISTER_REPONSE_MODEL).then(response => this.handleRegisterResponse(response))
           .catch(any => this.handleRegisterException(any)));
 
 		TestBed.configureTestingModule({
 			declarations: [RegisterComponent],
 			imports: [
-        FormsModule,
-        ReactiveFormsModule
-      ],
+                FormsModule,
+                ReactiveFormsModule
+            ],
 			providers: [{ provide: RegisterApi, useValue: mockRegisterApi }]
 		});
-
-    sut = new RegisterComponent(mockedTitle, new FormBuilder(), mockRegisterApi, mockRouter);
+        sut = new RegisterComponent(mockedTitle, new FormBuilder(), mockRegisterApi, mockRouter);
 	});
 
-	it('should instantiate RegisterComponent', () => {
+  it('should instantiate RegisterComponent', () => {
     expect(sut instanceof RegisterComponent).toBe(true, 'should create RegisterComponent');
   });
 
   it('should call RegisterApi', () => {
-    sut.registerUser(new RegisterModel("Test", "test@test.nl", "Test123", "Test123"));
+    this.sut.registerUser(REGISTER_MODEL);
     expect(mockRegisterApi.registerUser).toHaveBeenCalled();
   });
 });
