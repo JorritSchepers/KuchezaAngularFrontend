@@ -26,8 +26,7 @@
     padding-left: 0px;
 }
 
-#logo {
-    background-color: rgb(103,159,214);
+#filler {
     width:30vh;
     padding:5px;
     display: flex;

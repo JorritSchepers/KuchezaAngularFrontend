@@ -41,6 +41,7 @@ export class PlotApi {
     } catch (err) {
     }
   }
+
 	async purchasePlot(plot: number): Promise<AllPlotModel>{
 		try {
 			const data: AllPlotModel = await this.http.post<AllPlotModel>(this.PLOT_URL+ plot + "/purchase?token=" + this.token,
@@ -48,6 +49,16 @@ export class PlotApi {
 			return data;
 		} catch (err) {
 			 console.warn("Something went wrong with the back-end: ", err);
+		}
+	}
+
+	async editWater(plot: number, water: number): Promise<PlotModel>{
+	try {
+		const data: PlotModel = await this.http.post<PlotModel>(this.PLOT_URL+ plot + "/water/"+water+"?token=" + this.token,
+		{headers: this.headers}).toPromise();
+		return data;
+		} catch (err) {
+		 console.warn("Something went wrong with the back-end: ", err);
 		}
 	}
 }

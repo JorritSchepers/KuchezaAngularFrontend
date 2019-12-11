@@ -66,6 +66,13 @@ h1{
   padding-top: 9vh;
 }
 
+.plot:hover+.waterAmount, .waterAmount:hover{
+  display: block;
+  text-align: center;
+  margin-top: -4%;
+  margin-left: 2%;
+}
+
 .plot:hover {
   opacity: 80%;
 }
@@ -93,4 +100,16 @@ h1{
   align-items: center;
   background-color: rgb(100,100,100,0.5);
   position: absolute;
+}
+
+.waterAmount{
+  position: absolute;
+  color: whitesmoke;
+  -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 1px;
+  font-size: 3vh;
+  font-family: Roboto;
+  font-weight: lighter;
+  -webkit-text-stroke-color: black;
+  display: none;
 }
