@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "Roboto";
+  src: url("src\assets\fonts\Roboto-Regular.ttf");
+}
+
 html {
   box-sizing: border-box;
 }
@@ -6,23 +11,14 @@ html {
   box-sizing: inherit;
 }
 
-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  border: solid black 1px;
-  height: 9vh;
+body {
+  margin: 0;
+  background-color: #98bc5a;
   width: 100%;
-  position: fixed;
-}
+  display: flex;
+  justify-content: center;
+  font-family: Roboto;
 
-header p, header button {
-  margin-left: 2%;
-  margin-right: 2%;
-}
-
-td {
-  border: 2px solid black;
 }
 
 .deletePopUp{
@@ -46,4 +42,81 @@ td {
 
 .popUpName {
   color: red;
+}
+
+header {
+  background-color: #7a9340;
+  padding:5px;
+  display: flex;
+  height: 11vh;
+  align-items: center;
+  font-family: Roboto;
+}
+
+.headerItem {
+  height: 100%;
+  font-size: 3vh !important;
+  margin: auto;
+  color: whitesmoke;
+  display: flex;
+  align-items: center;
+}
+
+.verticalLine {
+  width: 0.3vh;
+  height: 60%;
+  background-color: whitesmoke;
+}
+
+.container {
+  margin-top: 5vh;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+td {
+  background-color: whitesmoke;
+  border: 1px solid black;
+  height: 5vh;
+  border: 3px solid lightgrey;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+}
+
+td > span {
+  margin-left: 1vh;
+}
+
+img {
+  height: 100%;
+}
+
+.deleteButton {
+  background-color: #98bc5a;
+  border: 0;
+}
+
+.userID {
+  width: 6vh;
+  justify-content: center;
+}
+
+.userName {
+  width: 20vh;
+}
+
+.userEmail {
+  width: 80vh;
+}
+
+h1 {
+  color: whitesmoke;
 }
