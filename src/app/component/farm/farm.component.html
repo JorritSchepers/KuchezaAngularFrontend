@@ -1,12 +1,12 @@
 <header>
-  <p>Money: {{inventory.money*0.01 | currency : "€"}}</p>
+  <p>Money: {{inventory.money*0.01 | currency : "R"}}</p>
   <p>Water: {{inventory.water}} L</p>
   <button type="button" (click)="logout()" name="button">logout</button>
 </header>
 <div class="PopupBG" *ngIf="purchasePlot">
   <div class="popUp">
     <h2>Do you want to buy this plot?</h2>
-    <p>The price is {{price * 0.01| currency : "€"}}</p>
+    <p>The price is {{price * 0.01| currency : "R"}}</p>
     <button type="submit" (click)="callPurchasePlot(plotId)" class="modalButton">Confirm</button>
     <button type="submit" (click)="closePlotModal()" class="modalButton">Cancel</button>
   </div>
