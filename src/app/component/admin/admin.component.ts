@@ -5,6 +5,9 @@ import { AllUsersModel } from 'src/app/model/all-users.model';
 import { LogoutApi } from 'src/app/api/logout.api';
 import { LogoutResponseModel } from 'src/app/model/logout-response.model';
 import { Router } from '@angular/router';
+import { PlantApi } from 'src/app/api/plant.api';
+import { PlantModel } from 'src/app/model/plant.model';
+import { PlantResponseModel } from 'src/app/model/plant-response.model';
 
 @Component({
   templateUrl: './admin.component.html',
@@ -12,11 +15,15 @@ import { Router } from '@angular/router';
 })
 export class AdminComponent {
   users: UserModel[] = Array<UserModel>();
-  popUpIsActive: boolean = false;
+  plants: PlantModel[] = Array<PlantModel>();
+  deleteAccountPopUpIsActive: boolean = false;
+  deletePlantPopUpIsActive: boolean = false;
+  currentSelectedPage: string = "Plants";
   currentSelectedUser: UserModel = null;
 
-  constructor(private adminApi: AdminApi, private logoutApi: LogoutApi, private router: Router) {
+  constructor(private adminApi: AdminApi, private logoutApi: LogoutApi, private plantApi: PlantApi, private router: Router) {
     this.getAllNonAdminUsers();
+    this.getAllPlants();
   }
 
   private getAllNonAdminUsers(): void {
@@ -28,28 +35,39 @@ export class AdminComponent {
     this.initUsers(response);
   }
 
-  showDeletePopUp(user: UserModel) {
-    this.currentSelectedUser = user;
-    this.popUpIsActive = true;
+  private getAllPlants(): void {
+    this.plantApi.getAllPlants().then(response => this.handleGetAllPlantsResponse(response))
+    .catch(exception => this.handleException(exception));
   }
 
-  closeDeletePopUp() {
+  private handleGetAllPlantsResponse(response: PlantResponseModel) {
+    for (let plant of response.plants) {
+      this.plants.push(plant);
+    }
+  }
+
+  showDeletePopUp(user: UserModel): void {
+    this.currentSelectedUser = user;
+    this.deleteAccountPopUpIsActive = true;
+  }
+
+  closeDeletePopUp(): void {
     this.currentSelectedUser = null;
-    this.popUpIsActive = false;
+    this.deleteAccountPopUpIsActive = false;
   }
   
-  deleteUser(userID: number) {
+  deleteUser(userID: number): void {
     this.adminApi.deleteUser(userID).then(response => this.handleDeleteUserResponse(response))
     .catch(exception => this.handleException(exception));
     this.closeDeletePopUp();
   }
 
-  private handleDeleteUserResponse(response: AllUsersModel) {
+  private handleDeleteUserResponse(response: AllUsersModel): void {
     this.users = Array<UserModel>();
     this.initUsers(response);
   }
 
-  private initUsers(users: AllUsersModel) {
+  private initUsers(users: AllUsersModel): void {
     for (let user of users.users) {
       this.users.push(user);
     }

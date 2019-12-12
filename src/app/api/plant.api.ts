@@ -13,7 +13,14 @@ export class PlantApi {
 
   async getAllPlants(): Promise<PlantResponseModel> {
     const data: PlantResponseModel = await this.http.get<PlantResponseModel>(this.PLANT_URL + "?token=" + this.token,
-    {headers: this.headers}).toPromise();
+        {headers: this.headers}).toPromise();
+    return data;
+  }
+
+  async deletePlant(plantIDToDelete: number, plantIDToReplaceWith: number): Promise<PlantResponseModel> {
+    const data: PlantResponseModel = await this.http.delete<PlantResponseModel>(this.PLANT_URL + plantIDToDelete + "/" 
+        + plantIDToReplaceWith +  "?token=" + this.token, {headers: this.headers}).toPromise();
     return data;
   }
 }
+  

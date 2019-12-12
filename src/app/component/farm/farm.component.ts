@@ -121,7 +121,7 @@ export class FarmComponent {
     }
 }
 
-  private givePlantWater(plot: PlotModel){
+  private givePlantWater(plot: PlotModel) {
     this.plotApi.editWater(plot.ID, this.WATERPLANTAMOUNT).then(plot => this.handlePlotResponse(plot))
       .catch(any => this.handleException(any));
   }
@@ -137,7 +137,7 @@ export class FarmComponent {
 
   private harvestPlantFromPlot(plot: PlotModel,plantID: number): void{
     let plant = new PlantModel(1,"0",1,plantID,50,100,1000);
-    this.plotApi.oogst(plot.ID, plot).then(plot => this.handlePlotResponse(plot))
+    this.plotApi.harvest(plot.ID, plot).then(plot => this.handlePlotResponse(plot))
       .catch(any => this.handlePlotResponse(any));
   }
 
