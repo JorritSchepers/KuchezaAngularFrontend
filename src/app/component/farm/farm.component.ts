@@ -37,6 +37,7 @@ export class FarmComponent {
   GROWDELAY: number = 2000;
   WATERDELAY: number = 10000;
   WATERPLANTAMOUNT: number = 20;
+  DEHYDRATED_FACTOR: number = 4;
 
   constructor(private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
     this.prepareFarm();
@@ -99,7 +100,7 @@ export class FarmComponent {
     for(let i=0;i<this.HEIGHT;i++) {
       let row:PlotModel[]  = new Array<PlotModel>();
       for(let j=0;j<this.WIDTH;j++) {
-        row.push(new PlotModel(-1, j+1, i+1, 0, 0, 0, 0, false, 0,0));
+        row.push(new PlotModel(-1, j+1, i+1, 0, 0, 0, 0, false, 0,0,""));
       }
       this.plots.push(row);
     }
@@ -193,10 +194,16 @@ export class FarmComponent {
         for(let i=0;i<farm.HEIGHT;i++) {
           for(let j=0;j<farm.WIDTH;j++) {
             let plot = farm.plots[i][j];
-            if(plot.plantID > 0) {
+            if(plot.plantID > 0 && plot.status != "Dead") {
               farm.plotApi.updateAge(plot.age+farm.GROWDELAY/1000,plot);
               plot.age += farm.GROWDELAY/1000;
-              plot.updatePlantState(farm.getGrowTime(plot.plantID));
+              plot.growTime = plot.age+farm.GROWDELAY/1000;
+
+              if(plot.status == "Dehydrated") {
+                plot.setDehydrathedPlant();
+              } else if(plot.status == "Normal") {
+                plot.updatePlantState(plot.age+farm.GROWDELAY/1000);
+              }
             }
           }
         }
@@ -208,20 +215,43 @@ export class FarmComponent {
         for(let i=0;i<farm.HEIGHT;i++) {
           for(let j=0;j<farm.WIDTH;j++) {
             let plot = farm.plots[i][j];
-            if(plot.plantID > 0) {
-              let waterUsage = farm.getWaterUsage(plot.plantID)
+            if(plot.plantID > 0 && plot.status == "Normal") {
+              let waterUsage = farm.getWaterUsage(plot.plantID);
 
-              if(waterUsage < plot.waterAvailable) {
-                plot.waterAvailable -= waterUsage
-                farm.plotApi.editWater(plot.ID,-Math.ceil(waterUsage))
-              } else {
-                plot.waterAvailable = 0
-                farm.plotApi.editWater(plot.ID,-Math.ceil(waterUsage))
+              plot.waterAvailable -= waterUsage;
+              farm.plotApi.editWater(plot.ID,-Math.ceil(waterUsage));
+
+
+              if (plot.waterAvailable <= farm.getMaximumWater(plot.plantID)/farm.DEHYDRATED_FACTOR) {
+                farm.plotApi.editWater(plot.ID,-Math.ceil(waterUsage));
+                farm.plotApi.updateStatus(plot.ID,"Dehydrated");
+                plot.status = "Dehydrated";
+                plot.setDehydrathedPlant();
+                console.warn("DEHYDRATED");
+              } 
+            } else if(plot.plantID > 0 && plot.status == "Dehydrated") {
+              let waterUsage = farm.getWaterUsage(plot.plantID);
+              let maximumWater = farm.getMaximumWater(plot.plantID);
+
+              plot.waterAvailable -= waterUsage;
+              farm.plotApi.editWater(plot.ID,-Math.ceil(waterUsage));
+
+              if(plot.waterAvailable <= 0) {
+                plot.waterAvailable = 0;
+                farm.plotApi.editWater(plot.ID,-Math.ceil(waterUsage));
+                farm.plotApi.updateStatus(plot.ID,"Dead");
+                plot.status = "Dead";
+                plot.setDeadPlant();
+                console.warn("DEAD");
+              }
+
+              if(plot.waterAvailable > maximumWater/farm.DEHYDRATED_FACTOR) {
+                plot.status = "Normal";
+                console.warn("BACK TO LIFE");
               }
             }
           }
         }
-
     }
   }
 
@@ -229,7 +259,7 @@ export class FarmComponent {
     this.plantTypes = plants.plants;
   }
 
-  public getGrowTime(plantID:number): any {
+  public getGrowTime(plantID:number): number {
     for(let plantType of this.plantTypes) {
         if(plantType.ID == plantID) {
           return plantType.growingTime;
@@ -238,13 +268,22 @@ export class FarmComponent {
     return 0;
   }
 
-  public getWaterUsage(plantID:number): any {
+  public getWaterUsage(plantID:number): number {
     for(let plantType of this.plantTypes) {
         if(plantType.ID == plantID) {
           return plantType.waterUsage;
         }
     }
     return 0;
+  }
+
+  public getMaximumWater(plantID:number): number {
+    for(let plantType of this.plantTypes) {
+      if(plantType.ID == plantID) {
+        return plantType.maximumWater;
+      }
+  }
+  return 0;
   }
 
   closePlotModal(): void{

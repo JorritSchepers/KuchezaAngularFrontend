@@ -12,10 +12,11 @@ export class PlotModel {
     stages: number = 3;
     growTime: number = 1000;
     waterAvailable: number;
+    status: String;
     
 
     constructor(ID: number, x: number, y: number, price: number,
-            animalID: number, waterManagerID: number, plantID: number, purchased: boolean, age:number, waterAvailable: number) {
+            animalID: number, waterManagerID: number, plantID: number, purchased: boolean, age:number, waterAvailable: number, status: String) {
         this.ID = ID;
         this.x = x;
         this.y = y;
@@ -26,6 +27,7 @@ export class PlotModel {
         this.purchased = purchased;
         this.age = age;
         this.waterAvailable = waterAvailable;
+        this.status = status;
     }
 
     initImage() {
@@ -34,7 +36,13 @@ export class PlotModel {
         } else if (this.waterManagerID != 0) {
             this.image = "../../../assets/water-manager/" + this.waterManagerID + ".jpg";
         } else if (this.plantID != 0) {
-            this.updatePlantState(this.growTime);
+            if(this.status == "Normal") {
+                this.updatePlantState(this.growTime);
+            } else if (this.status == "Dead") {
+                this.setDeadPlant();
+            } else if (this.status == "Dehydrated") {
+                this.setDehydrathedPlant();
+            }
         } else if (this.purchased == true) {
             this.image = "../../../assets/EmptyPlot.jpg";
         } else {
@@ -48,7 +56,23 @@ export class PlotModel {
         if(stage > this.stages) {
             stage = this.stages;
         }
-        this.image = "../../../assets/plant/" + this.plantID +"/"+stage+".png";
+        this.image = "../../../assets/plant/" + this.plantID +"/normal/"+stage+".png";
+    }
+
+    setDeadPlant(): void {
+        let stage:number = Math.floor((this.age*this.stages)/this.growTime);
+        if(stage > this.stages) {
+            stage = this.stages;
+        }
+        this.image = "../../../assets/plant/" + this.plantID +"/dead/"+stage+".png";
+    }
+
+    setDehydrathedPlant() :void {
+        let stage:number = Math.floor((this.age*this.stages)/this.growTime);
+        if(stage > this.stages) {
+            stage = this.stages;
+        }
+        this.image = "../../../assets/plant/" + this.plantID +"/dehydrated/"+stage+".png";
     }
 
     public getWater(): String {

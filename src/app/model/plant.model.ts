@@ -6,6 +6,7 @@ export class PlantModel {
   purchasePrice: number;
   profit: number;
   age: number;
+  maximumWater: number;
 
     constructor(waterUsage: number, name: String, growingTime: number, ID: number, purchasePrice: number, profit: number, age: number) {
       this.waterUsage = waterUsage;
