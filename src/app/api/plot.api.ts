@@ -4,11 +4,13 @@ import { HttpClient } from '@angular/common/http';
 import { PlantModel } from '../model/plant.model';
 import { PlotModel } from '../model/plot.model';
 import { AllPlotModel } from '../model/allplot.model';
+import { ConstantsModel } from './constants.model';
 
 @Injectable()
 export class PlotApi {
 	private headers = new HttpHeaders().set('Content-Type', 'application/json');
-  private PLOT_URL = "http://localhost:8088/plot/";
+	private constants = new ConstantsModel();
+    private PLOT_URL = this.constants.BACK_END_URL+"plot/";
 	private token: String = localStorage.getItem('currentUser');
 
 	constructor(private http?: HttpClient) { }

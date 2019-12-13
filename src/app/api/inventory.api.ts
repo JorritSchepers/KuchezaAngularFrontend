@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders} from '@angular/common/http';
 import { InventoryModel } from '../model/inventory.model';
+import { ConstantsModel } from './constants.model';
 
 @Injectable()
 export class InventoryApi {
 	private headers: HttpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
-	private INVENTORY_URL: string = 'http://localhost:8088/inventory';
+	private constants = new ConstantsModel();
+	private INVENTORY_URL: string = this.constants.BACK_END_URL+'inventory';
 	private token: String = localStorage.getItem('currentUser');
 
 	constructor(private http?: HttpClient) { }

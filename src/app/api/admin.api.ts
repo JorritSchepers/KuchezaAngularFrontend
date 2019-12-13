@@ -2,11 +2,13 @@ import { HttpHeaders } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AllUsersModel } from '../model/all-users.model';
+import { ConstantsModel } from './constants.model';
 
 @Injectable()
 export class AdminApi {
     private headers = new HttpHeaders().set('Content-Type', 'application/json');
-	private ADMIN_URL = 'http://localhost:8088/admin';
+    private constants = new ConstantsModel();
+	private ADMIN_URL = this.constants.BACK_END_URL+'admin';
 	token: String = localStorage.getItem('currentUser');
 
 	constructor(private http?: HttpClient) { }
