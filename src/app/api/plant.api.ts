@@ -18,7 +18,7 @@ export class PlantApi {
   }
 
   async deletePlant(plantIDToDelete: number, plantIDToReplaceWith: number): Promise<PlantResponseModel> {
-    const data: PlantResponseModel = await this.http.delete<PlantResponseModel>(this.PLANT_URL + plantIDToDelete + "/" 
+    const data: PlantResponseModel = await this.http.delete<PlantResponseModel>(this.PLANT_URL + "/" + plantIDToDelete + "/" 
         + plantIDToReplaceWith +  "?token=" + this.token, {headers: this.headers}).toPromise();
     return data;
   }

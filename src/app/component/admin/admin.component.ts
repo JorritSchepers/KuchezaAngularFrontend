@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { PlantApi } from 'src/app/api/plant.api';
 import { PlantModel } from 'src/app/model/plant.model';
 import { PlantResponseModel } from 'src/app/model/plant-response.model';
+import { FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
   templateUrl: './admin.component.html',
@@ -20,8 +21,17 @@ export class AdminComponent {
   deletePlantPopUpIsActive: boolean = false;
   currentSelectedPage: string = "Plants";
   currentSelectedUser: UserModel = null;
+  currentSelectedPlant: PlantModel = null;
+  currentSelectedReplacementPlant: PlantModel = null;
+  replacementPlantForm: any;
 
-  constructor(private adminApi: AdminApi, private logoutApi: LogoutApi, private plantApi: PlantApi, private router: Router) {
+  constructor(private adminApi: AdminApi, private logoutApi: LogoutApi, private plantApi: PlantApi, private router: Router, private formBuilder: FormBuilder) {
+    this.replacementPlantForm = this.formBuilder.group({
+      // email: '',
+      // password: ''
+      currentSelectedPlant: ''
+    });
+
     this.getAllNonAdminUsers();
     this.getAllPlants();
   }
@@ -59,12 +69,12 @@ export class AdminComponent {
   deleteUser(userID: number): void {
     this.adminApi.deleteUser(userID).then(response => this.handleDeleteUserResponse(response))
     .catch(exception => this.handleException(exception));
-    this.closeDeletePopUp();
   }
 
   private handleDeleteUserResponse(response: AllUsersModel): void {
     this.users = Array<UserModel>();
     this.initUsers(response);
+    this.closeDeletePopUp();
   }
 
   private initUsers(users: AllUsersModel): void {
@@ -86,4 +96,29 @@ export class AdminComponent {
     localStorage.removeItem('currentUser');
     this.router.navigateByUrl('/login');
   }
+
+  showDeletePlantPopUp(plant: PlantModel): void {
+    this.currentSelectedPlant = plant;
+    this.deletePlantPopUpIsActive = true;
+  }
+
+  closeDeletePlantPopUp(): void {
+    this.currentSelectedPlant = null;
+    this.currentSelectedReplacementPlant = null;
+    this.deletePlantPopUpIsActive = false;
+  }
+
+  deletePlant(): void {
+    this.plantApi.deletePlant(this.currentSelectedPlant.ID, this.currentSelectedReplacementPlant.ID)
+      .then(response => this.handleDeletePlantResponse(response))
+      .catch(exception => this.handleException(exception));
+  }
+
+  handleDeletePlantResponse(response: PlantResponseModel): void {
+    this.plants = response.plants;
+    this.closeDeletePlantPopUp();
+  }
+
+  // Voor dropdown
+  // choosePlantReplacemnet(plant: PlantModel): void {}
 }
