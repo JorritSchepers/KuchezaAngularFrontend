@@ -197,12 +197,11 @@ export class FarmComponent {
             if(plot.plantID > 0 && plot.status != "Dead") {
               farm.plotApi.updateAge(plot.age+farm.GROWDELAY/1000,plot);
               plot.age += farm.GROWDELAY/1000;
-              plot.growTime = plot.age+farm.GROWDELAY/1000;
 
               if(plot.status == "Dehydrated") {
                 plot.setDehydrathedPlant();
-              } else if(plot.status == "Normal") {
-                plot.updatePlantState(plot.age+farm.GROWDELAY/1000);
+              } else {
+                plot.updatePlantState(farm.getGrowTime(plot.plantID));
               }
             }
           }
@@ -212,46 +211,60 @@ export class FarmComponent {
 
   private useWater(farm: FarmComponent): void {
     if(farm.timerActive()) {
-        for(let i=0;i<farm.HEIGHT;i++) {
-          for(let j=0;j<farm.WIDTH;j++) {
-            let plot = farm.plots[i][j];
-            if(plot.plantID > 0 && plot.status == "Normal") {
-              let waterUsage = farm.getWaterUsage(plot.plantID);
+      for(let i=0;i<farm.HEIGHT;i++) {
+        for(let j=0;j<farm.WIDTH;j++) {
+          let plot = farm.plots[i][j];
 
-              plot.waterAvailable -= waterUsage;
-              farm.plotApi.editWater(plot.ID,-Math.ceil(waterUsage));
-
-
-              if (plot.waterAvailable <= farm.getMaximumWater(plot.plantID)/farm.DEHYDRATED_FACTOR) {
-                farm.plotApi.editWater(plot.ID,-Math.ceil(waterUsage));
-                farm.plotApi.updateStatus(plot.ID,"Dehydrated");
-                plot.status = "Dehydrated";
-                plot.setDehydrathedPlant();
-                console.warn("DEHYDRATED");
-              } 
-            } else if(plot.plantID > 0 && plot.status == "Dehydrated") {
-              let waterUsage = farm.getWaterUsage(plot.plantID);
-              let maximumWater = farm.getMaximumWater(plot.plantID);
-
-              plot.waterAvailable -= waterUsage;
-              farm.plotApi.editWater(plot.ID,-Math.ceil(waterUsage));
-
-              if(plot.waterAvailable <= 0) {
-                plot.waterAvailable = 0;
-                farm.plotApi.editWater(plot.ID,-Math.ceil(waterUsage));
-                farm.plotApi.updateStatus(plot.ID,"Dead");
-                plot.status = "Dead";
-                plot.setDeadPlant();
-                console.warn("DEAD");
-              }
-
-              if(plot.waterAvailable > maximumWater/farm.DEHYDRATED_FACTOR) {
-                plot.status = "Normal";
-                console.warn("BACK TO LIFE");
-              }
+          if(plot.plantID > 0) {
+            let waterUsage = farm.getWaterUsage(plot.plantID);
+            if(plot.status == "Normal") {
+              farm.normalPlantAction(plot,waterUsage,farm);
+            } else if(plot.status == "Dehydrated") {
+              farm.dehydratedPlantAction(plot,waterUsage,farm);
             }
           }
         }
+      }
+    }
+  }
+
+  private dehydratePlant(plot: PlotModel, waterUsage: number, farm: FarmComponent): void {
+    farm.plotApi.editWater(plot.ID,-Math.ceil(waterUsage));
+    farm.plotApi.updateStatus(plot.ID,"Dehydrated");
+    plot.status = "Dehydrated";
+    plot.setDehydrathedPlant();
+  }
+
+  private dehydratedPlantAction(plot: PlotModel, waterUsage: number, farm: FarmComponent): void {
+    let maximumWater = farm.getMaximumWater(plot.plantID);
+
+    //REMOVE WATER
+    plot.waterAvailable -= waterUsage;
+    farm.plotApi.editWater(plot.ID,-Math.ceil(waterUsage));
+
+    //KILL IS WATER IS EMPTY
+    if(plot.waterAvailable <= 0) {
+      plot.waterAvailable = 0;
+      farm.plotApi.editWater(plot.ID,-Math.ceil(waterUsage));
+      farm.plotApi.updateStatus(plot.ID,"Dead");
+      plot.status = "Dead";
+      plot.setDeadPlant();
+    }
+
+    //RESTORE IF WATER IS HIGH ENOUGH
+    if(plot.waterAvailable > maximumWater/farm.DEHYDRATED_FACTOR) {
+      plot.status = "Normal";
+    }
+  }
+
+  private normalPlantAction(plot: PlotModel, waterUsage: number, farm: FarmComponent): void {
+    //REMOVE WATER
+    plot.waterAvailable -= waterUsage;
+    farm.plotApi.editWater(plot.ID,-Math.ceil(waterUsage));
+
+    //DEHYDRATE PLANT IF WATER IS TOO LOW
+    if (plot.waterAvailable <= farm.getMaximumWater(plot.plantID)/farm.DEHYDRATED_FACTOR) {
+      farm.dehydratePlant(plot,waterUsage,farm);
     }
   }
 
