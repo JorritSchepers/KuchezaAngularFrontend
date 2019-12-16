@@ -9,7 +9,7 @@ export class AdminApi {
     private headers = new HttpHeaders().set('Content-Type', 'application/json');
     private constants = new ConstantsModel();
 	private ADMIN_URL = this.constants.BACK_END_URL+'admin';
-	token: String = localStorage.getItem('currentUser');
+	token: String = sessionStorage.getItem('currentUser');
 
 	constructor(private http?: HttpClient) { }
 

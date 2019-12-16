@@ -13,6 +13,8 @@ import { LogoutApi } from 'src/app/api/logout.api';
 import { InventoryApi } from 'src/app/api/inventory.api';
 import { InventoryModel } from 'src/app/model/inventory.model';
 import { Subscription } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
+
 
 @Component({
   templateUrl: './farm.component.html',
@@ -38,7 +40,7 @@ export class FarmComponent {
   WATERDELAY: number = 10000;
   WATERPLANTAMOUNT: number = 20;
 
-  constructor(private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
+  constructor(private cookieService: CookieService,private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
     this.prepareFarm();
   }
 
@@ -172,7 +174,6 @@ export class FarmComponent {
   }
 
   private handleLogoutResponse(response: LogoutResponseModel): void {
-    localStorage.removeItem('currentUser');
     this.router.navigateByUrl('/login');
   }
 

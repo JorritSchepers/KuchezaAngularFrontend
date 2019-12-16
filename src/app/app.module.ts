@@ -16,6 +16,7 @@ import { LogoutApi } from './api/logout.api';
 import { InventoryApi } from './api/inventory.api';
 import { AdminComponent } from './component/admin/admin.component';
 import { AdminApi } from './api/admin.api';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { AdminApi } from './api/admin.api';
     ,PlantApi
     ,InventoryApi
     ,AdminApi
+    ,CookieService
   ],
   bootstrap: [
     AppComponent

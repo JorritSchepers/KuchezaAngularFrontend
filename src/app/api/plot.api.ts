@@ -5,15 +5,16 @@ import { PlantModel } from '../model/plant.model';
 import { PlotModel } from '../model/plot.model';
 import { AllPlotModel } from '../model/allplot.model';
 import { ConstantsModel } from './constants.model';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class PlotApi {
 	private headers = new HttpHeaders().set('Content-Type', 'application/json');
 	private constants = new ConstantsModel();
-    private PLOT_URL = this.constants.BACK_END_URL+"plot/";
-	private token: String = localStorage.getItem('currentUser');
+  private PLOT_URL = this.constants.BACK_END_URL+"plot/";
+	private token: String = this.cookieService.get('currentUser');
 
-	constructor(private http?: HttpClient) { }
+	constructor(private cookieService: CookieService,private http?: HttpClient) { }
 
 	async oogst(plot: number, plotModel: PlotModel): Promise<PlotModel> {
 		try {

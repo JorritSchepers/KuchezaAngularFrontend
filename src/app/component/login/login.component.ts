@@ -5,6 +5,7 @@ import { LoginApi } from 'src/app/api/login.api';
 import { LoginResponseModel } from 'src/app/model/login-response.model';
 import { Router } from '@angular/router';
 import {Title} from "@angular/platform-browser";
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   templateUrl: './login.component.html',
@@ -15,12 +16,13 @@ export class LoginComponent {
   password: String;
   loginForm: any;
 
-  constructor(private titleService:Title, private formBuilder: FormBuilder, private loginApi: LoginApi, private router: Router) {
+  constructor(private cookieService: CookieService,private titleService:Title, private formBuilder: FormBuilder, private loginApi: LoginApi, private router: Router) {
     this.loginForm = this.formBuilder.group({
       email: '',
       password: ''
     });
     this.titleService.setTitle("Kucheza");
+    cookieService.delete('currentUser');
   }
 
   loginUser(loginModel: LoginModel): void {
@@ -30,7 +32,8 @@ export class LoginComponent {
   }
 
   private handleLoginResponse(response: LoginResponseModel): void {
-    localStorage.setItem('currentUser', response.token);
+    // sessionStorage.setItem('currentUser', response.token);
+    this.cookieService.set('currentUser', response.token);
     console.warn(response.user.admin);
     if (response.user.admin) {
       this.router.navigateByUrl('/admin');
