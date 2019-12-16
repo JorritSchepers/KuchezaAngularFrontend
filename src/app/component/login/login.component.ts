@@ -32,7 +32,6 @@ export class LoginComponent {
   }
 
   private handleLoginResponse(response: LoginResponseModel): void {
-    // sessionStorage.setItem('currentUser', response.token);
     this.cookieService.set('currentUser', response.token);
     console.warn(response.user.admin);
     if (response.user.admin) {

@@ -186,7 +186,7 @@ export class FarmComponent {
   }
 
   timerActive(): boolean {
-    return (window.location.href.includes("farm") && localStorage.hasOwnProperty('currentUser') && this.WIDTH != null && this.HEIGHT != null)
+    return (window.location.href.includes("farm") && this.cookieService.get('currentUser') && this.WIDTH != null && this.HEIGHT != null)
   }
 
   private growPlants(farm: FarmComponent): void {
