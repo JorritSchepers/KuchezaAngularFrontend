@@ -191,21 +191,21 @@ export class FarmComponent {
 
   private growPlants(farm: FarmComponent): void {
     if(farm.timerActive()) {
-        for(let i=0;i<farm.HEIGHT;i++) {
-          for(let j=0;j<farm.WIDTH;j++) {
-            let plot = farm.plots[i][j];
-            if(plot.plantID > 0 && plot.status != "Dead") {
-              farm.plotApi.updateAge(plot.age+farm.GROWDELAY/1000,plot);
-              plot.age += farm.GROWDELAY/1000;
+      for(let i=0;i<farm.HEIGHT;i++) {
+        for(let j=0;j<farm.WIDTH;j++) {
+          let plot = farm.plots[i][j];
+          if(plot.plantID > 0 && plot.status != "Dead") {
+            farm.plotApi.updateAge(plot.age+farm.GROWDELAY/1000,plot);
+            plot.age += farm.GROWDELAY/1000;
 
-              if(plot.status == "Dehydrated") {
-                plot.setDehydrathedPlant();
-              } else {
-                plot.updatePlantState(farm.getGrowTime(plot.plantID));
-              }
+            if(plot.status == "Dehydrated") {
+              plot.setDehydrathedPlant();
+            } else {
+              plot.updatePlantState(farm.getGrowTime(plot.plantID));
             }
           }
         }
+      }
     }
   }
 
