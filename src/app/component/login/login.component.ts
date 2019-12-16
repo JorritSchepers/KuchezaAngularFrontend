@@ -16,7 +16,7 @@ export class LoginComponent {
   password: String;
   loginForm: any;
 
-  constructor(private cookieService: CookieService, private titleService:Title, private formBuilder: FormBuilder, private loginApi: LoginApi, private router: Router) {
+  constructor(private cookieService: CookieService,private titleService:Title, private formBuilder: FormBuilder, private loginApi: LoginApi, private router: Router) {
     this.loginForm = this.formBuilder.group({
       email: '',
       password: ''
@@ -32,6 +32,7 @@ export class LoginComponent {
 
   private handleLoginResponse(response: LoginResponseModel): void {
     this.cookieService.set('currentUser', response.token);
+    console.warn(response.user.admin);
     if (response.user.admin) {
       this.router.navigateByUrl('/admin');
       return;
