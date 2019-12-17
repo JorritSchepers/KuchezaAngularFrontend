@@ -101,9 +101,9 @@ h1{
 }
 
 .popUpTop{
-  margin-left: 20%;
   display: flex;
   flex-direction: row;
+  justify-content:space-between;
 }
 
 .popUpBtn{
@@ -134,9 +134,8 @@ h1{
   margin: 0;
   align-self: flex-end;
   margin-bottom: 4vh;
-  margin-left: 5vw;
   margin-top: -1vh;
-  margin-right: -3vw;
+  margin-right: -2vw;
 }
 
 .popUpTop h1 {

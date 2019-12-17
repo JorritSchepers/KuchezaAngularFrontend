@@ -26,13 +26,16 @@ export class FarmComponent {
   FARM_SIZE_X: number = 10;
   WIDTH: number;
   HEIGHT: number;
+  activePlantId: number;
   plants: PlantResponseModel;
   plots: PlotModel[][] = new Array<Array<PlotModel>>();
   plotId: number;
+  activeplot: PlotModel;
   price: number;
   inventory: InventoryModel;
   purchasePlot: boolean;
   wantToGiveWater: boolean;
+  harvestModal: boolean;
   mySubscription: Subscription;
   plantTypes: PlantModel[];
 
@@ -72,6 +75,7 @@ export class FarmComponent {
   private preparePlots(response: FarmModel): void {
     this.purchasePlot = false;
     this.wantToGiveWater = false;
+    this.plantModel = false;
     CurrentFarmModel.setWIDTH(response.WIDTH);
     CurrentFarmModel.setHEIGHT(response.HEIGHT);
     this.createGrid(CurrentFarmModel.WIDTH,CurrentFarmModel.HEIGHT);
@@ -118,10 +122,28 @@ export class FarmComponent {
         this.openPlantShop();
     } else if(this.wantToGiveWater){
           this.givePlantWater(plot);
-    } else {
-        this.harvestPlantFromPlot(plot,plot.plantID);
+    } else if(plot.grown == true) {
+        this.activePlantId = plot.plantID
+        this.activeplot = plot;
+        this.openHarvestModel();
     }
 }
+
+  private openHarvestModel(plotprice: number): void{
+    this.plants = new PlantResponseModel([]);
+    this.harvestModal = true;
+  }
+
+  private closeHarvestModal(): void{
+    this.harvestModal = false;
+  }
+
+  private harvestPlantFromPlot(plot: PlotModel,plantID: number): void{
+    this.harvestModal = false;
+    let plant = new PlantModel(1,"0",1,plantID,50,100,1000);
+    this.plotApi.oogst(plot.ID, plot).then(plot => this.handlePlotResponse(plot))
+      .catch(any => this.handlePlotResponse(any));
+  }
 
   private givePlantWater(plot: PlotModel){
     this.plotApi.editWater(plot.ID, this.WATERPLANTAMOUNT).then(plot => this.handlePlotResponse(plot))
@@ -135,12 +157,6 @@ export class FarmComponent {
   private openPlantShop(){
     this.plantApi.getAllPlants().then(plants => this.handlePlantsResponse(plants))
       .catch(any => this.handleException(any));
-  }
-
-  private harvestPlantFromPlot(plot: PlotModel,plantID: number): void{
-    let plant = new PlantModel(1,"0",1,plantID,50,100,1000);
-    this.plotApi.oogst(plot.ID, plot).then(plot => this.handlePlotResponse(plot))
-      .catch(any => this.handlePlotResponse(any));
   }
 
   private openPlotShop(plotprice: number): void{

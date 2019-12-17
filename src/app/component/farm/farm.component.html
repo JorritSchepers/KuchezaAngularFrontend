@@ -3,6 +3,8 @@
   <p>Water: {{inventory.water}} L</p>
   <button type="button" (click)="logout()" name="button">logout</button>
 </header>
+
+<!-- Purchase plot model -->
 <div class="PopupBG" *ngIf="purchasePlot">
   <div class="popUp">
     <div class="popUpTop">
@@ -16,6 +18,21 @@
     </div>
   </div>
 </div>
+
+<!-- HarvestplantModel -->
+<div class="PopupBG" *ngIf="harvestModal">
+  <div class="popUp">
+    <div class="popUpTop">
+      <h1>Harvest?</h1>
+      <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="closeHarvestModal()">
+    </div>
+    <div class="popUpBtn">
+      <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="closeHarvestModal()">
+      <img src="../../../assets/ui/popup/confirm.png" alt="Confirm" (click)="harvestPlantFromPlot(activeplot, activePlantId)">
+    </div>
+  </div>
+</div>
+
 <div class="row">
   <div class="column">
     <div class="plants-overview" *ngIf="plants">
