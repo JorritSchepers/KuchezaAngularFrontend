@@ -16,7 +16,7 @@ export class PlotApi {
 
 	constructor(private cookieService: CookieService,private http?: HttpClient) { }
 
-	async oogst(plot: number, plotModel: PlotModel): Promise<PlotModel> {
+	async harvest(plot: number, plotModel: PlotModel): Promise<PlotModel> {
 		try {
 			const data: PlotModel = await this.http.post<PlotModel>(this.PLOT_URL+ plot + "/harvest?token=" + this.token, JSON.stringify(plotModel),
 			{headers: this.headers}).toPromise();
