@@ -27,8 +27,6 @@ export class AdminComponent {
 
   constructor(private adminApi: AdminApi, private logoutApi: LogoutApi, private plantApi: PlantApi, private router: Router, private formBuilder: FormBuilder) {
     this.replacementPlantForm = this.formBuilder.group({
-      // email: '',
-      // password: ''
       currentSelectedPlant: ''
     });
 
@@ -65,7 +63,7 @@ export class AdminComponent {
     this.currentSelectedUser = null;
     this.deleteAccountPopUpIsActive = false;
   }
-  
+
   deleteUser(userID: number): void {
     this.adminApi.deleteUser(userID).then(response => this.handleDeleteUserResponse(response))
     .catch(exception => this.handleException(exception));

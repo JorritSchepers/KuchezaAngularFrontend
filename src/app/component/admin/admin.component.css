@@ -66,9 +66,13 @@ header {
   position: absolute;
 }
 
-.popUp h1{
+.popUp{
   color: whitesmoke;
-  font-size: 5vh;
+  font-size: 3vh;
+}
+
+.popUp h1{
+ font-size: 5vh;
 }
 
 .popUpTop img {
