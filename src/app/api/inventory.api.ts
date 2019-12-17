@@ -3,15 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { HttpHeaders} from '@angular/common/http';
 import { InventoryModel } from '../model/inventory.model';
 import { ConstantsModel } from './constants.model';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class InventoryApi {
 	private headers: HttpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 	private constants = new ConstantsModel();
 	private INVENTORY_URL: string = this.constants.BACK_END_URL+'inventory';
-	private token: String = localStorage.getItem('currentUser');
+	private token: String = this.cookieService.get('currentUser');
 
-	constructor(private http?: HttpClient) { }
+	constructor(private cookieService: CookieService,private http?: HttpClient) { }
 
 	async getInventory(): Promise<InventoryModel> {
 		const data: InventoryModel = await this.http.get<InventoryModel>(this.INVENTORY_URL + "?token=" + this.token,

@@ -13,6 +13,8 @@ import { LogoutApi } from 'src/app/api/logout.api';
 import { InventoryApi } from 'src/app/api/inventory.api';
 import { InventoryModel } from 'src/app/model/inventory.model';
 import { Subscription } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
+
 
 @Component({
   templateUrl: './farm.component.html',
@@ -39,7 +41,7 @@ export class FarmComponent {
   WATERPLANTAMOUNT: number = 20;
   DEHYDRATED_FACTOR: number = 4;
 
-  constructor(private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
+  constructor(private cookieService: CookieService,private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
     this.prepareFarm();
   }
 
@@ -173,7 +175,6 @@ export class FarmComponent {
   }
 
   private handleLogoutResponse(response: LogoutResponseModel): void {
-    localStorage.removeItem('currentUser');
     this.router.navigateByUrl('/login');
   }
 
@@ -186,7 +187,7 @@ export class FarmComponent {
   }
 
   timerActive(): boolean {
-    return (window.location.href.includes("farm") && localStorage.hasOwnProperty('currentUser') && this.WIDTH != null && this.HEIGHT != null)
+    return (window.location.href.includes("farm") && this.cookieService.get('currentUser') && this.WIDTH != null && this.HEIGHT != null)
   }
 
   private growPlants(farm: FarmComponent): void {
