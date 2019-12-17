@@ -183,7 +183,7 @@ export class FarmComponent {
   }
 
   private handleException(exception: any): void {
-    console.warn("Exception:", exception);
+    console.warn(exception.error);
   }
 
   timerActive(): boolean {

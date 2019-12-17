@@ -22,7 +22,7 @@ export class PlotApi {
 			{headers: this.headers}).toPromise();
 			return data;
 		} catch (err) {
-			 console.warn("Something went wrong with the back-end: ", err);
+			 console.warn(err.error);
 		}
 	}
 
@@ -32,7 +32,7 @@ export class PlotApi {
       {headers: this.headers}).toPromise();
       return data;
     } catch (err) {
-	     console.warn("Something went wrong with the back-end: ", err);
+	     console.warn(err.error);
     }
   }
 
@@ -51,7 +51,7 @@ export class PlotApi {
 			{headers: this.headers}).toPromise();
 			return data;
 		} catch (err) {
-			 console.warn("Something went wrong with the back-end: ", err);
+			 console.warn(err.error);
 		}
 	}
 
@@ -61,7 +61,7 @@ export class PlotApi {
 		{headers: this.headers}).toPromise();
 		return data;
 		} catch (err) {
-		 console.warn("Something went wrong with the back-end: ", err);
+			console.warn(err.error);
 		}
 	}
 
@@ -71,7 +71,7 @@ export class PlotApi {
 			{headers: this.headers}).toPromise();
 			return data;
 			} catch (err) {
-			 console.warn("Something went wrong with the back-end: ", err);
+				console.warn(err.error);
 			}
 		}
 }
