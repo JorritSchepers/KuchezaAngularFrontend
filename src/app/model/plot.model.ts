@@ -13,7 +13,8 @@ export class PlotModel {
     growTime: number = 1000;
     waterAvailable: number;
     status: String;
-    
+    grown: boolean;
+
 
     constructor(ID: number, x: number, y: number, price: number,
             animalID: number, waterManagerID: number, plantID: number, purchased: boolean, age:number, waterAvailable: number, status: String) {
@@ -27,7 +28,7 @@ export class PlotModel {
         this.purchased = purchased;
         this.age = age;
         this.waterAvailable = waterAvailable;
-        this.status = status;
+        this.grown = false;
     }
 
     initImage() {
@@ -53,7 +54,8 @@ export class PlotModel {
     updatePlantState(growTime:number): void {
         this.growTime = growTime;
         let stage:number = Math.floor((this.age*this.stages)/growTime);
-        if(stage > this.stages) {
+        if(stage >= this.stages) {
+            this.grown = true;
             stage = this.stages;
         }
         this.image = "../../../assets/plant/" + this.plantID +"/normal/"+stage+".png";
