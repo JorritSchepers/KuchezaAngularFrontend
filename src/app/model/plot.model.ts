@@ -29,6 +29,7 @@ export class PlotModel {
         this.age = age;
         this.waterAvailable = waterAvailable;
         this.grown = false;
+        this.status = status;
     }
 
     initImage() {

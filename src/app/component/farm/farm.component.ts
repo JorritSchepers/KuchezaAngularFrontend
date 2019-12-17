@@ -231,9 +231,11 @@ export class FarmComponent {
       for(let i=0;i<farm.HEIGHT;i++) {
         for(let j=0;j<farm.WIDTH;j++) {
           let plot = farm.plots[i][j];
-
           if(plot.plantID > 0) {
+            console.warn(plot.plantID);
             let waterUsage = farm.getWaterUsage(plot.plantID);
+            console.warn("WATERUSAGE ",waterUsage);
+            console.warn(plot.status);
             if(plot.status == "Normal") {
               farm.normalPlantAction(plot,waterUsage,farm);
             } else if(plot.status == "Dehydrated") {
