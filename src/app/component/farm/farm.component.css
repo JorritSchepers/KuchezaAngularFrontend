@@ -88,12 +88,28 @@ h1{
 }
 
 .popUp{
-  width: 40vh;
-  height: 25vh;
   position: absolute;
   z-index: 9 !important;
-  background-color: whitesmoke;
+  background-color: rgb(104,160,202);
+  border: 5px solid whitesmoke;
+  border-radius: 20px;
   text-align: center;
+  padding-right: 3vw;
+  padding-left: 3vw;
+  padding-top: 1vh;
+  padding-bottom: 2vh;
+}
+
+.popUpTop{
+  margin-left: 20%;
+  display: flex;
+  flex-direction: row;
+}
+
+.popUpBtn{
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content:center;
 }
 
 .PopupBG{
@@ -104,6 +120,43 @@ h1{
   align-items: center;
   background-color: rgb(100,100,100,0.5);
   position: absolute;
+}
+
+.popUp h1{
+  color: whitesmoke;
+  font-size: 5vh;
+}
+
+.popUpTop img {
+  height: 3vh;
+  width: auto;
+  padding: 0;
+  margin: 0;
+  align-self: flex-end;
+  margin-bottom: 4vh;
+  margin-left: 5vw;
+  margin-top: -1vh;
+  margin-right: -3vw;
+}
+
+.popUpTop h1 {
+  margin: 0;
+  padding: 0;
+  align-self: center;
+
+}
+
+.popUpBtn img {
+  height: 8vh;
+  width: auto;
+  margin-left: 1vw;
+  margin-right: 1vw;
+}
+
+.popUp h1{
+  margin-top: 1vh;
+  color: whitesmoke;
+  font-size: 5vh;
 }
 
 .waterAmount{

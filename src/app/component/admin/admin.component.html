@@ -1,3 +1,16 @@
+<!-- Delete user pop-up -->
+<div class="PopupBG" *ngIf="popUpIsActive">
+<div class="popUp">
+  <div class="popUpTop">
+    <h1>Delete {{currentSelectedUser.name}}?</h1>
+    <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="closeDeletePopUp()">
+  </div>
+  <div class="popUpBtn">
+    <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="closeDeletePopUp()">
+    <img src="../../../assets/ui/popup/confirm.png" alt="Confirm" (click)="deleteUser(currentSelectedUser.ID)">
+  </div>
+</div>
+</div>
 <header>
   <!-- <div class="headerItem">Home</div>
   <div class="verticalLine"></div> -->
@@ -12,13 +25,7 @@
 </header>
 
 <body>
-<div class="popUpBG" *ngIf="popUpIsActive">
-  <div class="deletePopUp">
-      <h2>Are you sure you want to delete <span class="popUpName">{{currentSelectedUser.name}}</span>?</h2>
-      <button type="submit" (click)="deleteUser(currentSelectedUser.ID)">Confirm</button>
-      <button type="submit" (click)="closeDeletePopUp()">Cancel</button>
-  </div>
-</div>
+
 <!-- <h1>Accounts</h1> -->
 <table class="container">
   <tr class="row" *ngFor="let user of users">

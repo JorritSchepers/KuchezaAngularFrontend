@@ -5,10 +5,15 @@
 </header>
 <div class="PopupBG" *ngIf="purchasePlot">
   <div class="popUp">
-    <h2>Do you want to buy this plot?</h2>
-    <p>The price is {{price * 0.01| currency : "R"}}</p>
-    <button type="submit" (click)="callPurchasePlot(plotId)" class="modalButton">Confirm</button>
-    <button type="submit" (click)="closePlotModal()" class="modalButton">Cancel</button>
+    <div class="popUpTop">
+      <h1>Buy plot</h1>
+      <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="closePlotModal()">
+    </div>
+    <h1>Price: {{price * 0.01| currency : "R"}}</h1>
+    <div class="popUpBtn">
+      <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="closePlotModal()">
+      <img src="../../../assets/ui/popup/confirm.png" alt="Confirm" (click)="callPurchasePlot(plotId)">
+    </div>
   </div>
 </div>
 <div class="row">
