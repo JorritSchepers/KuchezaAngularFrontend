@@ -15,8 +15,8 @@ export class LogoutApi {
 	constructor(private cookieService: CookieService,private http: HttpClient) { }
 
 	async logout(): Promise<LogoutResponseModel> {
-    const data: LogoutResponseModel = await this.http.post<LogoutResponseModel>(this.LOGOUT_URL + "?token=" + this.token,
-		{headers: this.headers}).toPromise();
-    return data;
-  }
+		const data: LogoutResponseModel = await this.http.post<LogoutResponseModel>(this.LOGOUT_URL + "?token=" + this.token,
+			{headers: this.headers}).toPromise();
+		return data;
+	}
 }

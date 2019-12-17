@@ -5,6 +5,10 @@ import { AllUsersModel } from 'src/app/model/all-users.model';
 import { LogoutApi } from 'src/app/api/logout.api';
 import { LogoutResponseModel } from 'src/app/model/logout-response.model';
 import { Router } from '@angular/router';
+import { PlantApi } from 'src/app/api/plant.api';
+import { PlantModel } from 'src/app/model/plant.model';
+import { PlantResponseModel } from 'src/app/model/plant-response.model';
+import { FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
   templateUrl: './admin.component.html',
@@ -12,11 +16,24 @@ import { Router } from '@angular/router';
 })
 export class AdminComponent {
   users: UserModel[] = Array<UserModel>();
-  popUpIsActive: boolean = false;
+  plants: PlantModel[] = Array<PlantModel>();
+  deleteAccountPopUpIsActive: boolean = false;
+  deletePlantPopUpIsActive: boolean = false;
+  currentSelectedPage: string = "Plants";
   currentSelectedUser: UserModel = null;
+  currentSelectedPlant: PlantModel = null;
+  currentSelectedReplacementPlant: PlantModel = null;
+  replacementPlantForm: any;
 
-  constructor(private adminApi: AdminApi, private logoutApi: LogoutApi, private router: Router) {
+  constructor(private adminApi: AdminApi, private logoutApi: LogoutApi, private plantApi: PlantApi, private router: Router, private formBuilder: FormBuilder) {
+    this.replacementPlantForm = this.formBuilder.group({
+      // email: '',
+      // password: ''
+      currentSelectedPlant: ''
+    });
+
     this.getAllNonAdminUsers();
+    this.getAllPlants();
   }
 
   private getAllNonAdminUsers(): void {
@@ -28,28 +45,39 @@ export class AdminComponent {
     this.initUsers(response);
   }
 
-  showDeletePopUp(user: UserModel) {
-    this.currentSelectedUser = user;
-    this.popUpIsActive = true;
+  private getAllPlants(): void {
+    this.plantApi.getAllPlants().then(response => this.handleGetAllPlantsResponse(response))
+    .catch(exception => this.handleException(exception));
   }
 
-  closeDeletePopUp() {
+  private handleGetAllPlantsResponse(response: PlantResponseModel) {
+    for (let plant of response.plants) {
+      this.plants.push(plant);
+    }
+  }
+
+  showDeletePopUp(user: UserModel): void {
+    this.currentSelectedUser = user;
+    this.deleteAccountPopUpIsActive = true;
+  }
+
+  closeDeletePopUp(): void {
     this.currentSelectedUser = null;
-    this.popUpIsActive = false;
+    this.deleteAccountPopUpIsActive = false;
   }
   
-  deleteUser(userID: number) {
+  deleteUser(userID: number): void {
     this.adminApi.deleteUser(userID).then(response => this.handleDeleteUserResponse(response))
     .catch(exception => this.handleException(exception));
+  }
+
+  private handleDeleteUserResponse(response: AllUsersModel): void {
+    this.users = Array<UserModel>();
+    this.initUsers(response);
     this.closeDeletePopUp();
   }
 
-  private handleDeleteUserResponse(response: AllUsersModel) {
-    this.users = Array<UserModel>();
-    this.initUsers(response);
-  }
-
-  private initUsers(users: AllUsersModel) {
+  private initUsers(users: AllUsersModel): void {
     for (let user of users.users) {
       this.users.push(user);
     }
@@ -68,4 +96,29 @@ export class AdminComponent {
     localStorage.removeItem('currentUser');
     this.router.navigateByUrl('/login');
   }
+
+  showDeletePlantPopUp(plant: PlantModel): void {
+    this.currentSelectedPlant = plant;
+    this.deletePlantPopUpIsActive = true;
+  }
+
+  closeDeletePlantPopUp(): void {
+    this.currentSelectedPlant = null;
+    this.currentSelectedReplacementPlant = null;
+    this.deletePlantPopUpIsActive = false;
+  }
+
+  deletePlant(): void {
+    this.plantApi.deletePlant(this.currentSelectedPlant.ID, this.currentSelectedReplacementPlant.ID)
+      .then(response => this.handleDeletePlantResponse(response))
+      .catch(exception => this.handleException(exception));
+  }
+
+  handleDeletePlantResponse(response: PlantResponseModel): void {
+    this.plants = response.plants;
+    this.closeDeletePlantPopUp();
+  }
+
+  // Voor dropdown
+  // choosePlantReplacemnet(plant: PlantModel): void {}
 }

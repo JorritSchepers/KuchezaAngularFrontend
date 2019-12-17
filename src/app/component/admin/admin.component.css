@@ -24,7 +24,7 @@ body {
 
 .deletePopUp{
   width: 40vh;
-  height: 25vh;
+  height: 30vh;
   position: absolute;
   z-index: 9 !important;
   background-color: whitesmoke;
@@ -73,8 +73,64 @@ header {
   margin-top: 5vh;
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 96%;
   align-items: center;
+}
+
+.plants-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.plant-box {
+  width: 26%;
+  height: 74vh;
+  background-color: #ADCE65;
+  margin: 4vh 6vh 6vh 6vh;
+  border-top: #7A9340 solid 3vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.plant-box > img {
+  margin-top: 4vh;
+  margin-bottom: 4vh;
+  width: 40%;
+  height: auto;
+}
+
+.plant-box-row {
+  height: 8vh;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.plant-box-row > img {
+  height: 100%;
+}
+
+.plant-box-row-label { 
+  width: 30%;
+  color: whitesmoke;
+  font-size: 2vh;
+}
+
+.plant-box-row-value { 
+  width: 60%;
+  color: black;
+  background-color: whitesmoke;
+  border: 1px solid black;
+  height: 5vh;
+  border: 3px solid lightgrey;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .row {
