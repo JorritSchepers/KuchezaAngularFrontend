@@ -141,7 +141,7 @@ export class FarmComponent {
   private harvestPlantFromPlot(plot: PlotModel,plantID: number): void{
     this.harvestModal = false;
     let plant = new PlantModel(1,"0",1,plantID,50,100,1000);
-    this.plotApi.oogst(plot.ID, plot).then(plot => this.handlePlotResponse(plot))
+    this.plotApi.harvest(plot.ID, plot).then(plot => this.handlePlotResponse(plot))
       .catch(any => this.handlePlotResponse(any));
   }
 
