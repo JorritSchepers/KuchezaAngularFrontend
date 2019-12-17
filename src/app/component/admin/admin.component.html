@@ -11,6 +11,7 @@
   </div>
 </div>
 </div>
+
 <header>
   <div class="headerItem" (click)="currentSelectedPage = 'Accounts'">
     <span *ngIf="currentSelectedPage != 'Accounts'">Accounts</span>
@@ -36,9 +37,7 @@
 </header>
 
 <body>
-
-<!-- <h1>Accounts</h1> -->
-<table class="container">
+<table class="container" *ngIf="currentSelectedPage == 'Accounts'">
   <tr class="row" *ngFor="let user of users">
     <td class="userID">{{user.ID}}</td>
     <td class="userName">
