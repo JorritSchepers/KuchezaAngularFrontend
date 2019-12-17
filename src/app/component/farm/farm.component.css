@@ -129,13 +129,23 @@ h1{
 
 .popUpTop img {
   height: 3vh;
-  width: auto;
+  width: 3vh;
   padding: 0;
   margin: 0;
   align-self: flex-end;
   margin-bottom: 4vh;
   margin-top: -1vh;
   margin-right: -2vw;
+}
+
+.popUpTextHelper {
+  height: 3vh;
+  width: 3vh;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 4vh;
+  margin-top: -1vh;
+  margin-left: -2vw;
 }
 
 .popUpTop h1 {
