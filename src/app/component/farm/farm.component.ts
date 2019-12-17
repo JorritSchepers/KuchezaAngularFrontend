@@ -75,7 +75,7 @@ export class FarmComponent {
   private preparePlots(response: FarmModel): void {
     this.purchasePlot = false;
     this.wantToGiveWater = false;
-    this.plantModel = false;
+    this.harvestModal = false;
     CurrentFarmModel.setWIDTH(response.WIDTH);
     CurrentFarmModel.setHEIGHT(response.HEIGHT);
     this.createGrid(CurrentFarmModel.WIDTH,CurrentFarmModel.HEIGHT);
@@ -129,7 +129,7 @@ export class FarmComponent {
     }
 }
 
-  private openHarvestModel(plotprice: number): void{
+  private openHarvestModel(): void{
     this.plants = new PlantResponseModel([]);
     this.harvestModal = true;
   }
