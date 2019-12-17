@@ -22,7 +22,7 @@ export class PlotApi {
 			{headers: this.headers}).toPromise();
 			return data;
 		} catch (err) {
-			 console.warn("Something went wrong with the back-end: ", err);
+			 console.warn(err.error);
 		}
 	}
 
@@ -32,7 +32,7 @@ export class PlotApi {
       {headers: this.headers}).toPromise();
       return data;
     } catch (err) {
-	     console.warn("Something went wrong with the back-end: ", err);
+	     console.warn(err.error);
     }
   }
 
@@ -51,7 +51,7 @@ export class PlotApi {
 			{headers: this.headers}).toPromise();
 			return data;
 		} catch (err) {
-			 console.warn("Something went wrong with the back-end: ", err);
+			 console.warn(err.error);
 		}
 	}
 
@@ -61,7 +61,17 @@ export class PlotApi {
 		{headers: this.headers}).toPromise();
 		return data;
 		} catch (err) {
-		 console.warn("Something went wrong with the back-end: ", err);
+			console.warn(err.error);
 		}
 	}
+
+	async updateStatus(plot: number, status: String): Promise<PlotModel>{
+		try {
+			const data: PlotModel = await this.http.post<PlotModel>(this.PLOT_URL+ plot + "/status/"+status+"?token=" + this.token,
+			{headers: this.headers}).toPromise();
+			return data;
+			} catch (err) {
+				console.warn(err.error);
+			}
+		}
 }

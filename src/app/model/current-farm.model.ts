@@ -10,7 +10,7 @@ export class CurrentFarmModel {
     static setPlots(plots: PlotModel[]) {
         for (let newPlot of plots) {
             this.plots.push(new PlotModel(newPlot.ID, newPlot.x, newPlot.y, newPlot.price
-                , newPlot.animalID, newPlot.waterManagerID, newPlot.plantID, newPlot.purchased, newPlot.age, newPlot.waterAvailable));
+                , newPlot.animalID, newPlot.waterManagerID, newPlot.plantID, newPlot.purchased, newPlot.age, newPlot.waterAvailable, newPlot.status));
         }
     }
 
