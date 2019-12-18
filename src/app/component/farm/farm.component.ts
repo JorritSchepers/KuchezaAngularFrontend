@@ -30,11 +30,15 @@ export class FarmComponent {
   WIDTH: number;
   HEIGHT: number;
   activePlantId: number;
+  activeAnimalId: number;
+
   plants: PlantResponseModel;
   animals: AnimalResponseModel;
+
   showPlantshop: Boolean;
   showAnimalshop: Boolean;
   showBuildingshop: Boolean;
+
   plots: PlotModel[][] = new Array<Array<PlotModel>>();
   plotId: number;
   activeplot: PlotModel;
@@ -93,8 +97,8 @@ export class FarmComponent {
 
     this.initPlots();
     this.getInventory();
-    this.getAllPlants();
     this.getAllAnimals();
+    this.getAllPlants();
 
     setInterval(this.growPlants,this.GROWDELAY,this);
     setInterval(this.useWater,this.WATERDELAY,this);
