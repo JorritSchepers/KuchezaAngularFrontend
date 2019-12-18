@@ -39,11 +39,11 @@
 <div class ="Shops">
 <!-- Shop for buildings -->
 <div class="Shop">
-  <img class="shopicon" src="../../../assets/ui/store/building/buildingIcon.png" alt="{{plant.name}}" (click)="openOrCloseBuildingShop()">
+  <img class="shopicon" src="../../../assets/ui/store/building/buildingIcon.png"(click)="openOrCloseBuildingShop()">
   <div class="shopfoldout" *ngIf="showBuildingshop">
     <div class="plant" *ngFor="let plant of plants.plants">
       <div (click)="placePlantOnPlot(plotId, plant)" class="item-container">
-        <img src="../../../assets/ui/store/plant/{{plant.ID}}.png" alt="{{plant.name}}">
+        <img src="../../../assets/ui/store/plant/{{plant.ID}}.png">
         <h1> {{plant.purchasePrice*0.01 | currency : "R"}} </h1>
       </div>
     </div>
@@ -51,11 +51,11 @@
 </div>
 <!-- Shop for animals -->
 <div class="Shop">
-  <img class="shopicon" src="../../../assets/ui/store/animal/animalIcon.png" alt="{{plant.name}}" (click)="openOrCloseAnimalShop()">
+  <img class="shopicon" src="../../../assets/ui/store/animal/animalIcon.png" (click)="openOrCloseAnimalShop()">
   <div class="shopfoldout" *ngIf="showAnimalshop">
     <div class="plant" *ngFor="let animal of animals.animals">
       <div class="item-container">
-        <img src="../../../assets/ui/store/animal/{{animal.ID}}.png" alt="{{animal.name}}">
+        <img src="../../../assets/ui/store/animal/{{animal.ID}}.png" (click)="setpurchaseAnimal(animal)">
         <h1> {{animal.purchasePrice*0.01 | currency : "R"}} </h1>
       </div>
     </div>
@@ -63,11 +63,11 @@
 </div>
 <!-- Shop for plants -->
 <div class="Shop">
-  <img class="shopicon" src="../../../assets/ui/store/plant/plantIcon.png" alt="{{plant.name}}" (click)="openOrClosePlantShop()">
+  <img class="shopicon" src="../../../assets/ui/store/plant/plantIcon.png"(click)="openOrClosePlantShop()">
   <div class="shopfoldout" *ngIf="showPlantshop">
     <div class="plant" *ngFor="let plant of plants.plants">
       <div (click)="placePlantOnPlot(plotId, plant)" class="item-container">
-        <img src="../../../assets/ui/store/plant/{{plant.ID}}.png" alt="{{plant.name}}">
+        <img src="../../../assets/ui/store/plant/{{plant.ID}}.png" (click)="setpurchasePlant(plant)">
         <h1> {{plant.purchasePrice*0.01 | currency : "R"}} </h1>
       </div>
     </div>

@@ -39,6 +39,10 @@ export class FarmComponent {
   showAnimalshop: Boolean;
   showBuildingshop: Boolean;
 
+  purchasePlant: PlantModel;
+  purchaseAnimal: AnimalModel;
+  wantToPurchase: Boolean;
+
   plots: PlotModel[][] = new Array<Array<PlotModel>>();
   plotId: number;
   activeplot: PlotModel;
@@ -59,6 +63,11 @@ export class FarmComponent {
     this.prepareFarm();
   }
 
+  private resetPurchaseId():void {
+    this.purchasePlant = null;
+    this.purchaseAnimal = null;
+    this.wantToPurchase = false;
+  }
   private handleInventoryResponse(response: InventoryModel): void{
     this.inventory = response;
   }
@@ -71,6 +80,37 @@ export class FarmComponent {
   private prepareFarm(): void {
     this.farmApi.getFarm().then(response => this.preparePlots(response))
       .catch(any => this.handleException(any));
+  }
+
+  // To purchase
+  private setpurchasePlant(plant: PlantModel): void{
+    this.purchaseAnimal = null;
+    this.wantToPurchase = true;
+    this.purchasePlant = plant;
+    this.showPlantshop = false;
+  }
+
+  private handlePurchase(): void{
+    if(this.purchasePlant){
+      this.plotApi.placePlantOnPlot(this.plotId,this.purchasePlant).then(plant => this.handlePlotResponse(plant))
+        .catch(any => this.handleException(any));
+    }
+    else if(this.purchaseAnimal){
+      this.plotApi.placeAnimalOnPlot(this.plotId, this.purchaseAnimal).then(animal => this.handlePlotResponse(animal))
+        .catch(any => this.handleException(any));
+    }
+  }
+
+  placePlantOnPlot(plotId: number, plant: PlantModel): void {
+    this.plotApi.placePlantOnPlot(plotId, plant).then(plant => this.handlePlotResponse(plant))
+      .catch(any => this.handleException(any));
+  }
+
+  private setpurchaseAnimal(animal: AnimalModel): void{
+    this.purchaseAnimal = animal;
+    this.purchasePlant = null;
+    this.wantToPurchase = true;
+    this.showAnimalshop = false;
   }
 
   private handleFarmResponse(response: FarmModel): void {
@@ -86,6 +126,7 @@ export class FarmComponent {
     this.harvestModal = false;
     this.showPlantshop = false;
     this.showAnimalshop = false;
+    this.wantToPurchase = false;
 
     CurrentFarmModel.setWIDTH(response.WIDTH);
     CurrentFarmModel.setHEIGHT(response.HEIGHT);
@@ -98,10 +139,11 @@ export class FarmComponent {
     this.initPlots();
     this.getInventory();
     this.getAllAnimals();
-    this.getAllPlants();
 
     setInterval(this.growPlants,this.GROWDELAY,this);
     setInterval(this.useWater,this.WATERDELAY,this);
+
+    this.getAllPlants();
   }
 
   private initPlots(): void {
@@ -145,10 +187,10 @@ export class FarmComponent {
       this.openPlotShop(plot.price);
     } else if (plot.waterManagerID !=0){
         this.gatherWater();
-    } else if(plot.plantID == 0){
-
+    } else if(this.wantToPurchase){
+        this.handlePurchase();
     } else if(this.wantToGiveWater){
-          this.givePlantWater(plot);
+        this.givePlantWater(plot);
     } else if(plot.grown == true) {
         this.activePlantId = plot.plantID
         this.activeplot = plot;
@@ -185,28 +227,22 @@ export class FarmComponent {
   }
 
   private openPlotShop(plotprice: number): void{
-    this.plants = new PlantResponseModel([]);
     this.price = plotprice;
     this.purchasePlot = true;
   }
 
   private handlePlantsResponse(plants: PlantResponseModel): void {
     this.plants = plants;
-  }
-
-  placePlantOnPlot(plotId: number, plant: PlantModel): void {
-    this.plotApi.placePlantOnPlot(plotId, plant).then(plant => this.handlePlotResponse(plant))
-      .catch(any => this.handleException(any));
+    this.getAllPlantTypes();
   }
 
   private handlePlotResponse(response: any): void {
-    this.plants = new PlantResponseModel([]);
     this.purchasePlot = false;
     this.wantToGiveWater = false;
-    this.closeShop();
     this.getFarm();
     this.initPlots();
     this.getInventory();
+    this.resetPurchaseId();
   }
 
   logout(): void {
@@ -216,10 +252,6 @@ export class FarmComponent {
 
   private handleLogoutResponse(response: LogoutResponseModel): void {
     this.router.navigateByUrl('/login');
-  }
-
-  private closeShop(): void {
-    this.plants = new PlantResponseModel([]);
   }
 
   private handleException(exception: any): void {
@@ -238,7 +270,6 @@ export class FarmComponent {
           if(plot.plantID > 0 && plot.status != "Dead") {
             farm.plotApi.updateAge(plot.age+farm.GROWDELAY/1000,plot);
             plot.age += farm.GROWDELAY/1000;
-
             if(plot.status == "Dehydrated") {
               plot.setDehydrathedPlant();
             } else {
@@ -256,10 +287,7 @@ export class FarmComponent {
         for(let j=0;j<farm.WIDTH;j++) {
           let plot = farm.plots[i][j];
           if(plot.plantID > 0) {
-            console.warn(plot.plantID);
             let waterUsage = farm.getWaterUsage(plot.plantID);
-            console.warn("WATERUSAGE ",waterUsage);
-            console.warn(plot.status);
             if(plot.status == "Normal") {
               farm.normalPlantAction(plot,waterUsage,farm);
             } else if(plot.status == "Dehydrated") {
@@ -311,17 +339,12 @@ export class FarmComponent {
     }
   }
 
-  private getAllPlantTypes(plants: PlantResponseModel): void {
-    this.plantTypes = plants.plants;
-  }
-
   callPurchasePlot(id: number): void{
     this.plotApi.purchasePlot(id).then(response => this.handlePlotResponse(response))
       .catch(exception => this.handleException(exception));
   }
 
   private openHarvestModel(): void{
-    this.plants = new PlantResponseModel([]);
     this.harvestModal = true;
   }
 
@@ -331,6 +354,10 @@ export class FarmComponent {
 
   closePlotModal(): void{
     this.purchasePlot = false;
+  }
+
+  private getAllPlantTypes(plants: PlantResponseModel): void {
+    this.plantTypes = this.plants.plants;
   }
 
   public getGrowTime(plantID:number): number {
@@ -358,7 +385,7 @@ export class FarmComponent {
         }
     }
     return 0;
-    }
+  }
 
   private getInventory(): void {
       this.inventoryApi.getInventory().then(response => this.handleInventoryResponse(response));
