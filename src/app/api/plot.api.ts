@@ -2,19 +2,19 @@ import { Injectable } from "@angular/core";
 import { HttpHeaders } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { PlantModel } from '../model/plant.model';
+import { AnimalModel } from '../model/animal.model';
 import { PlotModel } from '../model/plot.model';
 import { AllPlotModel } from '../model/allplot.model';
-import { ConstantsModel } from './constants.model';
-import { CookieService } from 'ngx-cookie-service';
+import { ConstantsModel } from '../model/constants.model';
 
 @Injectable()
 export class PlotApi {
 	private headers = new HttpHeaders().set('Content-Type', 'application/json');
 	private constants = new ConstantsModel();
   private PLOT_URL = this.constants.BACK_END_URL+"plot/";
-	private token: String = this.cookieService.get('currentUser');
+	private token: String = localStorage.getItem('currentUser');
 
-	constructor(private cookieService: CookieService,private http?: HttpClient) { }
+	constructor(private http?: HttpClient) { }
 
 	async harvest(plot: number, plotModel: PlotModel): Promise<PlotModel> {
 		try {
@@ -22,7 +22,7 @@ export class PlotApi {
 			{headers: this.headers}).toPromise();
 			return data;
 		} catch (err) {
-			 console.warn(err.error);
+			 console.warn("Something went wrong with the back-end: ", err);
 		}
 	}
 
@@ -32,7 +32,17 @@ export class PlotApi {
       {headers: this.headers}).toPromise();
       return data;
     } catch (err) {
-	     console.warn(err.error);
+	     console.warn("Something went wrong with the back-end: ", err);
+    }
+  }
+
+	async placeAnimalOnPlot(plot: number, animalModel: AnimalModel): Promise<AllPlotModel> {
+    try {
+      const data: AllPlotModel = await this.http.post<AllPlotModel>(this.PLOT_URL+ plot + "/animal?token=" + this.token, JSON.stringify(animalModel),
+      {headers: this.headers}).toPromise();
+      return data;
+    } catch (err) {
+	     console.warn("Something went wrong with the back-end: ", err);
     }
   }
 
@@ -51,7 +61,7 @@ export class PlotApi {
 			{headers: this.headers}).toPromise();
 			return data;
 		} catch (err) {
-			 console.warn(err.error);
+			 console.warn("Something went wrong with the back-end: ", err);
 		}
 	}
 
@@ -61,17 +71,17 @@ export class PlotApi {
 		{headers: this.headers}).toPromise();
 		return data;
 		} catch (err) {
-			console.warn(err.error);
+		 console.warn("Something went wrong with the back-end: ", err);
 		}
 	}
+}
 
-	async updateStatus(plot: number, status: String): Promise<PlotModel>{
-		try {
-			const data: PlotModel = await this.http.post<PlotModel>(this.PLOT_URL+ plot + "/status/"+status+"?token=" + this.token,
-			{headers: this.headers}).toPromise();
-			return data;
-			} catch (err) {
-				console.warn(err.error);
-			}
-		}
+async placeAnimalOnPlot(plot: number, animalModel: AnimalModel): Promise<AllPlotModel> {
+	try {
+		const data: AllPlotModel = await this.http.post<AllPlotModel>(this.PLOT_URL+ plot + "/animal?token=" + this.token, JSON.stringify(animalModel),
+		{headers: this.headers}).toPromise();
+		return data;
+	} catch (err) {
+		 console.warn("Something went wrong with the back-end: ", err);
+	}
 }
