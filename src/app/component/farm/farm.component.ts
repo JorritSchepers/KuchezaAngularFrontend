@@ -139,7 +139,7 @@ export class FarmComponent {
     } else if(plot.plantID == 0){
         this.openPlantShop();
     } else if(this.wantToGiveWater){
-          this.givePlantWater(plot);
+        this.givePlantWater(plot);
     } else if(plot.grown == true) {
         this.activePlantId = plot.plantID
         this.activeplot = plot;
@@ -249,10 +249,7 @@ export class FarmComponent {
         for(let j=0;j<farm.WIDTH;j++) {
           let plot = farm.plots[i][j];
           if(plot.plantID > 0) {
-            console.warn(plot.plantID);
             let waterUsage = farm.getWaterUsage(plot.plantID);
-            console.warn("WATERUSAGE ",waterUsage);
-            console.warn(plot.status);
             if(plot.status == "Normal") {
               farm.normalPlantAction(plot,waterUsage,farm);
             } else if(plot.status == "Dehydrated") {
