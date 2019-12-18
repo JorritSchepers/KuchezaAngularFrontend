@@ -12,7 +12,7 @@ import { AnimalModel } from '../model/animal.model';
 export class PlotApi {
 	private headers = new HttpHeaders().set('Content-Type', 'application/json');
 	private constants = new ConstantsModel();
-  private PLOT_URL = this.constants.BACK_END_URL+"plot/";
+    private PLOT_URL = this.constants.BACK_END_URL+"plot/";
 	private token: String = this.cookieService.get('currentUser');
 
 	constructor(private cookieService: CookieService,private http?: HttpClient) { }
@@ -78,11 +78,11 @@ export class PlotApi {
 
 	async placeAnimalOnPlot(plot: number, animalModel: AnimalModel): Promise<AllPlotModel> {
 		try {
-				const data: AllPlotModel = await this.http.post<AllPlotModel>(this.PLOT_URL+ plot + "/animal?token=" + this.token, JSON.stringify(animalModel),
-				{headers: this.headers}).toPromise();
-				return data;
-			} catch (err) {
-			 console.warn("Something went wrong with the back-end: ", err);
-			}
+			const data: AllPlotModel = await this.http.post<AllPlotModel>(this.PLOT_URL+ plot + "/animal?token=" + this.token, JSON.stringify(animalModel),
+			{headers: this.headers}).toPromise();
+			return data;
+		} catch (err) {
+			console.warn("Something went wrong with the back-end: ", err);
 		}
+	}
 }
