@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 import { PlantApi } from 'src/app/api/plant.api';
 import { PlantModel } from 'src/app/model/plant.model';
 import { PlantResponseModel } from 'src/app/model/plant-response.model';
-import { FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
   templateUrl: './admin.component.html',
@@ -19,19 +18,12 @@ export class AdminComponent {
   plants: PlantModel[] = Array<PlantModel>();
   deleteAccountPopUpIsActive: boolean = false;
   deletePlantPopUpIsActive: boolean = false;
-  currentSelectedPage: string = "Plants";
-  currentSelectedUser: UserModel = null;
-  currentSelectedPlant: PlantModel = null;
-  currentSelectedReplacementPlant: PlantModel = null;
-  replacementPlantForm: any;
+  currentSelectedPage: string = "Accounts";
+  currentSelectedUser: UserModel;
+  currentSelectedPlant: PlantModel;
+  currentSelectedReplacementPlant: PlantModel;
 
-  constructor(private adminApi: AdminApi, private logoutApi: LogoutApi, private plantApi: PlantApi, private router: Router, private formBuilder: FormBuilder) {
-    this.replacementPlantForm = this.formBuilder.group({
-      // email: '',
-      // password: ''
-      currentSelectedPlant: ''
-    });
-
+  constructor(private adminApi: AdminApi, private logoutApi: LogoutApi, private plantApi: PlantApi, private router: Router) {
     this.getAllNonAdminUsers();
     this.getAllPlants();
   }
@@ -65,7 +57,7 @@ export class AdminComponent {
     this.currentSelectedUser = null;
     this.deleteAccountPopUpIsActive = false;
   }
-  
+
   deleteUser(userID: number): void {
     this.adminApi.deleteUser(userID).then(response => this.handleDeleteUserResponse(response))
     .catch(exception => this.handleException(exception));
@@ -109,16 +101,13 @@ export class AdminComponent {
   }
 
   deletePlant(): void {
-    this.plantApi.deletePlant(this.currentSelectedPlant.ID, this.currentSelectedReplacementPlant.ID)
+    this.plantApi.deletePlant(this.currentSelectedPlant.id, this.currentSelectedReplacementPlant.id)
       .then(response => this.handleDeletePlantResponse(response))
       .catch(exception => this.handleException(exception));
   }
 
-  handleDeletePlantResponse(response: PlantResponseModel): void {
+  private handleDeletePlantResponse(response: PlantResponseModel): void {
     this.plants = response.plants;
     this.closeDeletePlantPopUp();
   }
-
-  // Voor dropdown
-  // choosePlantReplacemnet(plant: PlantModel): void {}
 }

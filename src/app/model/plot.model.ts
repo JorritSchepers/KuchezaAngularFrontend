@@ -1,5 +1,5 @@
 export class PlotModel {
-    public ID: number;
+    id: number;
     x: number;
     y: number;
     price: number;
@@ -15,9 +15,9 @@ export class PlotModel {
     status: String;
     grown: boolean;
 
-    constructor(ID: number, x: number, y: number, price: number,
+    constructor(id: number, x: number, y: number, price: number,
             animalID: number, waterManagerID: number, plantID: number, purchased: boolean, age:number, waterAvailable: number, status: String) {
-        this.ID = ID;
+        this.id = id;
         this.x = x;
         this.y = y;
         this.price = price;
@@ -33,7 +33,7 @@ export class PlotModel {
 
     initImage() {
         if (this.animalID != 0) {
-            this.image = "../../../assets/animal/" + this.animalID + ".jpg";
+            this.image = "../../../assets/animal/" + this.animalID + ".png";
         } else if (this.waterManagerID != 0) {
             this.image = "../../../assets/waterManager/" + this.waterManagerID + ".png";
         } else if (this.plantID != 0) {
@@ -47,7 +47,7 @@ export class PlotModel {
         } else if (this.purchased == true) {
             this.image = "../../../assets/EmptyPlot.jpg";
         } else {
-            this.image = "../../../assets/BuyablePlot.jpg";
+            this.image = "../../../assets/BuyablePlot.png";
         }
     }
 

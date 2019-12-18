@@ -1,29 +1,25 @@
-:root {
-  --water-width: 20vh;
-}
-
 @font-face {
-    font-family: "Roboto";
-    src: url("src\assets\fonts\Roboto-Regular.ttf");
+  font-family: "Roboto";
+  src: url("src\assets\fonts\Roboto-Regular.ttf");
 }
 
 html {
-  box-sizing: border-box;
+box-sizing: border-box;
 }
 
 
 *, *:before, *:after {
-  box-sizing: inherit;
+box-sizing: inherit;
 }
 
 img {
-  height: 100%;
-  width: 100%;
-  display: block;
+height: 100%;
+width: 100%;
+display: block;
 }
 
 figure {
-  margin: 0;
+margin: 0;
 }
 
 .horizontalContainer {
@@ -36,14 +32,14 @@ figure {
 }
 
 header p, header button {
-  margin-left: 2%;
-  margin-right: 2%;
+margin-left: 2%;
+margin-right: 2%;
 }
 
 h1{
-  font-family: Roboto;
-  color: black;
-  font-size: 18px;
+font-family: Roboto;
+color: black;
+font-size: 18px;
 }
 
 .farm-container {
@@ -70,126 +66,178 @@ h1{
   display: flex;
 }
 
+.column {
+  width: 10%;
+}
+
 .plant-container {
   background-color: #8634eb;
 }
 
 .plants-overview{
   padding-top: 9vh;
+  width: 85vw;
+  margin: auto;
+  display: fixed;
 }
 
 .plot:hover+.waterAmount, .waterAmount:hover{
-  display: block;
-  text-align: center;
-  margin-top: -4%;
-  margin-left: 2%;
+display: block;
+text-align: center;
+margin-top: -4%;
+margin-left: 2%;
 }
 
 .waterAmount:hover + .plot {
-  opacity: 80%;
+opacity: 80%;
 }
 
 .plot:hover {
-  opacity: 80%;
+opacity: 80%;
 }
 
 .plotBackground {
-  height: 100%;
-  width: 100%;
-  background-color: whitesmoke;
+height: 100%;
+width: 100%;
+background-color: whitesmoke;
 }
 
 .popUp{
-  position: absolute;
-  z-index: 9 !important;
-  background-color: rgb(104,160,202);
-  border: 5px solid whitesmoke;
-  border-radius: 20px;
-  text-align: center;
-  padding-right: 3vw;
-  padding-left: 3vw;
-  padding-top: 1vh;
-  padding-bottom: 2vh;
+position: absolute;
+z-index: 9 !important;
+background-color: rgb(104,160,202);
+border: 5px solid whitesmoke;
+border-radius: 20px;
+text-align: center;
+padding-right: 3vw;
+padding-left: 3vw;
+padding-top: 1vh;
+padding-bottom: 2vh;
 }
 
 .popUpTop{
-  display: flex;
-  flex-direction: row;
-  justify-content:space-between;
+display: flex;
+flex-direction: row;
+justify-content:space-between;
 }
 
 .popUpBtn{
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content:center;
+display: flex;
+flex-direction: row-reverse;
+justify-content:center;
 }
 
 .PopupBG{
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(100,100,100,0.5);
-  position: absolute;
+width: 100vw;
+height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+background-color: rgb(100,100,100,0.5);
+position: absolute;
 }
 
 .popUp h1{
-  color: whitesmoke;
-  font-size: 5vh;
+color: whitesmoke;
+font-size: 5vh;
 }
 
 .popUpTop img {
-  height: 3vh;
-  width: 3vh;
-  padding: 0;
-  margin: 0;
-  align-self: flex-end;
-  margin-bottom: 4vh;
-  margin-top: -1vh;
-  margin-right: -2vw;
+height: 3vh;
+width: 3vh;
+padding: 0;
+margin: 0;
+align-self: flex-end;
+margin-bottom: 4vh;
+margin-top: -1vh;
+margin-right: -2vw;
 }
 
 .popUpTextHelper {
-  height: 3vh;
-  width: 3vh;
-  padding: 0;
-  margin: 0;
-  margin-bottom: 4vh;
-  margin-top: -1vh;
-  margin-left: -2vw;
+height: 3vh;
+width: 3vh;
+padding: 0;
+margin: 0;
+margin-bottom: 4vh;
+margin-top: -1vh;
+margin-left: -2vw;
 }
 
 .popUpTop h1 {
-  margin: 0;
-  padding: 0;
-  align-self: center;
+margin: 0;
+padding: 0;
+align-self: center;
 
 }
 
 .popUpBtn img {
-  height: 8vh;
-  width: auto;
-  margin-left: 1vw;
-  margin-right: 1vw;
+height: 8vh;
+width: auto;
+margin-left: 1vw;
+margin-right: 1vw;
 }
 
 .popUp h1{
-  margin-top: 1vh;
-  color: whitesmoke;
-  font-size: 5vh;
+margin-top: 1vh;
+color: whitesmoke;
+font-size: 5vh;
 }
 
 .waterAmount{
-  position: absolute;
-  color: whitesmoke;
-  -webkit-text-fill-color: white; /* Will override color (regardless of order) */
-  -webkit-text-stroke-width: 1px;
-  font-size: 3vh;
-  font-family: Roboto;
-  font-weight: lighter;
-  -webkit-text-stroke-color: black;
-  display: none;
+position: absolute;
+color: whitesmoke;
+-webkit-text-fill-color: white; /* Will override color (regardless of order) */
+-webkit-text-stroke-width: 1px;
+font-size: 3vh;
+font-family: Roboto;
+font-weight: lighter;
+-webkit-text-stroke-color: black;
+display: none;
+}
+
+.shopicon{
+height: 15vh;
+width: auto;
+}
+
+.Shops{
+position: absolute;
+margin-top: 55vh;
+display: flex;
+flex-direction: column;
+}
+
+.Shop{
+display: flex;
+flex-direction: row;
+}
+
+.shopfoldout{
+display: flex;
+flex-direction: row;
+border-radius: 20px 20px;
+border: 3px solid whitesmoke;
+background-color: rgb(230,222,213);
+}
+
+.item-container img {
+height: 12vh;
+width: auto;
+}
+
+.item-container h1{
+color: grey;
+font-family: Roboto;
+font-weight: bold;
+font-size: 2vh;
+margin: 0;
+padding: 0;
+margin-left: 25%;
+}
+
+.item-container {
+height: 14vh;
+width: auto;
 }
 
 header {
