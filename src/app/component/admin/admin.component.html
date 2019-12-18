@@ -11,7 +11,7 @@
     </div>
   </div>
   </div>
-  
+
   <!-- Delete plant pop-up -->
   <div class="PopupBG" *ngIf="deletePlantPopUpIsActive">
   <div class="popUp">
@@ -37,7 +37,7 @@
     </div>
   </div>
   </div>
-  
+
   <header>
     <div class="headerItem" (click)="currentSelectedPage = 'Accounts'">
       <span *ngIf="currentSelectedPage != 'Accounts'">Accounts</span>
@@ -61,7 +61,7 @@
     <div class="headerItem"></div><div class="headerItem"></div>
     <div class="headerItem" (click)="logout()">Logout</div>
   </header>
-  
+
   <body>
     <!-- Gebruikers beheren -->
   <table class="container" *ngIf="currentSelectedPage == 'Accounts'">
@@ -76,7 +76,7 @@
       <td class="deleteButton"><img src="../../../assets/ui/admin/delete-button.png" (click)="showDeletePopUp(user)"/></td>
     </tr>
   </table>
-  
+
   <!-- Planten beheren -->
   <div class="container" *ngIf="currentSelectedPage == 'Plants'">
     <div class="plants-container">

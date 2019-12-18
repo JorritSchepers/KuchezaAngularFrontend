@@ -5,6 +5,7 @@ import { PlantModel } from '../model/plant.model';
 import { PlotModel } from '../model/plot.model';
 import { AllPlotModel } from '../model/allplot.model';
 import { ConstantsModel } from './constants.model';
+import { AnimalModel } from '../model/animal.model';
 import { CookieService } from 'ngx-cookie-service';
 import { AnimalModel } from '../model/animal.model';
 
@@ -36,6 +37,16 @@ export class PlotApi {
 	     console.warn(err.error);
     }
   }
+
+	async placeAnimalOnPlot(plot: number, animalModel: AnimalModel): Promise<AllPlotModel> {
+	try {
+			const data: AllPlotModel = await this.http.post<AllPlotModel>(this.PLOT_URL+ plot + "/animal?token=" + this.token, JSON.stringify(animalModel),
+			{headers: this.headers}).toPromise();
+			return data;
+		} catch (err) {
+		 console.warn("Something went wrong with the back-end: ", err);
+		}
+	}
 
   async updateAge(age: number, plotModel: PlotModel): Promise<PlotModel> {
     try {

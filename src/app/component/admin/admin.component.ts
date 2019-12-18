@@ -57,7 +57,7 @@ export class AdminComponent {
     this.currentSelectedUser = null;
     this.deleteAccountPopUpIsActive = false;
   }
-  
+
   deleteUser(userID: number): void {
     this.adminApi.deleteUser(userID).then(response => this.handleDeleteUserResponse(response))
     .catch(exception => this.handleException(exception));

@@ -16,6 +16,7 @@ import { LogoutApi } from './api/logout.api';
 import { InventoryApi } from './api/inventory.api';
 import { AdminComponent } from './component/admin/admin.component';
 import { AdminApi } from './api/admin.api';
+import { AnimalApi } from './api/animal.api';
 import { CookieService } from 'ngx-cookie-service';
 import { AnimalApi } from './api/animal.api';
 
@@ -43,6 +44,7 @@ import { AnimalApi } from './api/animal.api';
     ,PlantApi
     ,InventoryApi
     ,AdminApi
+    ,AnimalApi
     ,CookieService
     ,AnimalApi
   ],

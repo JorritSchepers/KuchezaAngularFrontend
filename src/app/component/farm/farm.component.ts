@@ -86,6 +86,22 @@ export class FarmComponent {
       .catch(any => this.handleException(any));
   }
 
+  private handlePurchase(): void{
+    if(this.purchasePlant){
+      this.plotApi.placePlantOnPlot(this.plotId,this.purchasePlant).then(plant => this.handlePlotResponse(plant))
+        .catch(any => this.handleException(any));
+    }
+    else if(this.purchaseAnimal){
+      this.plotApi.placeAnimalOnPlot(this.plotId, this.purchaseAnimal).then(animal => this.handlePlotResponse(animal))
+        .catch(any => this.handleException(any));
+    }
+  }
+
+  placePlantOnPlot(plotId: number, plant: PlantModel): void {
+    this.plotApi.placePlantOnPlot(plotId, plant).then(plant => this.handlePlotResponse(plant))
+      .catch(any => this.handleException(any));
+  }
+
   private handleFarmResponse(response: FarmModel): void {
     CurrentFarmModel.setFarmID(response.farmID);
 		CurrentFarmModel.setOwnerID(response.ownerID);
