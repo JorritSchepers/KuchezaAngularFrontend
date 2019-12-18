@@ -35,10 +35,10 @@ export class LoginComponent {
     this.cookieService.set('currentUser', response.token);
     console.warn(response.user.admin);
     if (response.user.admin) {
-      this.router.navigateByUrl('/admin');
+      window.location.pathname = '/admin'
       return;
     }
-    this.router.navigateByUrl('/farm');
+    window.location.pathname = '/farm'
   }
 
   private handleLoginException(exception: any): void {

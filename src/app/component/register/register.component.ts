@@ -42,7 +42,7 @@
 
     private handleRegisterResponse(response: RegisterResponseModel): void {
       localStorage.setItem('currentUser', response.token);
-      this.router.navigateByUrl('/farm');
+      window.location.pathname = '/farm'
     }
 
     private handleRegisterException(exception: any): void {
