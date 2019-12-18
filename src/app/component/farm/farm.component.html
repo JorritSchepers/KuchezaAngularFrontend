@@ -34,16 +34,49 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="column">
-    <div class="plants-overview" *ngIf="plants">
-      <div class="plant" *ngFor="let plant of plants.plants">
-        <div (click)="placePlantOnPlot(plotId, plant)" class="plant-container">
-          <img src="../../../assets/ui/plant/{{plant.ID}}.png" width="100%" height="100%" alt="">
-        </div>
+<!-- Shops -->
+
+<div class ="Shops">
+<!-- Shop for buildings -->
+<div class="Shop">
+  <img class="shopicon" src="../../../assets/ui/store/building/buildingIcon.png"(click)="toggleBuildingShop()">
+  <div class="shopfoldout" *ngIf="showBuildingshop">
+    <div class="plant" *ngFor="let plant of plants.plants">
+      <div (click)="placePlantOnPlot(plotId, plant)" class="item-container">
+        <img src="../../../assets/ui/store/plant/{{plant.ID}}.png">
+        <h1> {{plant.purchasePrice*0.01 | currency : "R"}} </h1>
       </div>
     </div>
   </div>
+</div>
+<!-- Shop for animals -->
+<div class="Shop">
+  <img class="shopicon" src="../../../assets/ui/store/animal/animalIcon.png" (click)="toggleAnimalShop()">
+  <div class="shopfoldout" *ngIf="showAnimalshop">
+    <div class="plant" *ngFor="let animal of animals.animals">
+      <div class="item-container">
+        <img src="../../../assets/ui/store/animal/{{animal.ID}}.png" (click)="setpurchaseAnimal(animal)">
+        <h1> {{animal.purchasePrice*0.01 | currency : "R"}} </h1>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Shop for plants -->
+<div class="Shop">
+  <img class="shopicon" src="../../../assets/ui/store/plant/plantIcon.png"(click)="togglePlantShop()">
+  <div class="shopfoldout" *ngIf="showPlantshop">
+    <div class="plant" *ngFor="let plant of plants.plants">
+      <div (click)="placePlantOnPlot(plotId, plant)" class="item-container">
+        <img src="../../../assets/ui/store/plant/{{plant.ID}}.png" (click)="setpurchasePlant(plant)">
+        <h1> {{plant.purchasePrice*0.01 | currency : "R"}} </h1>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Farm -->
+<div class="row">
   <div class="column">
     <div class="farm-container">
       <div class="row" *ngFor="let plotsX of plots">

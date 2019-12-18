@@ -58,14 +58,6 @@ h1{
     width: 10%;
 }
 
-.plant-container {
-  background-color: #8634eb;
-}
-
-.plants-overview{
-  padding-top: 9vh;
-}
-
 .plot:hover+.waterAmount, .waterAmount:hover{
   display: block;
   text-align: center;
@@ -178,4 +170,49 @@ h1{
   font-weight: lighter;
   -webkit-text-stroke-color: black;
   display: none;
+}
+
+.shopicon{
+  height: 15vh;
+  width: auto;
+}
+
+.Shops{
+  position: absolute;
+  margin-top: 55vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.Shop{
+  display: flex;
+  flex-direction: row;
+}
+
+.shopfoldout{
+  display: flex;
+  flex-direction: row;
+  border-radius: 20px 20px;
+  border: 3px solid whitesmoke;
+  background-color: rgb(230,222,213);
+}
+
+.item-container img {
+  height: 12vh;
+  width: auto;
+}
+
+.item-container h1{
+  color: grey;
+  font-family: Roboto;
+  font-weight: bold;
+  font-size: 2vh;
+  margin: 0;
+  padding: 0;
+  margin-left: 25%;
+}
+
+.item-container {
+  height: 14vh;
+  width: auto;
 }

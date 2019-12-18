@@ -34,7 +34,7 @@ export class PlotModel {
 
     initImage() {
         if (this.animalID != 0) {
-            this.image = "../../../assets/animal/" + this.animalID + ".jpg";
+            this.image = "../../../assets/animal/" + this.animalID + ".png";
         } else if (this.waterManagerID != 0) {
             this.image = "../../../assets/water-manager/" + this.waterManagerID + ".jpg";
         } else if (this.plantID != 0) {
