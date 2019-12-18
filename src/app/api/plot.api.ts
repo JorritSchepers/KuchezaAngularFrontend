@@ -6,6 +6,7 @@ import { PlotModel } from '../model/plot.model';
 import { AllPlotModel } from '../model/allplot.model';
 import { ConstantsModel } from './constants.model';
 import { CookieService } from 'ngx-cookie-service';
+import { AnimalModel } from '../model/animal.model';
 
 @Injectable()
 export class PlotApi {
@@ -56,10 +57,10 @@ export class PlotApi {
 	}
 
 	async editWater(plot: number, water: number): Promise<PlotModel>{
-	try {
-		const data: PlotModel = await this.http.post<PlotModel>(this.PLOT_URL+ plot + "/water/"+water+"?token=" + this.token,
-		{headers: this.headers}).toPromise();
-		return data;
+		try {
+			const data: PlotModel = await this.http.post<PlotModel>(this.PLOT_URL+ plot + "/water/"+water+"?token=" + this.token,
+			{headers: this.headers}).toPromise();
+			return data;
 		} catch (err) {
 			console.warn(err.error);
 		}
@@ -70,8 +71,18 @@ export class PlotApi {
 			const data: PlotModel = await this.http.post<PlotModel>(this.PLOT_URL+ plot + "/status/"+status+"?token=" + this.token,
 			{headers: this.headers}).toPromise();
 			return data;
+		} catch (err) {
+			console.warn(err.error);
+		}
+	}
+
+	async placeAnimalOnPlot(plot: number, animalModel: AnimalModel): Promise<AllPlotModel> {
+		try {
+				const data: AllPlotModel = await this.http.post<AllPlotModel>(this.PLOT_URL+ plot + "/animal?token=" + this.token, JSON.stringify(animalModel),
+				{headers: this.headers}).toPromise();
+				return data;
 			} catch (err) {
-				console.warn(err.error);
+			 console.warn("Something went wrong with the back-end: ", err);
 			}
 		}
 }
