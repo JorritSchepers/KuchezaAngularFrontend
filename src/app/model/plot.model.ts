@@ -35,7 +35,7 @@ export class PlotModel {
         if (this.animalID != 0) {
             this.image = "../../../assets/animal/" + this.animalID + ".jpg";
         } else if (this.waterManagerID != 0) {
-            this.image = "../../../assets/water-manager/" + this.waterManagerID + ".jpg";
+            this.image = "../../../assets/waterManager/" + this.waterManagerID + ".png";
         } else if (this.plantID != 0) {
             if(this.status == "Normal") {
                 this.updatePlantState(this.growTime);

@@ -1,7 +1,19 @@
 <header>
   <div class="horizontalContainer">
-    <p>Money: {{inventory.money*0.01 | currency : "R"}}</p>
-    <p>Water: {{inventory.water}} L</p>
+    <div class = "headerContainer">
+      <img src="../../../assets/ui/farmHeader/Interface_Currency.png" alt="Money">
+      <p>{{inventory.money*0.01}}</p>
+    </div>
+    <div class = "headerContainer">
+      <div class="linesContainer">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+      </div>
+      <img src="../../../assets/ui/farmHeader/Interface_Water.png" alt="Money">
+      <div class="waterLevel"></div>
+      <p></p>
+    </div>  
     <button id="logoutButton" type="button" (click)="logout()" name="button">LOGOUT</button>
   </div>
 </header>
