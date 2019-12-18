@@ -43,6 +43,7 @@ export class FarmComponent {
   WATERDELAY: number = 10000;
   WATERPLANTAMOUNT: number = 20;
   DEHYDRATED_FACTOR: number = 4;
+  MAXIMUM_WATER: number = 500;
 
   constructor(private cookieService: CookieService,private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
     this.prepareFarm();
@@ -54,6 +55,22 @@ export class FarmComponent {
 
   private handleInventoryResponse(response: InventoryModel): void{
     this.inventory = response;
+    this.updateWater();
+  }
+
+  private updateWater() {
+    let water = document.getElementsByClassName("waterLevel")[0];
+    let width = this.inventory.water/this.MAXIMUM_WATER;
+    if(width > 1) {
+      width = 1;
+    }
+    let cssString = "width: "+width*19.9+"vh;";
+    
+    if(width >= 0.92) {
+      cssString += "border-radius: 20vh;"
+    }
+
+    water.setAttribute("style", cssString);
   }
 
   private getFarm(): void {
