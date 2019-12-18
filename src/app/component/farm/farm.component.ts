@@ -61,6 +61,7 @@ export class FarmComponent {
 
   constructor(private animalApi: AnimalApi, private cookieService: CookieService,private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
     this.prepareFarm();
+    this.resetVariables();
   }
 
   private resetPurchaseId():void {
@@ -68,6 +69,7 @@ export class FarmComponent {
     this.purchaseAnimal = null;
     this.wantToPurchase = false;
   }
+
   private handleInventoryResponse(response: InventoryModel): void{
     this.inventory = response;
   }
@@ -80,14 +82,6 @@ export class FarmComponent {
   private prepareFarm(): void {
     this.farmApi.getFarm().then(response => this.preparePlots(response))
       .catch(any => this.handleException(any));
-  }
-
-  // To purchase
-  private setpurchasePlant(plant: PlantModel): void{
-    this.purchaseAnimal = null;
-    this.wantToPurchase = true;
-    this.purchasePlant = plant;
-    this.showPlantshop = false;
   }
 
   private handlePurchase(): void{
@@ -106,13 +100,6 @@ export class FarmComponent {
       .catch(any => this.handleException(any));
   }
 
-  private setpurchaseAnimal(animal: AnimalModel): void{
-    this.purchaseAnimal = animal;
-    this.purchasePlant = null;
-    this.wantToPurchase = true;
-    this.showAnimalshop = false;
-  }
-
   private handleFarmResponse(response: FarmModel): void {
     CurrentFarmModel.setFarmID(response.farmID);
 		CurrentFarmModel.setOwnerID(response.ownerID);
@@ -120,14 +107,21 @@ export class FarmComponent {
     this.initPlots();
   }
 
-  private preparePlots(response: FarmModel): void {
+  private resetVariables(){
     this.purchasePlot = false;
     this.wantToGiveWater = false;
     this.harvestModal = false;
     this.showPlantshop = false;
     this.showAnimalshop = false;
     this.wantToPurchase = false;
+  }
 
+  private setTimers(){
+    setInterval(this.growPlants,this.GROWDELAY,this);
+    setInterval(this.useWater,this.WATERDELAY,this);
+  }
+
+  private preparePlots(response: FarmModel): void {
     CurrentFarmModel.setWIDTH(response.WIDTH);
     CurrentFarmModel.setHEIGHT(response.HEIGHT);
     this.createGrid(CurrentFarmModel.WIDTH,CurrentFarmModel.HEIGHT);
@@ -140,9 +134,8 @@ export class FarmComponent {
     this.getInventory();
     this.getAllAnimals();
 
-    setInterval(this.growPlants,this.GROWDELAY,this);
-    setInterval(this.useWater,this.WATERDELAY,this);
-
+    this.setTimers();
+  
     this.getAllPlants();
   }
 
@@ -164,16 +157,6 @@ export class FarmComponent {
       }
       this.plots.push(row);
     }
-  }
-
-  private getAllPlants(){
-    this.plantApi.getAllPlants().then(plants => this.handlePlantsResponse(plants))
-      .catch(any => this.handleException(any));
-  }
-
-  private getAllAnimals(){
-    this.animalApi.getAllAnimals().then(animals => this.handleAnimalsResponse(animals))
-      .catch(any => this.handleException(any));
   }
 
   private handleAnimalsResponse(animals: AnimalResponseModel): void {
@@ -339,7 +322,7 @@ export class FarmComponent {
     }
   }
 
-  callPurchasePlot(id: number): void{
+  private callPurchasePlot(id: number): void{
     this.plotApi.purchasePlot(id).then(response => this.handlePlotResponse(response))
       .catch(exception => this.handleException(exception));
   }
@@ -352,7 +335,7 @@ export class FarmComponent {
     this.harvestModal = false;
   }
 
-  closePlotModal(): void{
+  private closePlotModal(): void{
     this.purchasePlot = false;
   }
 
@@ -389,6 +372,30 @@ export class FarmComponent {
 
   private getInventory(): void {
       this.inventoryApi.getInventory().then(response => this.handleInventoryResponse(response));
-    }
+  }
+
+  private getAllPlants(){
+    this.plantApi.getAllPlants().then(plants => this.handlePlantsResponse(plants))
+      .catch(any => this.handleException(any));
+  }
+
+  private getAllAnimals(){
+    this.animalApi.getAllAnimals().then(animals => this.handleAnimalsResponse(animals))
+      .catch(any => this.handleException(any));
+  }
+
+  private setpurchasePlant(plant: PlantModel): void{
+      this.purchaseAnimal = null;
+      this.wantToPurchase = true;
+      this.purchasePlant = plant;
+      this.showPlantshop = false;
+  }
+
+  private setpurchaseAnimal(animal: AnimalModel): void{
+      this.purchaseAnimal = animal;
+      this.purchasePlant = null;
+      this.wantToPurchase = true;
+      this.showAnimalshop = false;
+  }
 
 }
