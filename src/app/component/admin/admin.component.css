@@ -63,12 +63,16 @@ header {
   justify-content: center;
   align-items: center;
   background-color: rgb(100,100,100,0.5);
-  position: absolute;
+  position: fixed;
+}
+
+.popUp{
+  color: whitesmoke;
+  font-size: 3vh;
 }
 
 .popUp h1{
-  color: whitesmoke;
-  font-size: 5vh;
+ font-size: 5vh;
 }
 
 .popUpTop img {
