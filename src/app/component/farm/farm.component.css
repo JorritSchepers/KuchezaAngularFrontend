@@ -22,14 +22,13 @@ figure {
   margin: 0;
 }
 
-header {
+.horizontalContainer {
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
-  border: solid black 1px;
-  height: 9vh;
+  height: 100%;
   width: 100%;
-  position: fixed;
 }
 
 header p, header button {
@@ -44,18 +43,14 @@ h1{
 }
 
 .farm-container {
-  padding-top: 9vh;
-  width: 85vw;
+  width: 99.99vw;
+  height: 99.99vh;
   margin: auto;
   display: fixed;
 }
 
 .row {
   display: flex;
-}
-
-.column {
-    width: 10%;
 }
 
 .plant-container {
@@ -178,4 +173,24 @@ h1{
   font-weight: lighter;
   -webkit-text-stroke-color: black;
   display: none;
+}
+
+header {
+  width:100vw;
+  position: absolute;
+}
+
+#logoutButton {
+  width: 50%;
+  background-color: rgb(152,188,90) !important;
+  color: whitesmoke;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 30px !important;
+  width: 15vh !important;
+  height: 5vh !important;
+  margin: 0.4vh !important;
+  font-size: 3vh;
+  font-family: Roboto;
 }

@@ -1,7 +1,9 @@
 <header>
-  <p>Money: {{inventory.money*0.01 | currency : "R"}}</p>
-  <p>Water: {{inventory.water}} L</p>
-  <button type="button" (click)="logout()" name="button">logout</button>
+  <div class="horizontalContainer">
+    <p>Money: {{inventory.money*0.01 | currency : "R"}}</p>
+    <p>Water: {{inventory.water}} L</p>
+    <button id="logoutButton" type="button" (click)="logout()" name="button">LOGOUT</button>
+  </div>
 </header>
 
 <!-- Purchase plot model -->

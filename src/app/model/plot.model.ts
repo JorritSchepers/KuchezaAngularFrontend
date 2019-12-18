@@ -15,7 +15,6 @@ export class PlotModel {
     status: String;
     grown: boolean;
 
-
     constructor(ID: number, x: number, y: number, price: number,
             animalID: number, waterManagerID: number, plantID: number, purchased: boolean, age:number, waterAvailable: number, status: String) {
         this.ID = ID;
