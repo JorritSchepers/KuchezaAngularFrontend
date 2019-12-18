@@ -63,7 +63,7 @@ header {
   justify-content: center;
   align-items: center;
   background-color: rgb(100,100,100,0.5);
-  position: absolute;
+  position: fixed;
 }
 
 .popUp{
