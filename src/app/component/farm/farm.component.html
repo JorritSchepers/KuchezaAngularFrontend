@@ -53,10 +53,10 @@
 <div class="Shop">
   <img class="shopicon" src="../../../assets/ui/store/animal/animalIcon.png" alt="{{plant.name}}" (click)="openOrCloseAnimalShop()">
   <div class="shopfoldout" *ngIf="showAnimalshop">
-    <div class="plant" *ngFor="let plant of plants.plants">
-      <div (click)="placePlantOnPlot(plotId, plant)" class="item-container">
-        <img src="../../../assets/ui/store/plant/{{plant.ID}}.png" alt="{{plant.name}}">
-        <h1> {{plant.purchasePrice*0.01 | currency : "R"}} </h1>
+    <div class="plant" *ngFor="let animal of animals.animals">
+      <div class="item-container">
+        <img src="../../../assets/ui/store/animal/{{animal.ID}}.png" alt="{{animal.name}}">
+        <h1> {{animal.purchasePrice*0.01 | currency : "R"}} </h1>
       </div>
     </div>
   </div>

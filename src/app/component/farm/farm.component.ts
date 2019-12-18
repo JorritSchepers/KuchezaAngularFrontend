@@ -14,6 +14,9 @@ import { InventoryApi } from 'src/app/api/inventory.api';
 import { InventoryModel } from 'src/app/model/inventory.model';
 import { Subscription } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
+import { AnimalModel } from 'src/app/model/animal.model';
+import { AnimalResponseModel } from 'src/app/model/animal-response.model';
+import { AnimalApi } from 'src/app/api/animal.api';
 
 
 @Component({
@@ -28,6 +31,7 @@ export class FarmComponent {
   HEIGHT: number;
   activePlantId: number;
   plants: PlantResponseModel;
+  animals: AnimalResponseModel;
   showPlantshop: Boolean;
   showAnimalshop: Boolean;
   showBuildingshop: Boolean;
@@ -47,7 +51,7 @@ export class FarmComponent {
   WATERPLANTAMOUNT: number = 20;
   DEHYDRATED_FACTOR: number = 4;
 
-  constructor(private cookieService: CookieService,private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
+  constructor(private animalApi: AnimalApi, private cookieService: CookieService,private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
     this.prepareFarm();
   }
 
@@ -81,11 +85,12 @@ export class FarmComponent {
 
     CurrentFarmModel.setWIDTH(response.WIDTH);
     CurrentFarmModel.setHEIGHT(response.HEIGHT);
+    this.createGrid(CurrentFarmModel.WIDTH,CurrentFarmModel.HEIGHT);
+
     CurrentFarmModel.setFarmID(response.farmID);
     CurrentFarmModel.setOwnerID(response.ownerID);
     CurrentFarmModel.setPlots(response.plots);
 
-    this.createGrid(CurrentFarmModel.WIDTH,CurrentFarmModel.HEIGHT);
     this.initPlots();
     this.getInventory();
     this.getAllPlants();
@@ -118,6 +123,15 @@ export class FarmComponent {
   private getAllPlants(){
     this.plantApi.getAllPlants().then(plants => this.handlePlantsResponse(plants))
       .catch(any => this.handleException(any));
+  }
+
+  private getAllAnimals(){
+    this.animalApi.getAllAnimals().then(animals => this.handleAnimalsResponse(animals))
+      .catch(any => this.handleException(any));
+  }
+
+  private handleAnimalsResponse(animals: AnimalResponseModel): void {
+    this.animals = animals;
   }
 
   handlePlotClick(plot: PlotModel): void {
