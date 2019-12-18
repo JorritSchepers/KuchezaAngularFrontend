@@ -18,6 +18,7 @@ import { AdminComponent } from './component/admin/admin.component';
 import { AdminApi } from './api/admin.api';
 import { AnimalApi } from './api/animal.api';
 import { CookieService } from 'ngx-cookie-service';
+import { AnimalApi } from './api/animal.api';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { CookieService } from 'ngx-cookie-service';
     ,AdminApi
     ,AnimalApi
     ,CookieService
+    ,AnimalApi
   ],
   bootstrap: [
     AppComponent
