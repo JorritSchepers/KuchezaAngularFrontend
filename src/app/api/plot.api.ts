@@ -38,7 +38,7 @@ export class PlotApi {
 
   async updateAge(age: number, plotModel: PlotModel): Promise<PlotModel> {
     try {
-      const data: PlotModel = await this.http.post<PlotModel>(this.PLOT_URL+ plotModel.ID + "/updateAge/"+age+"?token=" + this.token, JSON.stringify(plotModel),
+      const data: PlotModel = await this.http.post<PlotModel>(this.PLOT_URL+ plotModel.id + "/updateAge/"+age+"?token=" + this.token, JSON.stringify(plotModel),
       {headers: this.headers}).toPromise();
       return data;
     } catch (err) {

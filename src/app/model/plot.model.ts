@@ -1,5 +1,5 @@
 export class PlotModel {
-    public ID: number;
+    id: number;
     x: number;
     y: number;
     price: number;
@@ -16,9 +16,9 @@ export class PlotModel {
     grown: boolean;
 
 
-    constructor(ID: number, x: number, y: number, price: number,
+    constructor(id: number, x: number, y: number, price: number,
             animalID: number, waterManagerID: number, plantID: number, purchased: boolean, age:number, waterAvailable: number, status: String) {
-        this.ID = ID;
+        this.id = id;
         this.x = x;
         this.y = y;
         this.price = price;
@@ -36,7 +36,7 @@ export class PlotModel {
         if (this.animalID != 0) {
             this.image = "../../../assets/animal/" + this.animalID + ".jpg";
         } else if (this.waterManagerID != 0) {
-            this.image = "../../../assets/water-manager/" + this.waterManagerID + ".jpg";
+            this.image = "../../../assets/ui/water-manager/" + this.waterManagerID + ".jpg";
         } else if (this.plantID != 0) {
             if(this.status == "Normal") {
                 this.updatePlantState(this.growTime);

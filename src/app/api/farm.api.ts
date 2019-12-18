@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { HttpHeaders } from '@angular/common/http';
 import { FarmModel } from '../model/farm.model';
 import { HttpClient } from '@angular/common/http';
-import { CurrentFarmModel } from '../model/current-farm.model';
 import { ConstantsModel } from './constants.model';
 import { CookieService } from 'ngx-cookie-service';
 

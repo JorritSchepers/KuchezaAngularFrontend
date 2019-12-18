@@ -11,7 +11,7 @@
       <h1>Buy plot</h1>
       <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="closePlotModal()">
     </div>
-    <h1>Price: {{price * 0.01| currency : "R"}}</h1>
+    <h1>Price: {{plotPrice * 0.01| currency : "R"}}</h1>
     <div class="popUpBtn">
       <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="closePlotModal()">
       <img src="../../../assets/ui/popup/confirm.png" alt="Confirm" (click)="callPurchasePlot(plotId)">
@@ -25,11 +25,11 @@
     <div class="popUpTop">
       <div class="popUpTextHelper"></div>
       <h1>Harvest?</h1>
-      <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="closeHarvestModal()">
+      <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="setHarvestModal(false)">
     </div>
     <div class="popUpBtn">
-      <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="closeHarvestModal()">
-      <img src="../../../assets/ui/popup/confirm.png" alt="Confirm" (click)="harvestPlantFromPlot(activeplot, activePlantId)">
+      <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="setHarvestModal(false)">
+      <img src="../../../assets/ui/popup/confirm.png" alt="Confirm" (click)="harvestPlantFromPlot()">
     </div>
   </div>
 </div>
@@ -39,7 +39,7 @@
     <div class="plants-overview" *ngIf="plants">
       <div class="plant" *ngFor="let plant of plants.plants">
         <div (click)="placePlantOnPlot(plotId, plant)" class="plant-container">
-          <img src="../../../assets/ui/plant/{{plant.ID}}.png" width="100%" height="100%" alt="">
+          <img src="../../../assets/ui/plant/{{plant.id}}.png" width="100%" height="100%" alt="">
         </div>
       </div>
     </div>
