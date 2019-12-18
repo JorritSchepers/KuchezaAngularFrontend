@@ -135,7 +135,7 @@ export class FarmComponent {
     this.getAllAnimals();
 
     this.setTimers();
-  
+
     this.getAllPlants();
   }
 
@@ -216,7 +216,7 @@ export class FarmComponent {
 
   private handlePlantsResponse(plants: PlantResponseModel): void {
     this.plants = plants;
-    this.getAllPlantTypes();
+    this.getAllPlantTypes(plants);
   }
 
   private handlePlotResponse(response: any): void {
