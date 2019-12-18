@@ -29,7 +29,7 @@
     </div>
     <div class="popUpBtn">
       <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="closeHarvestModal()">
-      <img src="../../../assets/ui/popup/confirm.png" alt="Confirm" (click)="harvestPlantFromPlot(activeplot, activePlantId)">
+      <img src="../../../assets/ui/popup/confirm.png" alt="Confirm" (click)="harvestPlantFromPlot()">
     </div>
   </div>
 </div>
@@ -43,7 +43,7 @@
   <div class="shopfoldout" *ngIf="showBuildingshop">
     <div class="plant" *ngFor="let plant of plants.plants">
       <div (click)="placePlantOnPlot(plotId, plant)" class="item-container">
-        <img src="../../../assets/ui/store/plant/{{plant.ID}}.png">
+        <img src="../../../assets/ui/store/plant/{{plant.id}}.png">
         <h1> {{plant.purchasePrice*0.01 | currency : "R"}} </h1>
       </div>
     </div>
@@ -55,7 +55,7 @@
   <div class="shopfoldout" *ngIf="showAnimalshop">
     <div class="plant" *ngFor="let animal of animals.animals">
       <div class="item-container">
-        <img src="../../../assets/ui/store/animal/{{animal.ID}}.png" (click)="setpurchaseAnimal(animal)">
+        <img src="../../../assets/ui/store/animal/{{animal.id}}.png" (click)="setpurchaseAnimal(animal)">
         <h1> {{animal.purchasePrice*0.01 | currency : "R"}} </h1>
       </div>
     </div>
@@ -67,7 +67,7 @@
   <div class="shopfoldout" *ngIf="showPlantshop">
     <div class="plant" *ngFor="let plant of plants.plants">
       <div (click)="placePlantOnPlot(plotId, plant)" class="item-container">
-        <img src="../../../assets/ui/store/plant/{{plant.ID}}.png" (click)="setpurchasePlant(plant)">
+        <img src="../../../assets/ui/store/plant/{{plant.id}}.png" (click)="setpurchasePlant(plant)">
         <h1> {{plant.purchasePrice*0.01 | currency : "R"}} </h1>
       </div>
     </div>

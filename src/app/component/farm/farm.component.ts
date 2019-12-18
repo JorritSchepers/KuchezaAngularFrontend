@@ -41,23 +41,14 @@ export class FarmComponent {
   private wantToGiveWater: boolean;
   private harvestModal: boolean;
   private plantTypes: PlantModel[];
-
-  // activePlantId: number;
-  activeAnimalId: number;
-
-  // plants: PlantResponseModel;
-  animals: AnimalResponseModel;
-
-  showPlantshop: Boolean;
-  showAnimalshop: Boolean;
-  showBuildingshop: Boolean;
-
-  purchasePlant: PlantModel;
-  purchaseAnimal: AnimalModel;
-  wantToPurchase: Boolean;
-
-  // activeplot: PlotModel;
-  // price: number;
+  private activeAnimalId: number;
+  private animals: AnimalResponseModel;
+  private showPlantshop: Boolean;
+  private showAnimalshop: Boolean;
+  private showBuildingshop: Boolean;
+  private purchasePlant: PlantModel;
+  private purchaseAnimal: AnimalModel;
+  private wantToPurchase: Boolean;
 
   constructor(private animalApi: AnimalApi, private cookieService: CookieService,private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
     this.prepareFarm();
@@ -72,11 +63,6 @@ export class FarmComponent {
 
   private handleInventoryResponse(response: InventoryModel): void{
     this.inventory = response;
-  }
-
-  private getFarm(): void {
-    this.farmApi.getFarm().then(response => this.handleFarmResponse(response))
-      .catch(any => this.handleException(any));
   }
 
   private prepareFarm(): void {
@@ -180,10 +166,9 @@ export class FarmComponent {
     }
 }
 
-  private harvestPlantFromPlot(plot: PlotModel,plantID: number): void{
+  private harvestPlantFromPlot(): void{
     this.harvestModal = false;
-    let plant = new PlantModel(1,"0",1,plantID,50,100,1000);
-    this.plotApi.harvest(plot.id, plot).then(plot => this.handlePlotResponse(plot))
+    this.plotApi.harvest(this.activePlot.id, this.activePlot).then(plot => this.handlePlotResponse(plot))
       .catch(any => this.handlePlotResponse(any));
   }
 
@@ -199,6 +184,7 @@ export class FarmComponent {
   }
 
   private toggleAnimalShop(){
+    console.warn(this.animals);
     this.showAnimalshop = (!this.showAnimalshop);
     this.showPlantshop = false;
     this.showBuildingshop = false;
@@ -227,7 +213,7 @@ export class FarmComponent {
   private handlePlotResponse(response: any): void {
     this.purchasePlot = false;
     this.wantToGiveWater = false;
-    this.getFarm();
+    this.prepareFarm();
     this.initPlots();
     this.getInventory();
     this.resetPurchaseId();
