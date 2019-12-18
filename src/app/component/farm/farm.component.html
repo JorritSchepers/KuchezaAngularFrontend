@@ -39,7 +39,7 @@
 <div class ="Shops">
 <!-- Shop for buildings -->
 <div class="Shop">
-  <img class="shopicon" src="../../../assets/ui/store/building/buildingIcon.png"(click)="openOrCloseBuildingShop()">
+  <img class="shopicon" src="../../../assets/ui/store/building/buildingIcon.png"(click)="toggleBuildingShop()">
   <div class="shopfoldout" *ngIf="showBuildingshop">
     <div class="plant" *ngFor="let plant of plants.plants">
       <div (click)="placePlantOnPlot(plotId, plant)" class="item-container">
@@ -51,7 +51,7 @@
 </div>
 <!-- Shop for animals -->
 <div class="Shop">
-  <img class="shopicon" src="../../../assets/ui/store/animal/animalIcon.png" (click)="openOrCloseAnimalShop()">
+  <img class="shopicon" src="../../../assets/ui/store/animal/animalIcon.png" (click)="toggleAnimalShop()">
   <div class="shopfoldout" *ngIf="showAnimalshop">
     <div class="plant" *ngFor="let animal of animals.animals">
       <div class="item-container">
@@ -63,7 +63,7 @@
 </div>
 <!-- Shop for plants -->
 <div class="Shop">
-  <img class="shopicon" src="../../../assets/ui/store/plant/plantIcon.png"(click)="openOrClosePlantShop()">
+  <img class="shopicon" src="../../../assets/ui/store/plant/plantIcon.png"(click)="togglePlantShop()">
   <div class="shopfoldout" *ngIf="showPlantshop">
     <div class="plant" *ngFor="let plant of plants.plants">
       <div (click)="placePlantOnPlot(plotId, plant)" class="item-container">

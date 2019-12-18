@@ -193,20 +193,26 @@ export class FarmComponent {
       .catch(any => this.handleException(any));
   }
 
-  private openOrCloseBuildingShop(){
+  private toggleBuildingShop(){
     this.showBuildingshop = (!this.showBuildingshop);
+    this.showAnimalshop = false;
+    this.showPlantshop = false;
   }
 
-  private openOrCloseAnimalShop(){
+  private toggleAnimalShop(){
     this.showAnimalshop = (!this.showAnimalshop);
+    this.showPlantshop = false;
+    this.showBuildingshop = false;
   }
 
   private gatherWater(){
       this.wantToGiveWater = true;
   }
 
-  private openOrClosePlantShop(){
+  private togglePlantShop(){
     this.showPlantshop = (!this.showPlantshop);
+    this.showAnimalshop = false;
+    this.showBuildingshop = false;
   }
 
   private openPlotShop(plotprice: number): void{
