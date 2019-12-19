@@ -36,7 +36,7 @@ export class AdminComponent {
     this.getAllAnimals();
   }
 
-  private getAllNonAdminUsers(): void {
+  getAllNonAdminUsers(): void {
     this.adminApi.getAllNonAdminUsers().then(response => this.handleGetAllNonAdminUsersResponse(response))
       .catch(exception => this.handleException(exception));
   }
@@ -45,7 +45,7 @@ export class AdminComponent {
     this.initUsers(response);
   }
 
-  private getAllPlants(): void {
+  getAllPlants(): void {
     this.plantApi.getAllPlants().then(response => this.handleGetAllPlantsResponse(response))
     .catch(exception => this.handleException(exception));
   }
@@ -108,7 +108,7 @@ export class AdminComponent {
     this.closeDeletePopUp();
   }
 
-  private initUsers(users: AllUsersModel): void {
+  initUsers(users: AllUsersModel): void {
     for (let user of users.users) {
       this.users.push(user);
     }
@@ -118,7 +118,7 @@ export class AdminComponent {
     console.warn(exception);
   }
 
-  logout(): void {
+  private logout(): void {
     this.logoutApi.logout().then(response => this.handleLogoutResponse(response))
       .catch(exception => this.handleException(exception));
   }
