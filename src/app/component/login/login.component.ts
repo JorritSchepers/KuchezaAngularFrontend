@@ -3,7 +3,6 @@ import { FormBuilder } from '@angular/forms';
 import { LoginModel } from '../../model/login.model';
 import { LoginApi } from 'src/app/api/login.api';
 import { LoginResponseModel } from 'src/app/model/login-response.model';
-import { Router } from '@angular/router';
 import {Title} from "@angular/platform-browser";
 import { CookieService } from 'ngx-cookie-service';
 
@@ -16,7 +15,7 @@ export class LoginComponent {
   password: String;
   loginForm: any;
 
-  constructor(private cookieService: CookieService,private titleService:Title, private formBuilder: FormBuilder, private loginApi: LoginApi, private router: Router) {
+  constructor(private cookieService: CookieService,private titleService:Title, private formBuilder: FormBuilder, private loginApi: LoginApi) {
     this.loginForm = this.formBuilder.group({
       email: '',
       password: ''

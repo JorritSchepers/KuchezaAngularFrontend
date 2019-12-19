@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { Router } from '@angular/router';
 
 import { InventoryApi } from 'src/app/api/inventory.api';
 import { LogoutApi } from 'src/app/api/logout.api';
@@ -54,7 +53,7 @@ export class FarmComponent {
   private growTimer: any;
   private waterTimer: any;
 
-  constructor(private animalApi: AnimalApi, private cookieService: CookieService,private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
+  constructor(private animalApi: AnimalApi, private cookieService: CookieService,private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi) {
     this.prepareFarm();
     this.resetVariables();
   }
@@ -123,7 +122,6 @@ export class FarmComponent {
   }
 
   private setTimers(){
-    console.warn("TIMER");
     if(this.growTimer != null) {
       clearInterval(this.growTimer);
       this.growTimer = null;
@@ -254,7 +252,7 @@ export class FarmComponent {
   }
 
   private handleLogoutResponse(response: LogoutResponseModel): void {
-    this.router.navigateByUrl('/login');
+    window.location.pathname = '/login'
   }
 
   private handleException(exception: any): void {
