@@ -10,6 +10,7 @@ import { UserModel } from 'src/app/model/user.model';
 import { LogoutResponseModel } from 'src/app/model/logout-response.model';
 import { PlantResponseModel } from 'src/app/model/plant-response.model';
 import { PlantModel } from 'src/app/model/plant.model';
+import { AnimalApi } from 'src/app/api/animal.api';
 
 const NON_ADMIN_USER_1: UserModel = new UserModel(1, "name1", "pass1", "email1", false);
 const NON_ADMIN_USER_2: UserModel = new UserModel(2, "name2", "pass2", "email2", false);
@@ -23,12 +24,14 @@ const PLANT_RESPONSE_MODEL: PlantResponseModel = new PlantResponseModel(PLANTS);
 
 describe('AdminComponent', () => {
     let sut: AdminComponent;
+    let mockedAnimalApi: any;
     let mockedAdminApi: any;
     let mockedLogoutApi: any;
     let mockedPlantApi: any;
-    let mockedAnimalApi: any;
 
     beforeEach(() => {
+        mockedAnimalApi = jasmine.createSpyObj("AnimalApi", [""]);
+
         mockedAdminApi = jasmine.createSpyObj("AdminApi", ["getAllNonAdminUsers", "deleteUser"]);
         mockedAdminApi.getAllNonAdminUsers.and.returnValue(Promise.resolve(ALL_USER_MODEL));
         mockedAdminApi.deleteUser.and.returnValue(Promise.resolve(NON_ADMIN_USER_1));
@@ -43,6 +46,7 @@ describe('AdminComponent', () => {
         TestBed.configureTestingModule({
             declarations: [AdminComponent],
             providers: [
+                { provide: AnimalApi, useClass: mockedAnimalApi },
                 { provide: AdminApi, useClass: mockedAdminApi },
                 { provide: PlantApi, useClass: mockedPlantApi },
                 { provide: LogoutApi, useClass: mockedLogoutApi }
