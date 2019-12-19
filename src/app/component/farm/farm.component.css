@@ -43,7 +43,7 @@ font-size: 18px;
 }
 
 .farm-container {
-  width: 95%;
+  width: 92%;
   height: 95%;
   margin: 0px;
   display: fixed;
@@ -51,7 +51,7 @@ font-size: 18px;
   z-index: -5;
   background-color: rgb(205,162,111);
   padding-top: 8vh;
-  padding-left: 8vh;
+  padding-left: 15vh;
 }
 
 .farm-background {

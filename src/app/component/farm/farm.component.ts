@@ -201,7 +201,6 @@ export class FarmComponent {
   }
 
   private toggleAnimalShop(){
-    console.warn(this.animals);
     this.showAnimalshop = (!this.showAnimalshop);
     this.showPlantshop = false;
     this.showBuildingshop = false;
