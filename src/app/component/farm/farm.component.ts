@@ -51,6 +51,9 @@ export class FarmComponent {
   private purchaseAnimal: AnimalModel;
   private wantToPurchase: Boolean;
 
+  growTimer: any;
+  waterTimer: any;
+
   constructor(private animalApi: AnimalApi, private cookieService: CookieService,private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
     this.prepareFarm();
     this.resetVariables();
@@ -120,8 +123,18 @@ export class FarmComponent {
   }
 
   private setTimers(){
-    setInterval(this.growPlants,GROWDELAY,this);
-    setInterval(this.useWater,WATERDELAY,this);
+    console.warn("TIMER");
+    if(this.growTimer != null) {
+      clearInterval(this.growTimer);
+      this.growTimer = null;
+    }
+    if(this.waterTimer != null) {
+      clearInterval(this.waterTimer);
+      this.waterTimer = null;
+    }
+
+    this.growTimer = setInterval(this.growPlants,GROWDELAY,this);
+    this.waterTimer = setInterval(this.useWater,WATERDELAY,this);
   }
 
   private preparePlots(response: FarmModel): void {
