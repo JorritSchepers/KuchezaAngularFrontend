@@ -51,8 +51,8 @@ export class FarmComponent {
   private purchaseAnimal: AnimalModel;
   private wantToPurchase: Boolean;
 
-  growTimer: any;
-  waterTimer: any;
+  private growTimer: any;
+  private waterTimer: any;
 
   constructor(private animalApi: AnimalApi, private cookieService: CookieService,private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
     this.prepareFarm();
