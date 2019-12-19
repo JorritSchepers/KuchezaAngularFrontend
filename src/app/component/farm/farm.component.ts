@@ -76,7 +76,7 @@ export class FarmComponent {
     if(width > 1) {
       width = 1;
     }
-    let cssString = "width: "+width*19.9+"vh;";
+    let cssString = "width: "+width*19.8+"vh;";
     
     if(width >= 0.92) {
       cssString += "border-radius: 20vh;"
