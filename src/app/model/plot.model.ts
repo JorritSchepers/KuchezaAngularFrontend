@@ -38,7 +38,7 @@ export class PlotModel {
             this.image = "../../../assets/waterManager/" + this.waterManagerID + ".png";
         } else if (this.plantID != 0) {
             if(this.status == "Normal") {
-                this.updatePlantState(this.growTime);
+                this.setNormalPlant();
             } else if (this.status == "Dead") {
                 this.setDeadPlant();
             } else if (this.status == "Dehydrated") {
@@ -51,9 +51,8 @@ export class PlotModel {
         }
     }
 
-    updatePlantState(growTime:number): void {
-        this.growTime = growTime;
-        let stage:number = Math.floor((this.age*this.stages)/growTime);
+    setNormalPlant(): void {
+        let stage:number = Math.floor((this.age*this.stages)/this.growTime);
         if(stage >= this.stages) {
             this.grown = true;
             stage = this.stages;
@@ -72,6 +71,7 @@ export class PlotModel {
     setDehydrathedPlant() :void {
         let stage:number = Math.floor((this.age*this.stages)/this.growTime);
         if(stage > this.stages) {
+            this.grown = true;
             stage = this.stages;
         }
         this.image = "../../../assets/plant/" + this.plantID +"/dehydrated/"+stage+".png";

@@ -49,6 +49,7 @@ export class FarmComponent {
   private purchasePlant: PlantModel;
   private purchaseAnimal: AnimalModel;
   private wantToPurchase: Boolean;
+  private harvestPopUpText: String;
 
   private growTimer: any;
   private waterTimer: any;
@@ -188,9 +189,18 @@ export class FarmComponent {
         this.handlePurchase();
     } else if(this.wantToGiveWater){
         this.givePlantWater(plot);
-    } else if(plot.grown == true) {
+    } else if(plot.grown == true && plot.status == "Normal") {
         this.activePlot = plot;
+        this.harvestPopUpText = null;
         this.openHarvestModel();
+    } else if(plot.grown == true && plot.status == "Dehydrated") {
+      this.activePlot = plot;
+      this.harvestPopUpText = "This plant is dehydrated!"
+      this.openHarvestModel();
+    } else if(plot.status == "Dead") {
+      this.activePlot = plot;
+      this.harvestPopUpText = "This plant is dead!"
+      this.openHarvestModel();
     }
 }
 
@@ -269,12 +279,13 @@ export class FarmComponent {
         for(let j=0;j<farm.width;j++) {
           let plot = farm.plots[i][j];
           if(plot.plantID > 0 && plot.status != "Dead") {
+            plot.growTime = farm.getGrowTime(plot.plantID)
             farm.plotApi.updateAge(plot.age+GROWDELAY/1000,plot);
             plot.age += GROWDELAY/1000;
             if(plot.status == "Dehydrated") {
               plot.setDehydrathedPlant();
             } else {
-              plot.updatePlantState(farm.getGrowTime(plot.plantID));
+              plot.setNormalPlant();
             }
           }
         }
