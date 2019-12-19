@@ -19,4 +19,10 @@ export class AnimalApi {
     {headers: this.headers}).toPromise();
     return data;
   }
+
+  async deleteAnimal(animalIDToDelete: number, animalIDToReplaceWith: number): Promise<AnimalResponseModel> {
+    const data: AnimalResponseModel = await this.http.delete<AnimalResponseModel>(this.ANIMAL_URL + "/" + animalIDToDelete + "/"
+      + animalIDToReplaceWith +  "?token=" + this.token, {headers: this.headers}).toPromise();
+      return data;
+  }
 }
