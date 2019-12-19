@@ -7,6 +7,7 @@ import { LogoutResponseModel } from 'src/app/model/logout-response.model';
 import { PlantApi } from 'src/app/api/plant.api';
 import { PlantModel } from 'src/app/model/plant.model';
 import { PlantResponseModel } from 'src/app/model/plant-response.model';
+import { AnimalApi } from 'src/app/api/animal.api';
 
 @Component({
   templateUrl: './admin.component.html',
@@ -22,7 +23,7 @@ export class AdminComponent {
   currentSelectedPlant: PlantModel;
   currentSelectedReplacementPlant: PlantModel;
 
-  constructor(private adminApi: AdminApi, private logoutApi: LogoutApi, private plantApi: PlantApi) {
+  constructor(private animalApi: AnimalApi,private adminApi: AdminApi, private logoutApi: LogoutApi, private plantApi: PlantApi) {
     this.getAllNonAdminUsers();
     this.getAllPlants();
   }
