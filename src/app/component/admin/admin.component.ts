@@ -8,6 +8,8 @@ import { PlantApi } from 'src/app/api/plant.api';
 import { PlantModel } from 'src/app/model/plant.model';
 import { PlantResponseModel } from 'src/app/model/plant-response.model';
 import { AnimalApi } from 'src/app/api/animal.api';
+import { AnimalResponseModel } from 'src/app/model/animal-response.model';
+import { AnimalModel } from 'src/app/model/animal.model';
 
 @Component({
   templateUrl: './admin.component.html',
