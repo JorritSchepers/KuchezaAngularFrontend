@@ -31,7 +31,7 @@ describe('AdminComponent', () => {
         mockedAdminApi = jasmine.createSpyObj("AdminApi", ["getAllNonAdminUsers", "deleteUser"]);
         mockedAdminApi.getAllNonAdminUsers.and.returnValue(Promise.resolve(ALL_USER_MODEL));
         mockedAdminApi.deleteUser.and.returnValue(Promise.resolve(NON_ADMIN_USER_1));
-
+        
         mockedLogoutApi = jasmine.createSpyObj("LogoutApi", ["logout"]);
         mockedLogoutApi.logout.and.returnValue(Promise.resolve(LOGOUT_RESPONSE_MODEL));
 
@@ -82,8 +82,16 @@ describe('AdminComponent', () => {
         expect(sut.users.length).toBe(USERS.length);
     });
 
-    it('should call logout in LogoutApi', () => {
-        sut.logout();
-        expect(mockedLogoutApi.logout).toHaveBeenCalled();
+    it('should set veriables', () => {
+        sut.showDeletePlantPopUp(PLANT_1);
+        expect(sut.currentSelectedPlant).toBe(PLANT_1);
+        expect(sut.deletePlantPopUpIsActive).toBeTruthy();
+    });
+
+    it('should set veriables', () => {
+        sut.closeDeletePlantPopUp();
+        expect(sut.currentSelectedPlant).toBeNull();
+        expect(sut.currentSelectedReplacementPlant).toBeNull();
+        expect(sut.deletePlantPopUpIsActive).toBeFalsy();
     });
 });

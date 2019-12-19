@@ -78,7 +78,7 @@ export class AdminComponent {
     console.warn(exception);
   }
 
-  logout(): void {
+  private logout(): void {
     this.logoutApi.logout().then(response => this.handleLogoutResponse(response))
       .catch(exception => this.handleException(exception));
   }
