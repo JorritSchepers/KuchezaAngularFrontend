@@ -36,7 +36,7 @@ export class FarmComponent {
   private plotId: number;
   private activePlot: PlotModel;
   private plotPrice: number;
-  private inventory: InventoryModel;
+  private inventory: InventoryModel = new InventoryModel(0, 0, 0);
   private purchasePlot: boolean;
   private wantToGiveWater: boolean;
   private harvestModal: boolean;
@@ -409,5 +409,16 @@ export class FarmComponent {
       this.purchasePlant = null;
       this.wantToPurchase = true;
       this.showAnimalshop = false;
+  }
+
+  private handlePurchase(): void{
+    if(this.purchasePlant){
+      this.plotApi.placePlantOnPlot(this.plotId,this.purchasePlant).then(plant => this.handlePlotResponse(plant))
+        .catch(any => this.handleException(any));
+    }
+    else if(this.purchaseAnimal){
+      this.plotApi.placeAnimalOnPlot(this.plotId, this.purchaseAnimal).then(animal => this.handlePlotResponse(animal))
+        .catch(any => this.handleException(any));
+    }
   }
 }
