@@ -7,11 +7,15 @@ import { LogoutResponseModel } from 'src/app/model/logout-response.model';
 import { PlantApi } from 'src/app/api/plant.api';
 import { PlantModel } from 'src/app/model/plant.model';
 import { PlantResponseModel } from 'src/app/model/plant-response.model';
+import { AnimalApi } from 'src/app/api/animal.api';
+import { AnimalResponseModel } from 'src/app/model/animal-response.model';
+import { AnimalModel } from 'src/app/model/animal.model';
 
 @Component({
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
+
 export class AdminComponent {
   users: UserModel[] = Array<UserModel>();
   plants: PlantModel[] = Array<PlantModel>();
@@ -21,10 +25,15 @@ export class AdminComponent {
   currentSelectedUser: UserModel;
   currentSelectedPlant: PlantModel;
   currentSelectedReplacementPlant: PlantModel;
+  animals: AnimalResponseModel;
+  currentSelectedAnimal: AnimalModel;
+  deleteAnimalPopUpIsActive = false;
+  currentSelectedReplacementAnimal: AnimalModel = null;
 
-  constructor(private adminApi: AdminApi, private logoutApi: LogoutApi, private plantApi: PlantApi) {
+  constructor(private animalApi: AnimalApi,private adminApi: AdminApi, private logoutApi: LogoutApi, private plantApi: PlantApi) {
     this.getAllNonAdminUsers();
     this.getAllPlants();
+    this.getAllAnimals();
   }
 
   private getAllNonAdminUsers(): void {
@@ -45,6 +54,37 @@ export class AdminComponent {
     for (let plant of response.plants) {
       this.plants.push(plant);
     }
+  }
+
+  private getAllAnimals(){
+   this.animalApi.getAllAnimals().then(animals => this.handleAnimalsResponse(animals))
+     .catch(any => this.handleException(any));
+  }
+
+  showDeleteAnimalPopUp(animal: AnimalModel): void {
+    this.currentSelectedAnimal = animal;
+    this.deleteAnimalPopUpIsActive = true;
+  }
+
+  closeDeleteAnimalPopUp(): void{
+    this.currentSelectedAnimal = null;
+    this.currentSelectedReplacementAnimal = null;
+    this.deleteAnimalPopUpIsActive = false;
+  }
+
+  deleteAnimal():void{
+    this.animalApi.deleteAnimal(this.currentSelectedAnimal.id, this.currentSelectedReplacementAnimal.id)
+      .then(response => this.handleDeleteAnimalResponse(response))
+      .catch(exception => this.handleException(exception));
+  }
+
+  private handleDeleteAnimalResponse(response: AnimalResponseModel): void {
+    this.animals = response;
+    this.closeDeleteAnimalPopUp();
+  }
+
+  private handleAnimalsResponse(animals: AnimalResponseModel): void {
+     this.animals = animals;
   }
 
   showDeletePopUp(user: UserModel): void {
