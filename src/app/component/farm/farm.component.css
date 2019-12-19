@@ -100,11 +100,12 @@ opacity: 80%;
 height: 100%;
 width: 100%;
 background-color: whitesmoke;
+z-index: 9998 !important;
 }
 
 .popUp{
 position: absolute;
-z-index: 9 !important;
+z-index: 9999 !important;
 background-color: rgb(104,160,202);
 border: 5px solid whitesmoke;
 border-radius: 20px;
