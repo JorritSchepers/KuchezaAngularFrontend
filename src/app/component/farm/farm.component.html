@@ -27,7 +27,7 @@
       <h1>Buy plot</h1>
       <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="closePlotModal()">
     </div>
-    <h1>Price: {{price * 0.01| currency : "R"}}</h1>
+    <h1>Price: {{plotPrice * 0.01| currency : "R"}}</h1>
     <div class="popUpBtn">
       <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="closePlotModal()">
       <img src="../../../assets/ui/popup/confirm.png" alt="Confirm" (click)="callPurchasePlot(plotId)">
