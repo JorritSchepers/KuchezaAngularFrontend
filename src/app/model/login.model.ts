@@ -6,6 +6,6 @@ export class LoginModel {
 
     constructor(email: string, password: string) {
       this.email = email;
-      this.password = shajs('sha256').update({password}).digest('hex');
+      this.password = shajs('sha256').update(password).digest('hex');
     }
 }
