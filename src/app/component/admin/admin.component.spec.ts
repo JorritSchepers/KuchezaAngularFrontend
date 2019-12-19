@@ -11,16 +11,25 @@ import { LogoutResponseModel } from 'src/app/model/logout-response.model';
 import { PlantResponseModel } from 'src/app/model/plant-response.model';
 import { PlantModel } from 'src/app/model/plant.model';
 import { AnimalApi } from 'src/app/api/animal.api';
+import { AnimalModel } from 'src/app/model/animal.model';
+import { AnimalResponseModel } from 'src/app/model/animal-response.model';
 
 const NON_ADMIN_USER_1: UserModel = new UserModel(1, "name1", "pass1", "email1", false);
 const NON_ADMIN_USER_2: UserModel = new UserModel(2, "name2", "pass2", "email2", false);
 const USERS: UserModel[] = [NON_ADMIN_USER_1, NON_ADMIN_USER_2];
 const ALL_USER_MODEL: AllUsersModel = new AllUsersModel(USERS);
+
 const LOGOUT_RESPONSE_MODEL: LogoutResponseModel = new LogoutResponseModel();
+
 const PLANT_1: PlantModel = new PlantModel(10, "name1", 10, 1, 10, 10, 10);
 const PLANT_2: PlantModel = new PlantModel(20, "name2", 20, 2, 20, 20, 20);
 const PLANTS: PlantModel[] = [PLANT_1, PLANT_2];
 const PLANT_RESPONSE_MODEL: PlantResponseModel = new PlantResponseModel(PLANTS);
+
+const ANIMAL_1: AnimalModel = new AnimalModel(1, "name1", 1, 1, 1, 1, 1);
+const ANIMAL_2: AnimalModel = new AnimalModel(2, "name2", 2, 2, 2, 2, 2);
+const ANIMALS: AnimalModel[] = [ANIMAL_1, ANIMAL_2];
+const ANIMAL_RESPONSE_MODEL: AnimalResponseModel = new AnimalResponseModel(ANIMALS);
 
 describe('AdminComponent', () => {
     let sut: AdminComponent;
@@ -30,7 +39,9 @@ describe('AdminComponent', () => {
     let mockedPlantApi: any;
 
     beforeEach(() => {
-        mockedAnimalApi = jasmine.createSpyObj("AnimalApi", [""]);
+        mockedAnimalApi = jasmine.createSpyObj("AnimalApi", ["getAllAnimals", "deleteAnimal"]);
+        mockedAnimalApi.getAllAnimals.and.returnValue(Promise.resolve(ANIMAL_RESPONSE_MODEL));
+        mockedAnimalApi.deleteAnimal.and.returnValue(Promise.resolve(ANIMAL_RESPONSE_MODEL));
 
         mockedAdminApi = jasmine.createSpyObj("AdminApi", ["getAllNonAdminUsers", "deleteUser"]);
         mockedAdminApi.getAllNonAdminUsers.and.returnValue(Promise.resolve(ALL_USER_MODEL));
