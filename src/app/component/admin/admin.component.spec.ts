@@ -26,6 +26,7 @@ describe('AdminComponent', () => {
     let mockedAdminApi: any;
     let mockedLogoutApi: any;
     let mockedPlantApi: any;
+    let mockedAnimalApi: any;
 
     beforeEach(() => {
         mockedAdminApi = jasmine.createSpyObj("AdminApi", ["getAllNonAdminUsers", "deleteUser"]);
@@ -47,7 +48,7 @@ describe('AdminComponent', () => {
                 { provide: LogoutApi, useClass: mockedLogoutApi }
             ]
         });
-        sut = new AdminComponent(mockedAdminApi, mockedLogoutApi, mockedPlantApi);
+        sut = new AdminComponent(mockedAnimalApi,mockedAdminApi, mockedLogoutApi, mockedPlantApi);
 	});
 
     it('should call getAllNonAdminUsers in AdminApi', () => {
