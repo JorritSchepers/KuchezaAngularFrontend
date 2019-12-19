@@ -4,7 +4,6 @@ import { UserModel } from 'src/app/model/user.model';
 import { AllUsersModel } from 'src/app/model/all-users.model';
 import { LogoutApi } from 'src/app/api/logout.api';
 import { LogoutResponseModel } from 'src/app/model/logout-response.model';
-import { Router } from '@angular/router';
 import { PlantApi } from 'src/app/api/plant.api';
 import { PlantModel } from 'src/app/model/plant.model';
 import { PlantResponseModel } from 'src/app/model/plant-response.model';
@@ -23,7 +22,7 @@ export class AdminComponent {
   currentSelectedPlant: PlantModel;
   currentSelectedReplacementPlant: PlantModel;
 
-  constructor(private adminApi: AdminApi, private logoutApi: LogoutApi, private plantApi: PlantApi, private router: Router) {
+  constructor(private adminApi: AdminApi, private logoutApi: LogoutApi, private plantApi: PlantApi) {
     this.getAllNonAdminUsers();
     this.getAllPlants();
   }
@@ -86,7 +85,7 @@ export class AdminComponent {
 
   private handleLogoutResponse(response: LogoutResponseModel): void {
     localStorage.removeItem('currentUser');
-    this.router.navigateByUrl('/login');
+    window.location.pathname = '/login';
   }
 
   showDeletePlantPopUp(plant: PlantModel): void {

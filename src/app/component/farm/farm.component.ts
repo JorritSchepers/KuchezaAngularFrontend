@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { Router } from '@angular/router';
 
 import { InventoryApi } from 'src/app/api/inventory.api';
 import { LogoutApi } from 'src/app/api/logout.api';
@@ -23,6 +22,7 @@ const GROWDELAY: number = 2000;
 const WATERDELAY: number = 10000;
 const WATERPLANTAMOUNT: number = 20;
 const DEHYDRATED_FACTOR: number = 4;
+const MAXIMUM_WATER: number = 500;
 
 @Component({
   templateUrl: './farm.component.html',
@@ -50,7 +50,10 @@ export class FarmComponent {
   private purchaseAnimal: AnimalModel;
   private wantToPurchase: Boolean;
 
-  constructor(private animalApi: AnimalApi, private cookieService: CookieService,private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private router: Router) {
+  private growTimer: any;
+  private waterTimer: any;
+
+  constructor(private animalApi: AnimalApi, private cookieService: CookieService,private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi) {
     this.prepareFarm();
     this.resetVariables();
   }
@@ -63,26 +66,26 @@ export class FarmComponent {
 
   private handleInventoryResponse(response: InventoryModel): void{
     this.inventory = response;
+    this.updateWater();
+  }
+
+  private updateWater() {
+    let water = document.getElementsByClassName("waterLevel")[0];
+    let width = this.inventory.water/MAXIMUM_WATER;
+    if(width > 1) {
+      width = 1;
+    }
+    let cssString = "width: "+width*19.8+"vh;";
+    
+    if(width >= 0.92) {
+      cssString += "border-radius: 20vh;"
+    }
+
+    water.setAttribute("style", cssString);
   }
 
   private prepareFarm(): void {
     this.farmApi.getFarm().then(response => this.preparePlots(response))
-      .catch(any => this.handleException(any));
-  }
-
-  private handlePurchase(): void{
-    if(this.purchasePlant){
-      this.plotApi.placePlantOnPlot(this.plotId,this.purchasePlant).then(plant => this.handlePlotResponse(plant))
-        .catch(any => this.handleException(any));
-    }
-    else if(this.purchaseAnimal){
-      this.plotApi.placeAnimalOnPlot(this.plotId, this.purchaseAnimal).then(animal => this.handlePlotResponse(animal))
-        .catch(any => this.handleException(any));
-    }
-  }
-
-  placePlantOnPlot(plotId: number, plant: PlantModel): void {
-    this.plotApi.placePlantOnPlot(plotId, plant).then(plant => this.handlePlotResponse(plant))
       .catch(any => this.handleException(any));
   }
 
@@ -119,8 +122,17 @@ export class FarmComponent {
   }
 
   private setTimers(){
-    setInterval(this.growPlants,GROWDELAY,this);
-    setInterval(this.useWater,WATERDELAY,this);
+    if(this.growTimer != null) {
+      clearInterval(this.growTimer);
+      this.growTimer = null;
+    }
+    if(this.waterTimer != null) {
+      clearInterval(this.waterTimer);
+      this.waterTimer = null;
+    }
+
+    this.growTimer = setInterval(this.growPlants,GROWDELAY,this);
+    this.waterTimer = setInterval(this.useWater,WATERDELAY,this);
   }
 
   private preparePlots(response: FarmModel): void {
@@ -200,7 +212,6 @@ export class FarmComponent {
   }
 
   private toggleAnimalShop(){
-    console.warn(this.animals);
     this.showAnimalshop = (!this.showAnimalshop);
     this.showPlantshop = false;
     this.showBuildingshop = false;
@@ -241,7 +252,7 @@ export class FarmComponent {
   }
 
   private handleLogoutResponse(response: LogoutResponseModel): void {
-    this.router.navigateByUrl('/login');
+    window.location.pathname = '/login'
   }
 
   private handleException(exception: any): void {

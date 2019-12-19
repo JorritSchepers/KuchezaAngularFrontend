@@ -22,14 +22,13 @@ figure {
 margin: 0;
 }
 
-header {
-display: flex;
-flex-direction: row;
-justify-content: space-between;
-border: solid black 1px;
-height: 9vh;
-width: 100%;
-position: fixed;
+.horizontalContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+  width: 100%;
 }
 
 header p, header button {
@@ -44,18 +43,42 @@ font-size: 18px;
 }
 
 .farm-container {
-padding-top: 9vh;
-width: 85vw;
-margin: auto;
-display: fixed;
+  width: 92%;
+  height: 95%;
+  margin: 0px;
+  display: fixed;
+  position: fixed;
+  z-index: -5;
+  background-color: rgb(205,162,111);
+  padding-top: 8vh;
+  padding-left: 15vh;
+}
+
+.farm-background {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(205,162,111);
+  position: absolute;
+  z-index: -5;
 }
 
 .row {
-display: flex;
+  display: flex;
 }
 
 .column {
   width: 10%;
+}
+
+.plant-container {
+  background-color: #8634eb;
+}
+
+.plants-overview{
+  padding-top: 9vh;
+  width: 85vw;
+  margin: auto;
+  display: fixed;
 }
 
 .plot:hover+.waterAmount, .waterAmount:hover{
@@ -77,11 +100,12 @@ opacity: 80%;
 height: 100%;
 width: 100%;
 background-color: whitesmoke;
+z-index: 9998 !important;
 }
 
 .popUp{
 position: absolute;
-z-index: 9 !important;
+z-index: 9999 !important;
 background-color: rgb(104,160,202);
 border: 5px solid whitesmoke;
 border-radius: 20px;
@@ -215,4 +239,98 @@ margin-left: 25%;
 .item-container {
 height: 14vh;
 width: auto;
+}
+
+header {
+  width:100vw;
+  position: absolute;
+}
+
+#logoutButton {
+  width: 50%;
+  background-color: rgb(152,188,90) !important;
+  color: white;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 30px !important;
+  width: 15vh !important;
+  height: 4vh !important;
+  margin: 0.4vh !important;
+  font-size: 2vh;
+  font-family: Roboto;
+  border-style: solid;
+  border-color: white;
+  margin-right: 5vh !important;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 5vh;
+}
+
+.headerContainer>p {
+  background-color: rgb(225,217,206);
+  padding-left: 7vh;
+  border-color: white;
+  border-style: solid;
+  border-radius: 5vh;
+  border-width: 0.2vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  min-width: 13vh;
+  font-family: Roboto;
+  font-size: 2vh;
+  text-align: left;
+  height: 2.5vh;
+}
+
+.headerContainer>img {
+  position: absolute;
+  height: 7vh;
+  width: 7vh;
+  z-index: 5;
+}
+
+.linesContainer {
+  position: absolute;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+  width: 15vh;
+  height: 4.5vh;
+  padding: 0px;
+  margin: 0px;
+  z-index: 5;
+}
+
+.line {
+  height:100%;
+  width:100%;
+  border-right-style: solid;
+  border-color: whitesmoke;
+  margin: 0px;
+  padding: 0px;
+  border-width: 0.2vh;
+}
+
+.waterLevel {
+  position: absolute;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+  width: 0vh;
+  height: 4.4vh;
+  padding: 0px;
+  margin: 0px;
+  background: linear-gradient(rgb(143,195,232) 70%, rgb(133, 179, 225) 70%);
+  border-top-left-radius: 5vh;
+  border-bottom-left-radius: 5vh;
+  margin-left: 0.7vh;
+  transition: 1s;
 }

@@ -8,4 +8,8 @@ export class InventoryModel {
         this.water = water;
         this.money = money;
     }
+
+    getWaterCss(): String {
+        return this.water+ " L";
+    }
 }

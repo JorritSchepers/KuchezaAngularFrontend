@@ -1,5 +1,4 @@
   import { Component } from '@angular/core';
-  import { Router } from '@angular/router';
   import { RegisterApi } from "src/app/api/register.api";
   import { FormBuilder } from '@angular/forms';
   import { RegisterModel } from 'src/app/model/register.model';
@@ -20,7 +19,7 @@
     repeatPassword: string;
     registerForm: any;
 
-    constructor(private titleService:Title,private formBuilder: FormBuilder, private registerApi: RegisterApi, private router: Router) {
+    constructor(private titleService:Title,private formBuilder: FormBuilder, private registerApi: RegisterApi) {
       this.registerForm = this.formBuilder.group({
         name: '',
         email: '',
@@ -42,7 +41,7 @@
 
     private handleRegisterResponse(response: RegisterResponseModel): void {
       localStorage.setItem('currentUser', response.token);
-      this.router.navigateByUrl('/farm');
+      window.location.pathname = '/farm'
     }
 
     private handleRegisterException(exception: any): void {

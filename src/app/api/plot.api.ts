@@ -7,7 +7,6 @@ import { AllPlotModel } from '../model/allplot.model';
 import { ConstantsModel } from './constants.model';
 import { AnimalModel } from '../model/animal.model';
 import { CookieService } from 'ngx-cookie-service';
-import { AnimalModel } from '../model/animal.model';
 
 @Injectable()
 export class PlotApi {
@@ -37,16 +36,6 @@ export class PlotApi {
 	     console.warn(err.error);
     }
   }
-
-	async placeAnimalOnPlot(plot: number, animalModel: AnimalModel): Promise<AllPlotModel> {
-	try {
-			const data: AllPlotModel = await this.http.post<AllPlotModel>(this.PLOT_URL+ plot + "/animal?token=" + this.token, JSON.stringify(animalModel),
-			{headers: this.headers}).toPromise();
-			return data;
-		} catch (err) {
-		 console.warn("Something went wrong with the back-end: ", err);
-		}
-	}
 
   async updateAge(age: number, plotModel: PlotModel): Promise<PlotModel> {
     try {
@@ -93,7 +82,7 @@ export class PlotApi {
 			{headers: this.headers}).toPromise();
 			return data;
 		} catch (err) {
-			console.warn("Something went wrong with the back-end: ", err);
+			console.warn(err.error);
 		}
 	}
 }
