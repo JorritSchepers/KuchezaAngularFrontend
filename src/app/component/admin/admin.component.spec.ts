@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
 import { AdminComponent } from './admin.component';
 
 import { AdminApi } from 'src/app/api/admin.api';
@@ -61,16 +60,30 @@ describe('AdminComponent', () => {
         expect(mockedPlantApi.getAllPlants).toHaveBeenCalled();
     });
 
-    it('should', () => {
+    it('should set variables', () => {
         sut.showDeletePopUp(NON_ADMIN_USER_1);
         expect(sut.currentSelectedUser).toBe(NON_ADMIN_USER_1);
         expect(sut.deleteAccountPopUpIsActive).toBeTruthy();
     });
 
-    it('should', () => {
+    it('should set variables', () => {
         sut.closeDeletePopUp();
-        expect(sut)
+        expect(sut.currentSelectedUser).toBeNull();
+        expect(sut.deleteAccountPopUpIsActive).toBeFalsy();
     });
 
+    it('should call deleteUser In AdminApi', () => {
+        sut.deleteUser(1);
+        expect(mockedAdminApi.deleteUser).toHaveBeenCalled();
+    });
 
+    it('should set users', () => {
+        sut.initUsers(ALL_USER_MODEL);  
+        expect(sut.users.length).toBe(USERS.length);
+    });
+
+    it('should call logout in LogoutApi', () => {
+        sut.logout();
+        expect(mockedLogoutApi.logout).toHaveBeenCalled();
+    });
 });
