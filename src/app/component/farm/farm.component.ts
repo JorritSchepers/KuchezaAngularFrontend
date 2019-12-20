@@ -205,7 +205,7 @@ export class FarmComponent {
       .catch(any => this.handleException(any));
   }
 
-  private sellProductFromPlot(): void{
+  sellProductFromPlot(): void{
     this.sellProductModal = false;
     this.plotApi.sellProduct(this.activePlot.id, this.activePlot).then(plot => this.handlePlotResponse(plot))
       .catch(any => this.handlePlotResponse(any));
