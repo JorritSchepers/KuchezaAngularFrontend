@@ -11,7 +11,6 @@ import { InventoryApi } from 'src/app/api/inventory.api';
 import { PlotApi } from 'src/app/api/plot.api';
 import { PlantApi } from 'src/app/api/plant.api';
 import { LogoutApi } from 'src/app/api/logout.api';
-import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AnimalModel } from 'src/app/model/animal.model';
 import { AnimalApi } from 'src/app/api/animal.api';
@@ -57,7 +56,6 @@ describe('FarmComponent', () => {
     let mockedPlotApi: any;
     let mockedPlantApi: any;
     let mockedLogoutApi: any;
-    let mockedRouter: any;
     let mockedCookieService: any;
     let sut: FarmComponent;
 
@@ -65,7 +63,7 @@ describe('FarmComponent', () => {
         mockedFarmApi = jasmine.createSpyObj("FarmApi", ["getFarm"]);
         mockedFarmApi.getFarm.and.returnValue(Promise.resolve(FARM_MODEL));
 
-        mockedPlotApi = jasmine.createSpyObj("PlotApi", ["harvest", "placePlantOnPlot", "updateAge", "purchasePlot", "editWater", "updateStatus"]);
+        mockedPlotApi = jasmine.createSpyObj("PlotApi", ["harvest", "placePlantOnPlot", "updateAge", "purchasePlot", "editWater", "updateStatus", "sellProduct"]);
         mockedPlotApi.harvest.and.returnValue(Promise.resolve(EMPTY_PLOT_MODEL));
         mockedPlotApi.placePlantOnPlot.and.returnValue(Promise.resolve(PLOT_WITH_PLANT_MODEL));
         mockedPlotApi.editWater.and.returnValue(Promise.resolve(PLOT_WITH_PLANT_MODEL));
@@ -82,7 +80,6 @@ describe('FarmComponent', () => {
         mockedPlantApi.getAllPlants.and.returnValue(Promise.resolve(PLANT));
 
         mockedLogoutApi = jasmine.createSpyObj("LogoutApi", ["logout"]);
-        mockedRouter = jasmine.createSpyObj("Router", ["navigateByUrl"]);
 
         mockedCookieService = jasmine.createSpyObj("CookieService", ["get"]);
         mockedCookieService.get.and.returnValue("1234");
@@ -96,11 +93,10 @@ describe('FarmComponent', () => {
                 { provide: FarmApi, useClass: mockedFarmApi },
                 { provide: PlotApi, useClass: mockedPlotApi },
                 { provide: PlantApi, useClass: mockedPlantApi },
-                { provide: LogoutApi, useClass: mockedLogoutApi },
-                { provide: Router, useClass: mockedRouter }
+                { provide: LogoutApi, useClass: mockedLogoutApi }
               ]
         });
-        sut = new FarmComponent(mockedAnimalApi, mockedCookieService, mockedInventoryApi, mockedFarmApi, mockedPlantApi, mockedPlotApi, mockedLogoutApi, mockedRouter);
+        sut = new FarmComponent(mockedAnimalApi, mockedCookieService, mockedInventoryApi, mockedFarmApi, mockedPlantApi, mockedPlotApi, mockedLogoutApi);
 	});
 
   it('should resetPurchaseId reset purchasePlant, purchaseAnimal & wantToPurchase', () => {
@@ -116,14 +112,6 @@ describe('FarmComponent', () => {
         expect(mockedFarmApi.getFarm).toHaveBeenCalled();
   });
 
-  it('should placePlantOnPlot call placePlantOnPlot from PlotApi', () => {
-      mockedPlotApi.placePlantOnPlot.and
-          .returnValue(Promise.resolve(PLOT_WITH_PLANT_MODEL));
-
-      sut.placePlantOnPlot(EMPTY_PLOT_MODEL.ID, PLANT);
-      expect(mockedPlotApi.placePlantOnPlot).toHaveBeenCalled();
-  });
-
   it('should resetVariables reset purchasePlot, wantToGiveWater, harvestModal, showPlantshop, showAnimalshop & wantToPurchase', () => {
       sut.resetVariables();
       expect(sut.purchasePlot).toBeFalsy();
@@ -136,8 +124,8 @@ describe('FarmComponent', () => {
 
   it('should set current farm model', () => {
       sut.preparePlots(FARM_MODEL);
-      expect(CurrentFarmModel.WIDTH).toBeDefined();
-      expect(CurrentFarmModel.HEIGHT).toBeDefined();
+      expect(CurrentFarmModel.width).toBeDefined();
+      expect(CurrentFarmModel.height).toBeDefined();
       expect(CurrentFarmModel.farmID).toBeDefined();
       expect(CurrentFarmModel.ownerID).toBeDefined();
       expect(CurrentFarmModel.plots).toBeDefined();
@@ -149,10 +137,11 @@ describe('FarmComponent', () => {
   });
 
   it('should harvestPlantFromPlot harvest plant on plot', () => {
+      sut.activePlot = EMPTY_PLOT_MODEL;
         mockedPlotApi.harvest.and
           .returnValue(Promise.resolve(EMPTY_PLOT_MODEL));
 
-        sut.harvestPlantFromPlot(PLOT_WITH_PLANT_MODEL, PLANT_ID);
+        sut.harvestPlantFromPlot();
         expect(sut.harvestModal).toBeFalsy();
         expect(mockedPlotApi.harvest).toHaveBeenCalled();
   });
@@ -165,14 +154,28 @@ describe('FarmComponent', () => {
         expect(mockedPlotApi.editWater).toHaveBeenCalled();
   });
 
-  it('should sellProductFromPlot sell the product on plot' () => {
-        mockedPlotApi.sellProduct.and
-          .returnValue(Promise.resolve(PLOT_WITH_ANIMAL_MODEL));
+
+
+
+
+
+
+
+
+  it('should sellProductFromPlot sell the product on plot', () => {
+        sut.activePlot = PLOT_WITH_PLANT_MODEL;
+        mockedPlotApi.sellProduct.and.returnValue(Promise.resolve(PLOT_WITH_PLANT_MODEL));
 
         sut.sellProductFromPlot();
         expect(sut.sellProductModal).toBeFalsy();
         expect(mockedPlotApi.sellProduct).toBeDefined();
   });
+
+
+
+
+
+
 
   it('should toggleBuildingShop toggle building shop', () => {
       sut.toggleBuildingShop();
@@ -203,7 +206,7 @@ describe('FarmComponent', () => {
   it('should openPlotShop open shop for plot', () => {
       sut.openPlotShop(PRICE);
       expect(sut.purchasePlot).toBeTruthy();
-      expect(sut.price).toBeDefined(PRICE);
+      expect(sut.plotPrice).toBeDefined(PRICE);
   });
 
   it('should logout call logout from LogoutApi', () => {

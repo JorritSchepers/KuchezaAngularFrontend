@@ -31,26 +31,26 @@ const MAXIMUM_WATER: number = 500;
 export class FarmComponent {
   private width: number;
   private height: number;
-  private plants: PlantResponseModel;
-  private plots: PlotModel[][] = new Array<Array<PlotModel>>();
+  plants: PlantResponseModel;
+  plots: PlotModel[][] = new Array<Array<PlotModel>>();
   private plotId: number;
-  private activePlot: PlotModel;
-  private plotPrice: number;
+  activePlot: PlotModel;
+  plotPrice: number;
   private inventory: InventoryModel = new InventoryModel(0, 0, 0);
-  private purchasePlot: boolean;
-  private wantToGiveWater: boolean;
-  private harvestModal: boolean;
-  private sellProductModal: boolean;
-  private plantTypes: PlantModel[];
+  purchasePlot: boolean;
+  wantToGiveWater: boolean;
+  harvestModal: boolean;
+  sellProductModal: boolean;
+  plantTypes: PlantModel[];
   private animalTypes: AnimalModel[];
   private activeAnimalId: number;
   private animals: AnimalResponseModel;
-  private showPlantshop: Boolean;
-  private showAnimalshop: Boolean;
-  private showBuildingshop: Boolean;
-  private purchasePlant: PlantModel;
-  private purchaseAnimal: AnimalModel;
-  private wantToPurchase: Boolean;
+  showPlantshop: Boolean;
+  showAnimalshop: Boolean;
+  showBuildingshop: Boolean;
+  purchasePlant: PlantModel;
+  purchaseAnimal: AnimalModel;
+  wantToPurchase: Boolean;
   private harvestPopUpText: String;
 
   private growTimer: any;
@@ -148,7 +148,7 @@ export class FarmComponent {
     }
   }
 
-  private createGrid(width: number, height: number): void {
+  createGrid(width: number, height: number): void {
     this.width = width;
     this.height = height;
     for(let i=0;i<this.height;i++) {
