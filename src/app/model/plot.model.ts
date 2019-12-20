@@ -10,10 +10,10 @@ export class PlotModel {
     purchased: boolean;
     age:number;
     stages: number = 3;
-    growTime: number = 1000;
+    harvestTime: number = 1000;
     waterAvailable: number;
     status: String;
-    grown: boolean;
+    harvestable: boolean;
 
     constructor(id: number, x: number, y: number, price: number,
             animalID: number, waterManagerID: number, plantID: number, purchased: boolean, age:number, waterAvailable: number, status: String) {
@@ -27,13 +27,13 @@ export class PlotModel {
         this.purchased = purchased;
         this.age = age;
         this.waterAvailable = waterAvailable;
-        this.grown = false;
+        this.harvestable = false;
         this.status = status;
     }
 
     initImage() {
         if (this.animalID != 0) {
-            this.image = "../../../assets/animal/" + this.animalID + ".png";
+            this.setAnimalImage();
         } else if (this.waterManagerID != 0) {
             this.image = "../../../assets/waterManager/" + this.waterManagerID + ".png";
         } else if (this.plantID != 0) {
@@ -52,16 +52,16 @@ export class PlotModel {
     }
 
     setNormalPlant(): void {
-        let stage:number = Math.floor((this.age*this.stages)/this.growTime);
+        let stage:number = Math.floor((this.age*this.stages)/this.harvestTime);
         if(stage >= this.stages) {
-            this.grown = true;
+            this.harvestable = true;
             stage = this.stages;
         }
         this.image = "../../../assets/plant/" + this.plantID +"/normal/"+stage+".png";
     }
 
     setDeadPlant(): void {
-        let stage:number = Math.floor((this.age*this.stages)/this.growTime);
+        let stage:number = Math.floor((this.age*this.stages)/this.harvestTime);
         if(stage > this.stages) {
             stage = this.stages;
         }
@@ -69,12 +69,21 @@ export class PlotModel {
     }
 
     setDehydrathedPlant() :void {
-        let stage:number = Math.floor((this.age*this.stages)/this.growTime);
+        let stage:number = Math.floor((this.age*this.stages)/this.harvestTime);
         if(stage > this.stages) {
-            this.grown = true;
+            this.harvestable = true;
             stage = this.stages;
         }
         this.image = "../../../assets/plant/" + this.plantID +"/dehydrated/"+stage+".png";
+    }
+
+    setAnimalImage(): void {
+        let stage:number = Math.floor((this.age*this.stages)/this.harvestTime);
+        if(stage >= this.stages) {
+            this.harvestable = true;
+            stage = this.stages;
+        }
+        this.image = "../../../assets/animal/" + this.animalID + "/" + stage + ".png";
     }
 
     public getWater(): String {
