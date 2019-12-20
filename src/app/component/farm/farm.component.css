@@ -343,3 +343,56 @@ header {
   margin-left: 0.7vh;
   transition: 1s;
 }
+
+.WaterBar {
+  position: absolute;
+  background-color: rgb(225,217,206);
+  padding-left: 7vh;
+  border-color: white;
+  border-style: solid;
+  border-radius: 5vh;
+  border-width: 0.2vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  font-family: Roboto;
+  font-size: 2vh;
+  text-align: left;
+  width: 0.05vw !important;
+  height: 0.5vh;
+  z-index: 0;
+  margin-top: -10vh;
+  margin-left: 1.3vw;
+}
+
+.waterContainer {
+  display: none;
+  justify-content: left;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.water {
+  position: absolute;
+  background-color: rgb(143,195,232);
+  margin-top: -10vh !important;
+  width: 0vh;
+  height: 2.5vh;
+  z-index: 11 !important;
+  margin: 0px;
+  border-top-left-radius: 5vh;
+  border-bottom-left-radius: 5vh;
+  margin-left: 1.4vw !important;
+  transition: 1s;
+}
+
+.plotHover {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(255,255,255);
+  opacity: 50%;
+}
+
+.showWater {
+  display: flex;
+}

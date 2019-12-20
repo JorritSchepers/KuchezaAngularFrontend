@@ -19,4 +19,10 @@ export class InventoryApi {
 		{headers: this.headers}).toPromise();
 		return data;
 	}
+
+	async editInventoryWater(water: number): Promise<InventoryModel> {
+		const data: InventoryModel = await this.http.post<InventoryModel>(this.INVENTORY_URL + "/"+water+"?token=" + this.token,
+		{headers: this.headers}).toPromise();
+		return data;
+	}
 }

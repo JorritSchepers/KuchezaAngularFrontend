@@ -99,8 +99,11 @@
       <div class="row" *ngFor="let plotsX of plots">
         <div class="column" *ngFor="let plot of plotsX">
           <div class="plotBackground">
-            <img src="{{plot.image}}" class="plot" alt="" (click)="handlePlotClick(plot)">
-            <span class="waterAmount" (click)="handlePlotClick(plot)">{{plot.getWater()}}</span>
+            <img src="{{plot.image}}" class="plot" alt="" (click)="handlePlotClick(plot)" (mouseenter) ="plot.mouseEnter()"  (mouseleave) ="plot.mouseLeave()">
+            <div class="waterContainer" (click)="handlePlotClick(plot)" [ngClass]="{'showWater': plot.hover && plot.needsWater}"(mouseenter) ="plot.mouseEnter()"  (mouseleave) ="plot.mouseLeave()">
+              <div id="plot{{plot.id}}" class="water"></div>
+              <div class="WaterBar"></div>
+            </div>
           </div>
         </div>
       </div>
