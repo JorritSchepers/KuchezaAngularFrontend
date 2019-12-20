@@ -35,16 +35,10 @@ const PLANT_STATUS_NORMAL: string = "Normal";
 
 const EMPTY_PLOT_MODEL: PlotModel = new PlotModel(1, 1, 1, PRICE, 0, 0, 0, true, AGE, 0, PLANT_STATUS_NORMAL);
 const PLOT_WITH_PLANT_MODEL: PlotModel = new PlotModel(2, 2, 2, PRICE, 0, 0, PLANT_ID, true, AGE, 25, PLANT_STATUS_NORMAL);
-
 const PLOTS: PlotModel[] = [EMPTY_PLOT_MODEL, PLOT_WITH_PLANT_MODEL];
-
 const FARM_MODEL: FarmModel = new FarmModel(PLOTS, FARM_ID, USER_ID, WIDTH, HEIGHT);
-const FARM_PLOTS: PlotModel[][] = [PLOTS, PLOTS];
-
 const INVENTORY_MODEL: InventoryModel = new InventoryModel(MONEY, WATER, USER_ID);
-
 const ANIMAL_MODEL: AnimalModel = new AnimalModel(WATER_USAGE, ANIMAL_NAME, GROWING_TIME, ANIMAL_ID, PRICE, PRICE, WATER_AVAILABLE);
-
 const PLANT: PlantModel = new PlantModel(WATER_USAGE, PLANT_NAME, GROWING_TIME, PLANT_ID, PRICE, PRICE + 10, 0);
 const PLANTS: PlantResponseModel = new PlantResponseModel([PLANT]);
 const PLANT_MODELS: PlantModel[] = [PLANT];
@@ -154,14 +148,6 @@ describe('FarmComponent', () => {
         expect(mockedPlotApi.editWater).toHaveBeenCalled();
   });
 
-
-
-
-
-
-
-
-
   it('should sellProductFromPlot sell the product on plot', () => {
         sut.activePlot = PLOT_WITH_PLANT_MODEL;
         mockedPlotApi.sellProduct.and.returnValue(Promise.resolve(PLOT_WITH_PLANT_MODEL));
@@ -170,12 +156,6 @@ describe('FarmComponent', () => {
         expect(sut.sellProductModal).toBeFalsy();
         expect(mockedPlotApi.sellProduct).toBeDefined();
   });
-
-
-
-
-
-
 
   it('should toggleBuildingShop toggle building shop', () => {
       sut.toggleBuildingShop();
