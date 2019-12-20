@@ -46,7 +46,7 @@ describe('AdminComponent', () => {
         mockedAdminApi = jasmine.createSpyObj("AdminApi", ["getAllNonAdminUsers", "deleteUser"]);
         mockedAdminApi.getAllNonAdminUsers.and.returnValue(Promise.resolve(ALL_USER_MODEL));
         mockedAdminApi.deleteUser.and.returnValue(Promise.resolve(NON_ADMIN_USER_1));
-        
+
         mockedLogoutApi = jasmine.createSpyObj("LogoutApi", ["logout"]);
         mockedLogoutApi.logout.and.returnValue(Promise.resolve(LOGOUT_RESPONSE_MODEL));
 
@@ -94,7 +94,7 @@ describe('AdminComponent', () => {
     });
 
     it('should set users', () => {
-        sut.initUsers(ALL_USER_MODEL);  
+        sut.initUsers(ALL_USER_MODEL);
         expect(sut.users.length).toBe(USERS.length);
     });
 
@@ -109,5 +109,37 @@ describe('AdminComponent', () => {
         expect(sut.currentSelectedPlant).toBeNull();
         expect(sut.currentSelectedReplacementPlant).toBeNull();
         expect(sut.deletePlantPopUpIsActive).toBeFalsy();
+    });
+
+    it('should call getAllAnimals in AnimalApi', () => {
+        sut.getAllAnimals();
+        expect(mockedAnimalApi.getAllAnimals).toHaveBeenCalled();
+    });
+
+    it('should set veriables', () => {
+        sut.showDeleteAnimalPopUp(ANIMAL_1);
+        expect(sut.currentSelectedAnimal).toBe(ANIMAL_1);
+        expect(sut.deleteAnimalPopUpIsActive).toBeTruthy();
+    });
+
+    it('should set veriables', () => {
+        sut.closeDeleteAnimalPopUp();
+        expect(sut.currentSelectedAnimal).toBeNull();
+        expect(sut.currentSelectedReplacementAnimal).toBeNull();
+        expect(sut.deleteAnimalPopUpIsActive).toBeFalsy();
+    });
+
+    it('should call deletePlant In PlantApi', () => {
+        sut.currentSelectedPlant = PLANT_1;
+        sut.currentSelectedReplacementPlant = PLANT_2;
+        sut.deletePlant();
+        expect(mockedPlantApi.deletePlant).toHaveBeenCalled();
+    });
+
+    it('should call deleteAnimal In AnimalApi', () => {
+        sut.currentSelectedAnimal = ANIMAL_1;
+        sut.currentSelectedReplacementAnimal = ANIMAL_2;
+        sut.deleteAnimal();
+        expect(mockedAnimalApi.deleteAnimal).toHaveBeenCalled();
     });
 });
