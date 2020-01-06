@@ -374,7 +374,7 @@ header {
 
 .water {
   position: absolute;
-  background-color: rgb(143,195,232);
+  background: linear-gradient(rgb(143,195,232) 70%, rgb(133, 179, 225) 70%);
   margin-top: -10vh !important;
   width: 0vh;
   height: 2.5vh;

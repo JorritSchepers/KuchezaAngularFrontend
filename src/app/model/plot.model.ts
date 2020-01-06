@@ -107,7 +107,7 @@ export class PlotModel {
                 cssString += "border-radius: 20vh;";
             }
             if(width <= 0.25) {
-                cssString += "background-color: rgb(255,181,90);";
+                cssString += "background: linear-gradient(rgb(255,181,90) 70%, rgb(225,151,60) 70%) !important;";
             }
             if(width <= 0.1) {
                 cssString += "width: 0vh !important;";
