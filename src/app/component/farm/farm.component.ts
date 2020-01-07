@@ -6,6 +6,7 @@ import { LogoutApi } from 'src/app/api/logout.api';
 import { FarmApi } from 'src/app/api/farm.api';
 import { PlantApi } from 'src/app/api/plant.api';
 import { PlotApi } from 'src/app/api/plot.api';
+import { BuildingApi } from 'src/app/api/building.api';
 
 import { PlotModel } from 'src/app/model/plot.model';
 import { PlantResponseModel } from 'src/app/model/plant-response.model';
@@ -17,10 +18,11 @@ import { InventoryModel } from 'src/app/model/inventory.model';
 import { AnimalResponseModel } from 'src/app/model/animal-response.model';
 import { AnimalModel } from 'src/app/model/animal.model';
 import { AnimalApi } from 'src/app/api/animal.api';
+import { WaterSourceModel } from 'src/app/model/watersource.model';
+import { WaterSourceResponseModel } from 'src/app/model/watersource-response.model';
 
 const PLOTTIMERDELAY: number = 2000;
-const WATERDELAY: number = 10000;
-const GAMELOOPDELAY: number = 100000;
+const WATERDELAY: number = 2000;
 const WATERPLANTAMOUNT: number = 20;
 const DEHYDRATED_FACTOR: number = 4;
 const MAXIMUM_WATER: number = 500;
@@ -44,6 +46,7 @@ export class FarmComponent {
   harvestModal: boolean;
   sellProductModal: boolean;
   plantTypes: PlantModel[];
+  waterSourceTypes: WaterSourceModel[];
   private animalTypes: AnimalModel[];
   private activeAnimalId: number;
   private animals: AnimalResponseModel;
@@ -54,13 +57,39 @@ export class FarmComponent {
   purchaseAnimal: AnimalModel;
   wantToPurchase: Boolean;
   private harvestPopUpText: String;
-
   private growTimer: any;
   private waterTimer: any;
+  animalAudio: any;
+  inGameMusic: any;
 
-  constructor(private animalApi: AnimalApi, private cookieService: CookieService,private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi) {
+  constructor(private animalApi: AnimalApi, private cookieService: CookieService,private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private buildingApi: BuildingApi) {
     this.prepareFarm();
     this.resetVariables();
+    this.inGameMusic = new Audio();
+    this.animalAudio = new Audio();
+  }
+
+  playInGameMusic():void {
+    if(this.inGameMusic.paused) {
+      this.inGameMusic.src = "../assets/audio/Main_In_Game_Music.wav";
+      this.inGameMusic.load();
+      this.inGameMusic.loop = true;
+      this.inGameMusic.play();
+    }
+  }
+
+  playAnimalSound(animalId: number):void {
+    if(this.animalAudio.paused) {
+      if(animalId == 1) {
+        this.animalAudio.src = "../assets/audio/Cow_Sound.wav";
+      } else if(animalId == 2) {
+        this.animalAudio.src = "../assets/audio/Chicken_Sound.mp3";
+      } else {
+        this.animalAudio.src = "../assets/audio/Goat_Sound.wav";
+      }
+      this.animalAudio.load();
+      this.animalAudio.play();
+    }
   }
 
   resetPurchaseId():void {
@@ -138,10 +167,14 @@ export class FarmComponent {
     this.initPlots();
     this.getInventory();
     this.getAllAnimals();
+    this.getWaterSources();
 
     this.setTimers();
 
     this.getAllPlants();
+
+    this.setMaximumWaterForPlots();
+    this.playInGameMusic();
   }
 
   initPlots(): void {
@@ -158,7 +191,7 @@ export class FarmComponent {
     for(let i=0;i<this.height;i++) {
       let row:PlotModel[]  = new Array<PlotModel>();
       for(let j=0;j<this.width;j++) {
-        row.push(new PlotModel(-1, j+1, i+1, 0, 0, 0, 0, false, 0,0,""));
+        row.push(new PlotModel(-1, j+1, i+1, 0, 0, 0,0, 0, false, 0,0,""));
       }
       this.plots.push(row);
     }
@@ -178,23 +211,34 @@ export class FarmComponent {
         this.gatherWater();
     } else if(this.wantToPurchase){
         this.handlePurchase();
-    } else if(this.wantToGiveWater){
-        this.givePlantWater(plot);
+    } else if(this.wantToGiveWater && plot.plantID > 0){
+        this.giveWater(plot);
+      plot.updateWater(true);
     } else if(plot.plantID > 0 && plot.harvestable == true && plot.status == "Normal") {
         this.activePlot = plot;
         this.harvestPopUpText = null;
         this.openHarvestModel();
     } else if(plot.plantID > 0 && plot.harvestable == true && plot.status == "Dehydrated") {
       this.activePlot = plot;
-      this.harvestPopUpText = "This plant is dehydrated!"
+      this.harvestPopUpText = "This plant is dehydrated!";
       this.openHarvestModel();
     } else if(plot.plantID > 0 && plot.status == "Dead") {
       this.activePlot = plot;
-      this.harvestPopUpText = "This plant is dead!"
+      this.harvestPopUpText = "This plant is dead!";
       this.openHarvestModel();
-    } else if(plot.animalID > 0 && plot.harvestable == true) {
-      this.activePlot = plot;
-      this.openSellProductModel();
+    } else if(plot.waterSourceID != 0) {
+      this.plotApi.editWater(plot.id, -plot.waterAvailable, false);
+      this.inventoryApi.editInventoryWater(plot.waterAvailable).then(response => this.handleInventoryResponse(response));
+      plot.waterAvailable = 0;
+      plot.maximumWater = this.getMaximumSourceWater(plot.waterSourceID);
+      plot.updateWater(true);
+    } else if(plot.animalID > 0) {
+      console.warn("ANIMAL")
+      this.playAnimalSound(plot.animalID);
+      if(plot.harvestable == true) {
+        this.activePlot = plot;
+        this.openSellProductModel();
+      }
     }
 }
 
@@ -204,8 +248,8 @@ export class FarmComponent {
       .catch(any => this.handlePlotResponse(any));
   }
 
-  givePlantWater(plot: PlotModel){
-    this.plotApi.editWater(plot.id, WATERPLANTAMOUNT).then(plot => this.handlePlotResponse(plot))
+  private giveWater(plot: PlotModel){
+    this.plotApi.editWater(plot.id, WATERPLANTAMOUNT, true).then(plot => this.handlePlotResponse(plot))
       .catch(any => this.handleException(any));
   }
 
@@ -245,6 +289,16 @@ export class FarmComponent {
   private handlePlantsResponse(plants: PlantResponseModel): void {
     this.plants = plants;
     this.getAllPlantTypes(plants);
+  }
+
+  private getWaterSources(): void {
+    this.buildingApi.getAllWaterSources().then(response => this.handleWaterSourceResponse(response))
+    .catch(exception => this.handleException(exception));
+  }
+
+  private handleWaterSourceResponse(waterSources: WaterSourceResponseModel): void {
+    this.waterSourceTypes = waterSources.waterSources;
+    console.warn(this.waterSourceTypes);
   }
 
   private handlePlotResponse(response: any): void {
@@ -313,6 +367,16 @@ export class FarmComponent {
             } else if(plot.status == "Dehydrated") {
               farm.dehydratedPlantAction(plot,waterUsage,farm);
             }
+            plot.maximumWater = farm.getMaximumWater(plot.plantID);
+            plot.updateWater(true);
+          }
+
+          if(plot.waterSourceID > 0) {
+            let waterYield = farm.getWaterYield(plot.waterSourceID);
+            plot.waterAvailable += waterYield;
+            farm.plotApi.editWater(plot.id,Math.ceil(waterYield), false);
+            plot.maximumWater = farm.getMaximumSourceWater(plot.waterSourceID);
+            plot.updateWater(true);
           }
         }
       }
@@ -320,7 +384,6 @@ export class FarmComponent {
   }
 
   dehydratePlant(plot: PlotModel, waterUsage: number, farm: FarmComponent): void {
-    farm.plotApi.editWater(plot.id,-Math.ceil(waterUsage));
     farm.plotApi.updateStatus(plot.id,"Dehydrated");
     plot.status = "Dehydrated";
     plot.setDehydrathedPlant();
@@ -331,12 +394,12 @@ export class FarmComponent {
 
     //REMOVE WATER
     plot.waterAvailable -= waterUsage;
-    farm.plotApi.editWater(plot.id,-Math.ceil(waterUsage));
+    farm.plotApi.editWater(plot.id,-Math.ceil(waterUsage), false);
 
     //KILL IS WATER IS EMPTY
     if(plot.waterAvailable <= 0) {
       plot.waterAvailable = 0;
-      farm.plotApi.editWater(plot.id,-Math.ceil(waterUsage));
+      farm.plotApi.editWater(plot.id,-Math.ceil(waterUsage), false);
       farm.plotApi.updateStatus(plot.id,"Dead");
       plot.status = "Dead";
       plot.setDeadPlant();
@@ -351,7 +414,7 @@ export class FarmComponent {
   normalPlantAction(plot: PlotModel, waterUsage: number, farm: FarmComponent): void {
     //REMOVE WATER
     plot.waterAvailable -= waterUsage;
-    farm.plotApi.editWater(plot.id,-Math.ceil(waterUsage));
+    farm.plotApi.editWater(plot.id,-Math.ceil(waterUsage), false);
 
     //DEHYDRATE PLANT IF WATER IS TOO LOW
     if (plot.waterAvailable <= farm.getMaximumWater(plot.plantID)/DEHYDRATED_FACTOR) {
@@ -421,18 +484,36 @@ export class FarmComponent {
   }
 
   getWaterUsage(plantID:number): number {
-      for(let plantType of this.plantTypes) {
-          if(plantType.id == plantID) {
-            return plantType.waterUsage;
-          }
-      }
-      return 0;
+    for(let plantType of this.plantTypes) {
+        if(plantType.id == plantID) {
+          return plantType.waterUsage;
+        }
     }
+    return 0;
+  }
 
   getMaximumWater(plantID:number): number {
       for(let plantType of this.plantTypes) {
         if(plantType.id == plantID) {
           return plantType.maximumWater;
+        }
+    }
+    return 0;
+  }
+
+  public getMaximumSourceWater(waterSourceID:number): number {
+    for(let waterSource of this.waterSourceTypes) {
+      if(waterSource.id == waterSourceID) {
+        return waterSource.maximumWater;
+      }
+  }
+  return 0;
+}
+
+  public getWaterYield(waterSourceID:number): number {
+    for(let waterSource of this.waterSourceTypes) {
+        if(waterSource.id == waterSourceID) {
+          return waterSource.waterYield;
         }
     }
     return 0;
@@ -464,6 +545,24 @@ export class FarmComponent {
       this.purchasePlant = null;
       this.wantToPurchase = true;
       this.showAnimalshop = false;
+  }
+
+  private setMaximumWaterForPlots(): void {
+    for(let i=0;i<this.height;i++) {
+      for(let j=0;j<this.width;j++) {
+        let plot = this.plots[i][j];
+
+        if(plot.plantID > 0) {
+          plot.maximumWater = this.getMaximumWater(plot.plantID);
+          plot.updateWater(true);
+        }
+
+        if(plot.waterSourceID > 0) {
+          plot.maximumWater = this.getMaximumSourceWater(plot.waterSourceID);
+          plot.updateWater(true);
+        }
+      }
+    }
   }
 
   private handlePurchase(): void{

@@ -13,11 +13,17 @@ import { FarmApi } from './api/farm.api';
 import { PlotApi } from './api/plot.api';
 import { PlantApi } from './api/plant.api';
 import { LogoutApi } from './api/logout.api';
+import { BuildingApi } from 'src/app/api/building.api';
 import { InventoryApi } from './api/inventory.api';
 import { AdminComponent } from './component/admin/admin.component';
 import { AdminApi } from './api/admin.api';
 import { AnimalApi } from './api/animal.api';
 import { CookieService } from 'ngx-cookie-service';
+import { CommonModule } from '@angular/common';
+import * as PlotlyJS from 'plotly.js/dist/plotly.js';
+import { PlotlyModule } from 'angular-plotly.js';
+
+PlotlyModule.plotlyjs = PlotlyJS;
 
 @NgModule({
   declarations: [
@@ -33,6 +39,8 @@ import { CookieService } from 'ngx-cookie-service';
     ,AppRoutingModule
     ,ReactiveFormsModule
     ,HttpClientModule
+    ,CommonModule
+    ,PlotlyModule
   ],
   providers: [
     LoginApi
@@ -44,6 +52,7 @@ import { CookieService } from 'ngx-cookie-service';
     ,InventoryApi
     ,AdminApi
     ,AnimalApi
+    ,BuildingApi
     ,CookieService
     ,AnimalApi
   ],
