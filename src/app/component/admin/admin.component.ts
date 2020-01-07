@@ -39,8 +39,10 @@ export class AdminComponent {
   deleteAnimalPopUpIsActive = false;
   currentSelectedReplacementAnimal: AnimalModel = null;
   showingStats: boolean = false;
-  graph = null;
   currentAllActionsModel: AllActionsModel = null;
+  graphActions = null;
+  graphWater = null;
+  graphMoney = null;
 
   constructor(private animalApi: AnimalApi,private adminApi: AdminApi, private logoutApi: LogoutApi, private plantApi: PlantApi) {
     this.getAllNonAdminUsers();
@@ -164,7 +166,9 @@ export class AdminComponent {
 
   showStats(user: UserModel): void {
     this.currentSelectedUser = user;
-    this.graph = null;
+    this.graphActions = null;
+    this.graphWater = null;
+    this.graphMoney = null;
     console.warn(this.currentSelectedUser);
     this.adminApi.getActionFromUser(this.currentSelectedUser.id)
       .then(response => this.handleActionsResponse(response))
@@ -176,8 +180,9 @@ export class AdminComponent {
 
   private handleActionsResponse(response: AllActionsModel) {
     this.currentAllActionsModel = response;
-    console.log(this.currentAllActionsModel);
+    console.log("currentAllActionsModel" + this.currentAllActionsModel);
     let dates: string[] = this.extractDates();
+    console.log("Dates" + dates)
     let plantedASeed: number[] = this.extractData(dates, PLANTED_A_SEED_ACTION_ID);
     let harvestedAPlant: number[] = this.extractData(dates, HARVESTED_A_PLANT_ACTION_ID);
     let gaveAPlantWater: number[] = this.extractData(dates, GAVE_A_PLANT_WATER_ACTION_ID);
@@ -187,7 +192,7 @@ export class AdminComponent {
     let lostAnAnimal: number[] = this.extractData(dates, LOST_AN_ANIMAL_ACTION_ID);
     let soldAnItemFromAnAnimal: number[] = this.extractData(dates, SOLD_AN_ITEM_FROM_AN_ANIMAL_ACTION_ID);
 
-    this.graph = {
+    this.graphActions = {
       data: [
           { x: dates, y: plantedASeed, name: 'Planted a seed', type: 'scatter', mode: 'lines+points', marker: {color: 'black'} },
           { x: dates, y: harvestedAPlant, name: 'Harvested a plant', type: 'scatter', mode: 'lines+points', marker: {color: 'green'} },
@@ -197,9 +202,44 @@ export class AdminComponent {
           { x: dates, y: boughtAnAnimal, name: 'Bought an animal', type: 'scatter', mode: 'lines+points', marker: {color: 'orange'} },
           { x: dates, y: lostAnAnimal, name: 'Lost an animal', type: 'scatter', mode: 'lines+points', marker: {color: 'red'} },
           { x: dates, y: soldAnItemFromAnAnimal, name: 'Sold an item from an animal', type: 'scatter', mode: 'lines+points', marker: {color: 'yellow'} },
+          // { x: dates, y: water, name: 'Water', type: 'scatter', mode: 'lines+points', marker: {color: 'pink'} },
       ],
-      layout: {width: 1400, height: 500, title: this.currentSelectedUser.name}
+      layout: {width: 1400, height: 500, title: "Actions"}
     };
+
+    let water: number[] = this.extractWater();
+
+    this.graphWater = {
+      data: [
+          { x: dates, y: water, name: 'Water', type: 'scatter', mode: 'lines+points', marker: {color: 'blue'} },
+      ],
+      layout: {width: 1400, height: 500, title: "Water"}
+    };
+
+    let money: number[] = this.extractMoney();
+
+    this.graphMoney = {
+      data: [
+          { x: dates, y: money, name: 'Money', type: 'scatter', mode: 'lines+points', marker: {color: 'gold'} },
+      ],
+      layout: {width: 1400, height: 500, title: "Money"}
+    };
+  }
+
+  private extractWater(): number[] {
+    let tempList: number[] = Array<number>(0); 
+    for (let action of this.currentAllActionsModel.actions) {
+      tempList.push(action.currentWater);
+    }
+    return tempList;
+  }
+
+  private extractMoney(): number[] {
+    let tempList: number[] = Array<number>(0); 
+    for (let action of this.currentAllActionsModel.actions) {
+      tempList.push(action.currentMoney/100);
+    }
+    return tempList;
   }
 
   private extractDates(): string[] {
@@ -207,7 +247,7 @@ export class AdminComponent {
     tempList.push("" + this.currentAllActionsModel.actions[0].dateOfAction.date 
                      + "/" + (this.currentAllActionsModel.actions[0].dateOfAction.month+1) 
                      + "/" + (this.currentAllActionsModel.actions[0].dateOfAction.year+1900)
-                     + " " + this.currentAllActionsModel.actions[0].dateOfAction.hours
+                     + " " + (this.currentAllActionsModel.actions[0].dateOfAction.hours-1)
                      + ":" + this.currentAllActionsModel.actions[0].dateOfAction.minutes
                      + ":" + this.currentAllActionsModel.actions[0].dateOfAction.seconds
                   );
@@ -215,14 +255,14 @@ export class AdminComponent {
       if (this.isDupeActionDate("" + action.dateOfAction.date 
                                    + "/" + (action.dateOfAction.month+1) 
                                    + "/" + (action.dateOfAction.year+1900)
-                                   + " " + action.dateOfAction.hours 
+                                   + " " + (action.dateOfAction.hours-1) 
                                    + ":" + action.dateOfAction.minutes 
                                    + ":" + action.dateOfAction.seconds 
                                   , tempList)) continue;
       tempList.push("" + action.dateOfAction.date 
                        + "/" + (action.dateOfAction.month+1) 
                        + "/" + (action.dateOfAction.year+1900)
-                       + " " + action.dateOfAction.hours 
+                       + " " + (action.dateOfAction.hours-1) 
                        + ":" + action.dateOfAction.minutes 
                        + ":" + action.dateOfAction.seconds);
     }
@@ -238,19 +278,16 @@ export class AdminComponent {
 
   private extractData(dates: string[], actionId: number): number[] {
     let tempList: number[] = Array<number>(0); 
+    let total: number = 0;
     for (let date of dates) {
-      let total: number = 0;
       for (let action of this.currentAllActionsModel.actions) {
-        if (action.actionID != actionId) continue;
-        if ("" + action.dateOfAction.date 
-        + "/" + (action.dateOfAction.month+1) 
-        + "/" + (action.dateOfAction.year+1900)
-        + " " + action.dateOfAction.hours 
-        + ":" + action.dateOfAction.minutes 
-        + ":" + action.dateOfAction.seconds) continue;
+        if (action.actionID != actionId) {
+          tempList.push(total);
+          continue;
+        }
         total++;
+        tempList.push(total);
       }
-      tempList.push(total);
     }
     return tempList;
   }

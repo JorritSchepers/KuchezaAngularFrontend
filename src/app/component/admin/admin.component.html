@@ -217,6 +217,11 @@
 
 <!-- Stats bekijken -->
 <div class="container" *ngIf="currentSelectedPage == 'Stats'">
-  <plotly-plot [data]="graph.data" [layout]="graph.layout"></plotly-plot>
+  <plotly-plot [data]="graphActions.data" [layout]="graphActions.layout"></plotly-plot>
+  <br><br><br><br>
+  <plotly-plot [data]="graphWater.data" [layout]="graphWater.layout"></plotly-plot>
+  <br><br><br><br>
+  <plotly-plot [data]="graphMoney.data" [layout]="graphMoney.layout"></plotly-plot>
+  <br><br><br><br>
 </div>
 </body>
