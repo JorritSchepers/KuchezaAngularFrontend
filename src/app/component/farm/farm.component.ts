@@ -54,8 +54,8 @@ export class FarmComponent {
   private harvestPopUpText: String;
   private growTimer: any;
   private waterTimer: any;
-  animalAudio: Audio;
-  inGameMusic: Audio;
+  animalAudio: any;
+  inGameMusic: any;
 
   constructor(private animalApi: AnimalApi, private cookieService: CookieService,private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi) {
     this.prepareFarm();
@@ -64,7 +64,7 @@ export class FarmComponent {
     this.animalAudio = new Audio();
   }
 
-  playInGameMusic(){
+  playInGameMusic():void {
     if(this.inGameMusic.paused) {
       this.inGameMusic.src = "../assets/audio/Main_In_Game_Music.wav";
       this.inGameMusic.load();
@@ -73,7 +73,7 @@ export class FarmComponent {
     }
   }
 
-  playAnimalSound(animalId: number){
+  playAnimalSound(animalId: number):void {
     if(this.animalAudio.paused) {
       if(animalId == 1) {
         this.animalAudio.src = "../assets/audio/Cow_Sound.wav";
