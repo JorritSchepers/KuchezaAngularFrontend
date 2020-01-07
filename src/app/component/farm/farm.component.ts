@@ -52,13 +52,39 @@ export class FarmComponent {
   purchaseAnimal: AnimalModel;
   wantToPurchase: Boolean;
   private harvestPopUpText: String;
-
   private growTimer: any;
   private waterTimer: any;
+  animalAudio: any;
+  inGameMusic: any;
 
   constructor(private animalApi: AnimalApi, private cookieService: CookieService,private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi) {
     this.prepareFarm();
     this.resetVariables();
+    this.inGameMusic = new Audio();
+    this.animalAudio = new Audio();
+  }
+
+  playInGameMusic():void {
+    if(this.inGameMusic.paused) {
+      this.inGameMusic.src = "../assets/audio/Main_In_Game_Music.wav";
+      this.inGameMusic.load();
+      this.inGameMusic.loop = true;
+      this.inGameMusic.play();
+    }
+  }
+
+  playAnimalSound(animalId: number):void {
+    if(this.animalAudio.paused) {
+      if(animalId == 1) {
+        this.animalAudio.src = "../assets/audio/Cow_Sound.wav";
+      } else if(animalId == 2) {
+        this.animalAudio.src = "../assets/audio/Chicken_Sound.mp3";
+      } else {
+        this.animalAudio.src = "../assets/audio/Goat_Sound.wav";
+      }
+      this.animalAudio.load();
+      this.animalAudio.play();
+    }
   }
 
   resetPurchaseId():void {
@@ -138,6 +164,8 @@ export class FarmComponent {
     this.setTimers();
 
     this.getAllPlants();
+
+    this.playInGameMusic();
   }
 
   initPlots(): void {
@@ -188,9 +216,12 @@ export class FarmComponent {
       this.activePlot = plot;
       this.harvestPopUpText = "This plant is dead!"
       this.openHarvestModel();
-    } else if(plot.animalID > 0 && plot.harvestable == true) {
-      this.activePlot = plot;
-      this.openSellProductModel();
+    } else if(plot.animalID > 0) {
+      this.playAnimalSound(plot.animalID);
+      if(plot.harvestable == true) {
+        this.activePlot = plot;
+        this.openSellProductModel();
+      }
     }
 }
 
