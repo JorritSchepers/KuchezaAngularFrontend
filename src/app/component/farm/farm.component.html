@@ -106,6 +106,19 @@
   </div>
 </div>
 
+<!-- gameplayLoopEndModel -->
+<div class="PopupBG" *ngIf="gameplayLoopEnd">
+  <div class="popUp">
+    <div class="popUpTop">
+      <h1>Game over</h1>
+    </div>
+    <h1>U heeft geen water meer!</h1>
+    <div class="popUpBtn">
+      <button id="logoutButton" type="button" (click)="logout()" name="button">LOGIN PAGINA</button>
+    </div>
+  </div>
+</div>
+
 <!-- Farm -->
 <div class="row">
   <div class="column">
