@@ -5,7 +5,7 @@
     <h1>Delete {{currentSelectedUser.name}}?</h1>
     <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="closeDeletePopUp()">
   </div>
-  <div class="popUpBtn">
+  <div class="popUpBtn">  
     <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="closeDeletePopUp()">
     <img src="../../../assets/ui/popup/confirm.png" alt="Confirm" (click)="deleteUser(currentSelectedUser.id)">
   </div>
@@ -72,6 +72,13 @@
       <u>Accounts</u>
     </b>
   </div>
+  <div class="verticalLine" *ngIf="showingStats == true"></div>
+  <div class="headerItem" (click)="currentSelectedPage = 'Stats'" *ngIf="showingStats == true">
+    <span *ngIf="currentSelectedPage != 'Stats'">{{currentSelectedUser.name}}'s stats</span>
+    <b *ngIf="currentSelectedPage == 'Stats'">
+      <u>{{currentSelectedUser.name}}'s stats</u>
+    </b>
+    </div>
   <div class="verticalLine"></div>
   <div class="headerItem" (click)="currentSelectedPage = 'Plants'">
       <span *ngIf="currentSelectedPage != 'Plants'">Plants</span>
@@ -101,6 +108,7 @@
       <span>{{user.email}}</span>
     </td>
     <td class="deleteButton"><img src="../../../assets/ui/admin/delete-button.png" (click)="showDeletePopUp(user)"/></td>
+    <td class="deleteButton"><img src="../../../assets/ui/admin/stats-button.png" (click)="showStats(user)"/></td>
   </tr>
 </table>
 
@@ -207,4 +215,8 @@
   </div>
 </div>
 
+<!-- Stats bekijken -->
+<div class="container" *ngIf="currentSelectedPage == 'Stats'">
+  <plotly-plot [data]="graph.data" [layout]="graph.layout"></plotly-plot>
+</div>
 </body>
