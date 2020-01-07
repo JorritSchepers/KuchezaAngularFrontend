@@ -57,7 +57,6 @@ export class FarmComponent {
 
   private growTimer: any;
   private waterTimer: any;
-  private gameplayLoopTimer: any;
 
   constructor(private animalApi: AnimalApi, private cookieService: CookieService,private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi) {
     this.prepareFarm();
@@ -122,14 +121,9 @@ export class FarmComponent {
       clearInterval(this.waterTimer);
       this.waterTimer = null;
     }
-    if(this.gameplayLoopTimer != null) {
-      clearInterval(this.gameplayLoopTimer);
-      this.gameplayLoopTimer = null;
-    }
 
     this.growTimer = setInterval(this.updateObjectAge,PLOTTIMERDELAY,this);
     this.waterTimer = setInterval(this.useWater,WATERDELAY,this);
-    this.gameplayLoopTimer = setInterval(this.callGameplayLoopEnd,GAMELOOPDELAY,this);
   }
 
   preparePlots(response: FarmModel): void {
@@ -366,7 +360,7 @@ export class FarmComponent {
   }
 
   callGameplayLoopEnd(){
-    if(this.inventory.water <= 0 && this.inventory.money <= 0){
+    if(this.inventory.water <= 0){
       this.openGameplayLoopEndModal();
     }
   }
