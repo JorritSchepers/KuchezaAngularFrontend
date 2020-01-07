@@ -87,7 +87,6 @@ export class FarmComponent {
         this.animalAudio.src = "../assets/audio/Goat_Sound.wav";
       }
       this.animalAudio.load();
-      this.animalAudio.pitch = 1000;
       this.animalAudio.play();
     }
   }
