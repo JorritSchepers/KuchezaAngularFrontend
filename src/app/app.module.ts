@@ -13,6 +13,7 @@ import { FarmApi } from './api/farm.api';
 import { PlotApi } from './api/plot.api';
 import { PlantApi } from './api/plant.api';
 import { LogoutApi } from './api/logout.api';
+import { BuildingApi } from 'src/app/api/building.api';
 import { InventoryApi } from './api/inventory.api';
 import { AdminComponent } from './component/admin/admin.component';
 import { AdminApi } from './api/admin.api';
@@ -44,6 +45,7 @@ import { CookieService } from 'ngx-cookie-service';
     ,InventoryApi
     ,AdminApi
     ,AnimalApi
+    ,BuildingApi
     ,CookieService
     ,AnimalApi
   ],
