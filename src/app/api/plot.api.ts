@@ -56,9 +56,9 @@ export class PlotApi {
 		}
 	}
 
-	async editWater(plot: number, water: number, removeFromInventory: boolean): Promise<PlotModel>{
+	async editWater(plot: number, water: number, ShouldRemoveFromInventory: boolean): Promise<PlotModel>{
 		try {
-			const data: PlotModel = await this.http.post<PlotModel>(this.PLOT_URL+ plot + "/water/"+water+"/"+removeFromInventory+"?token=" + this.token,
+			const data: PlotModel = await this.http.post<PlotModel>(this.PLOT_URL+ plot + "/water/"+water+"/"+ShouldRemoveFromInventory+"?token=" + this.token,
 			{headers: this.headers}).toPromise();
 			return data;
 		} catch (err) {
