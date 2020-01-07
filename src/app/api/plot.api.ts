@@ -85,4 +85,14 @@ export class PlotApi {
 			console.warn(err.error);
 		}
 	}
+
+	async sellProduct(plot: number, plotModel: PlotModel): Promise<AllPlotModel> {
+		try {
+			const data: AllPlotModel = await this.http.post<AllPlotModel>(this.PLOT_URL+ plot + "/sellProduct?token=" + this.token, JSON.stringify(plotModel),
+			{headers: this.headers}).toPromise();
+			return data;
+		} catch (err) {
+			 console.warn(err.error);
+		}
+	}
 }

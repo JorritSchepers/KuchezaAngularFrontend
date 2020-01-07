@@ -4,7 +4,8 @@
   import { RegisterModel } from 'src/app/model/register.model';
   import { UserModel } from 'src/app/model/user.model';
   import { RegisterResponseModel } from 'src/app/model/register-response.model';
-  import {Title} from "@angular/platform-browser";
+  import { Title } from "@angular/platform-browser";
+  import { CookieService } from 'ngx-cookie-service';
 
   @Component({
     selector: 'app-register',
@@ -19,7 +20,7 @@
     repeatPassword: string;
     registerForm: any;
 
-    constructor(private titleService:Title,private formBuilder: FormBuilder, private registerApi: RegisterApi) {
+    constructor(private cookieService: CookieService, private titleService:Title,private formBuilder: FormBuilder, private registerApi: RegisterApi) {
       this.registerForm = this.formBuilder.group({
         name: '',
         email: '',
@@ -40,7 +41,7 @@
     }
 
     private handleRegisterResponse(response: RegisterResponseModel): void {
-      localStorage.setItem('currentUser', response.token);
+      this.cookieService.set('currentUser', response.token);
       window.location.pathname = '/farm'
     }
 

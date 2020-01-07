@@ -56,7 +56,7 @@ export class AdminComponent {
     }
   }
 
-  private getAllAnimals(){
+  getAllAnimals(){
    this.animalApi.getAllAnimals().then(animals => this.handleAnimalsResponse(animals))
      .catch(any => this.handleException(any));
   }

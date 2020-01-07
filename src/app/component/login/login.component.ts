@@ -3,7 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { LoginModel } from '../../model/login.model';
 import { LoginApi } from 'src/app/api/login.api';
 import { LoginResponseModel } from 'src/app/model/login-response.model';
-import {Title} from "@angular/platform-browser";
+import { Title } from "@angular/platform-browser";
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
@@ -32,7 +32,6 @@ export class LoginComponent {
 
   private handleLoginResponse(response: LoginResponseModel): void {
     this.cookieService.set('currentUser', response.token);
-    console.warn(response.user.admin);
     if (response.user.admin) {
       window.location.pathname = '/admin'
       return;
