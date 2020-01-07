@@ -176,6 +176,7 @@ export class AdminComponent {
 
   private handleActionsResponse(response: AllActionsModel) {
     this.currentAllActionsModel = response;
+    console.log(this.currentAllActionsModel);
     let dates: string[] = this.extractDates();
     let plantedASeed: number[] = this.extractData(dates, PLANTED_A_SEED_ACTION_ID);
     let harvestedAPlant: number[] = this.extractData(dates, HARVESTED_A_PLANT_ACTION_ID);
@@ -203,10 +204,27 @@ export class AdminComponent {
 
   private extractDates(): string[] {
     let tempList: string[] = Array<string>(); 
-    tempList.push("" + this.currentAllActionsModel.actions[0].dateOfAction.date + "/" + this.currentAllActionsModel.actions[0].dateOfAction.month + "/" + (this.currentAllActionsModel.actions[0].dateOfAction.year+1900));
+    tempList.push("" + this.currentAllActionsModel.actions[0].dateOfAction.date 
+                     + "/" + (this.currentAllActionsModel.actions[0].dateOfAction.month+1) 
+                     + "/" + (this.currentAllActionsModel.actions[0].dateOfAction.year+1900)
+                     + " " + this.currentAllActionsModel.actions[0].dateOfAction.hours
+                     + ":" + this.currentAllActionsModel.actions[0].dateOfAction.minutes
+                     + ":" + this.currentAllActionsModel.actions[0].dateOfAction.seconds
+                  );
     for (let action of this.currentAllActionsModel.actions) {
-      if (this.isDupeActionDate("" + action.dateOfAction.date + "/" + action.dateOfAction.month + "/" + (action.dateOfAction.year+1900), tempList)) continue;
-      tempList.push("" + action.dateOfAction.date + "/" + action.dateOfAction.month + "/" + (action.dateOfAction.year+1900));
+      if (this.isDupeActionDate("" + action.dateOfAction.date 
+                                   + "/" + (action.dateOfAction.month+1) 
+                                   + "/" + (action.dateOfAction.year+1900)
+                                   + " " + action.dateOfAction.hours 
+                                   + ":" + action.dateOfAction.minutes 
+                                   + ":" + action.dateOfAction.seconds 
+                                  , tempList)) continue;
+      tempList.push("" + action.dateOfAction.date 
+                       + "/" + (action.dateOfAction.month+1) 
+                       + "/" + (action.dateOfAction.year+1900)
+                       + " " + action.dateOfAction.hours 
+                       + ":" + action.dateOfAction.minutes 
+                       + ":" + action.dateOfAction.seconds);
     }
     return tempList;
   }
@@ -224,7 +242,12 @@ export class AdminComponent {
       let total: number = 0;
       for (let action of this.currentAllActionsModel.actions) {
         if (action.actionID != actionId) continue;
-        if (date != "" + action.dateOfAction.date + "/" + action.dateOfAction.month + "/" + (action.dateOfAction.year+1900)) continue;
+        if ("" + action.dateOfAction.date 
+        + "/" + (action.dateOfAction.month+1) 
+        + "/" + (action.dateOfAction.year+1900)
+        + " " + action.dateOfAction.hours 
+        + ":" + action.dateOfAction.minutes 
+        + ":" + action.dateOfAction.seconds) continue;
         total++;
       }
       tempList.push(total);
