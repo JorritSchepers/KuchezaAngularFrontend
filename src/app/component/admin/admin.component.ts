@@ -10,12 +10,21 @@ import { PlantResponseModel } from 'src/app/model/plant-response.model';
 import { AnimalApi } from 'src/app/api/animal.api';
 import { AnimalResponseModel } from 'src/app/model/animal-response.model';
 import { AnimalModel } from 'src/app/model/animal.model';
+import { AllActionsModel } from 'src/app/model/all-actions.model';
+
+const PLANTED_A_SEED_ACTION_ID = 1;
+const HARVESTED_A_PLANT_ACTION_ID = 2;
+const GAVE_A_PLANT_WATER_ACTION_ID = 3;
+const BOUGHT_A_PLOT_ACTION_ID = 4;
+const LOST_A_PLANT_ACTION_ID = 5;
+const BOUGHT_AN_ANIMAL_ACTION_ID = 6;
+const LOST_AN_ANIMAL_ACTION_ID = 7;
+const SOLD_AN_ITEM_FROM_AN_ANIMAL_ACTION_ID = 8;
 
 @Component({
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
-
 export class AdminComponent {
   users: UserModel[] = Array<UserModel>();
   plants: PlantModel[] = Array<PlantModel>();
@@ -29,6 +38,11 @@ export class AdminComponent {
   currentSelectedAnimal: AnimalModel;
   deleteAnimalPopUpIsActive = false;
   currentSelectedReplacementAnimal: AnimalModel = null;
+  showingStats: boolean = false;
+  currentAllActionsModel: AllActionsModel = null;
+  graphActions = null;
+  graphWater = null;
+  graphMoney = null;
 
   constructor(private animalApi: AnimalApi,private adminApi: AdminApi, private logoutApi: LogoutApi, private plantApi: PlantApi) {
     this.getAllNonAdminUsers();
@@ -148,5 +162,129 @@ export class AdminComponent {
   private handleDeletePlantResponse(response: PlantResponseModel): void {
     this.plants = response.plants;
     this.closeDeletePlantPopUp();
+  }
+
+  showStats(user: UserModel): void {
+    this.currentSelectedUser = user;
+    this.graphActions = null;
+    this.graphWater = null;
+    this.graphMoney = null;
+    this.adminApi.getActionFromUser(this.currentSelectedUser.id)
+      .then(response => this.handleActionsResponse(response))
+      .catch(exception => this.handleException(exception));
+
+    this.currentSelectedPage = "Stats";
+    this.showingStats = true;    
+  }
+
+  private handleActionsResponse(response: AllActionsModel) {
+    this.currentAllActionsModel = response;
+    let dates: string[] = this.extractDates();
+    let plantedASeed: number[] = this.extractData(dates, PLANTED_A_SEED_ACTION_ID);
+    let harvestedAPlant: number[] = this.extractData(dates, HARVESTED_A_PLANT_ACTION_ID);
+    let gaveAPlantWater: number[] = this.extractData(dates, GAVE_A_PLANT_WATER_ACTION_ID);
+    let boughtAPlot: number[] = this.extractData(dates, BOUGHT_A_PLOT_ACTION_ID);
+    let lostAPlant: number[] = this.extractData(dates, LOST_A_PLANT_ACTION_ID);
+    let boughtAnAnimal: number[] = this.extractData(dates, BOUGHT_AN_ANIMAL_ACTION_ID);
+    let lostAnAnimal: number[] = this.extractData(dates, LOST_AN_ANIMAL_ACTION_ID);
+    let soldAnItemFromAnAnimal: number[] = this.extractData(dates, SOLD_AN_ITEM_FROM_AN_ANIMAL_ACTION_ID);
+
+    this.graphActions = {
+      data: [
+          { x: dates, y: plantedASeed, name: 'Planted a seed', type: 'scatter', mode: 'lines+points', marker: {color: 'black'} },
+          { x: dates, y: harvestedAPlant, name: 'Harvested a plant', type: 'scatter', mode: 'lines+points', marker: {color: 'green'} },
+          { x: dates, y: gaveAPlantWater, name: 'Gave a plant water', type: 'scatter', mode: 'lines+points', marker: {color: 'blue'} },
+          { x: dates, y: boughtAPlot, name: 'Bought a plot', type: 'scatter', mode: 'lines+points', marker: {color: 'cyan'} },
+          { x: dates, y: lostAPlant, name: 'Lost a plant', type: 'scatter', mode: 'lines+points', marker: {color: 'purple'} },
+          { x: dates, y: boughtAnAnimal, name: 'Bought an animal', type: 'scatter', mode: 'lines+points', marker: {color: 'orange'} },
+          { x: dates, y: lostAnAnimal, name: 'Lost an animal', type: 'scatter', mode: 'lines+points', marker: {color: 'red'} },
+          { x: dates, y: soldAnItemFromAnAnimal, name: 'Sold an item from an animal', type: 'scatter', mode: 'lines+points', marker: {color: 'yellow'} },
+      ],
+      layout: {width: 1400, height: 500, title: "Actions"}
+    };
+
+    let water: number[] = this.extractWater();
+
+    this.graphWater = {
+      data: [
+          { x: dates, y: water, name: 'Water', type: 'scatter', mode: 'lines+points', marker: {color: 'blue'} },
+      ],
+      layout: {width: 1400, height: 500, title: "Water"}
+    };
+
+    let money: number[] = this.extractMoney();
+
+    this.graphMoney = {
+      data: [
+          { x: dates, y: money, name: 'Money', type: 'scatter', mode: 'lines+points', marker: {color: 'gold'} },
+      ],
+      layout: {width: 1400, height: 500, title: "Money"}
+    };
+  }
+
+  private extractWater(): number[] {
+    let tempList: number[] = Array<number>(0); 
+    for (let action of this.currentAllActionsModel.actions) {
+      tempList.push(action.currentWater);
+    }
+    return tempList;
+  }
+
+  private extractMoney(): number[] {
+    let tempList: number[] = Array<number>(0); 
+    for (let action of this.currentAllActionsModel.actions) {
+      tempList.push(action.currentMoney/100);
+    }
+    return tempList;
+  }
+
+  private extractDates(): string[] {
+    let tempList: string[] = Array<string>(); 
+    tempList.push("" + this.currentAllActionsModel.actions[0].dateOfAction.date 
+                     + "/" + (this.currentAllActionsModel.actions[0].dateOfAction.month+1) 
+                     + "/" + (this.currentAllActionsModel.actions[0].dateOfAction.year+1900)
+                     + " " + (this.currentAllActionsModel.actions[0].dateOfAction.hours-1)
+                     + ":" + this.currentAllActionsModel.actions[0].dateOfAction.minutes
+                     + ":" + this.currentAllActionsModel.actions[0].dateOfAction.seconds
+                  );
+    for (let action of this.currentAllActionsModel.actions) {
+      if (this.isDupeActionDate("" + action.dateOfAction.date 
+                                   + "/" + (action.dateOfAction.month+1) 
+                                   + "/" + (action.dateOfAction.year+1900)
+                                   + " " + (action.dateOfAction.hours-1) 
+                                   + ":" + action.dateOfAction.minutes 
+                                   + ":" + action.dateOfAction.seconds 
+                                  , tempList)) continue;
+      tempList.push("" + action.dateOfAction.date 
+                       + "/" + (action.dateOfAction.month+1) 
+                       + "/" + (action.dateOfAction.year+1900)
+                       + " " + (action.dateOfAction.hours-1) 
+                       + ":" + action.dateOfAction.minutes 
+                       + ":" + action.dateOfAction.seconds);
+    }
+    return tempList;
+  }
+
+  private isDupeActionDate(toBeChecked: string, list: string[]): boolean {
+    for (let item of list) {
+      if (toBeChecked == item) return true;
+    }
+    return false;
+  }
+
+  private extractData(dates: string[], actionId: number): number[] {
+    let tempList: number[] = Array<number>(0); 
+    let total: number = 0;
+    for (let date of dates) {
+      for (let action of this.currentAllActionsModel.actions) {
+        if (action.actionID != actionId) {
+          tempList.push(total);
+          continue;
+        }
+        total++;
+        tempList.push(total);
+      }
+    }
+    return tempList;
   }
 }
