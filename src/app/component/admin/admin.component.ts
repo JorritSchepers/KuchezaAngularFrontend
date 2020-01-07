@@ -169,7 +169,6 @@ export class AdminComponent {
     this.graphActions = null;
     this.graphWater = null;
     this.graphMoney = null;
-    console.warn(this.currentSelectedUser);
     this.adminApi.getActionFromUser(this.currentSelectedUser.id)
       .then(response => this.handleActionsResponse(response))
       .catch(exception => this.handleException(exception));
@@ -180,9 +179,7 @@ export class AdminComponent {
 
   private handleActionsResponse(response: AllActionsModel) {
     this.currentAllActionsModel = response;
-    console.log("currentAllActionsModel" + this.currentAllActionsModel);
     let dates: string[] = this.extractDates();
-    console.log("Dates" + dates)
     let plantedASeed: number[] = this.extractData(dates, PLANTED_A_SEED_ACTION_ID);
     let harvestedAPlant: number[] = this.extractData(dates, HARVESTED_A_PLANT_ACTION_ID);
     let gaveAPlantWater: number[] = this.extractData(dates, GAVE_A_PLANT_WATER_ACTION_ID);
@@ -202,7 +199,6 @@ export class AdminComponent {
           { x: dates, y: boughtAnAnimal, name: 'Bought an animal', type: 'scatter', mode: 'lines+points', marker: {color: 'orange'} },
           { x: dates, y: lostAnAnimal, name: 'Lost an animal', type: 'scatter', mode: 'lines+points', marker: {color: 'red'} },
           { x: dates, y: soldAnItemFromAnAnimal, name: 'Sold an item from an animal', type: 'scatter', mode: 'lines+points', marker: {color: 'yellow'} },
-          // { x: dates, y: water, name: 'Water', type: 'scatter', mode: 'lines+points', marker: {color: 'pink'} },
       ],
       layout: {width: 1400, height: 500, title: "Actions"}
     };
