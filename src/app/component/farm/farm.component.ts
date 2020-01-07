@@ -20,6 +20,7 @@ import { AnimalApi } from 'src/app/api/animal.api';
 
 const PLOTTIMERDELAY: number = 2000;
 const WATERDELAY: number = 10000;
+const GAMELOOPDELAY: number = 100000;
 const WATERPLANTAMOUNT: number = 20;
 const DEHYDRATED_FACTOR: number = 4;
 const MAXIMUM_WATER: number = 500;
@@ -39,6 +40,7 @@ export class FarmComponent {
   private inventory: InventoryModel = new InventoryModel(0, 0, 0);
   purchasePlot: boolean;
   wantToGiveWater: boolean;
+  gameplayLoopEnd: boolean;
   harvestModal: boolean;
   sellProductModal: boolean;
   plantTypes: PlantModel[];
@@ -55,6 +57,7 @@ export class FarmComponent {
 
   private growTimer: any;
   private waterTimer: any;
+  private gameplayLoopTimer: any;
 
   constructor(private animalApi: AnimalApi, private cookieService: CookieService,private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi) {
     this.prepareFarm();
@@ -70,6 +73,7 @@ export class FarmComponent {
   private handleInventoryResponse(response: InventoryModel): void{
     this.inventory = response;
     this.updateWater();
+    this.callGameplayLoopEnd();
   }
 
   updateWater() {
@@ -106,6 +110,7 @@ export class FarmComponent {
     this.showPlantshop = false;
     this.showAnimalshop = false;
     this.wantToPurchase = false;
+    this.gameplayLoopEnd = false;
   }
 
   setTimers(){
@@ -117,9 +122,14 @@ export class FarmComponent {
       clearInterval(this.waterTimer);
       this.waterTimer = null;
     }
+    if(this.gameplayLoopTimer != null) {
+      clearInterval(this.gameplayLoopTimer);
+      this.gameplayLoopTimer = null;
+    }
 
     this.growTimer = setInterval(this.updateObjectAge,PLOTTIMERDELAY,this);
     this.waterTimer = setInterval(this.useWater,WATERDELAY,this);
+    this.gameplayLoopTimer = setInterval(this.callGameplayLoopEnd,GAMELOOPDELAY,this);
   }
 
   preparePlots(response: FarmModel): void {
@@ -355,6 +365,12 @@ export class FarmComponent {
     }
   }
 
+  callGameplayLoopEnd(){
+    if(this.inventory.water <= 0 && this.inventory.money <= 0){
+      this.openGameplayLoopEndModal();
+    }
+  }
+
   callPurchasePlot(id: number): void{
     this.plotApi.purchasePlot(id).then(response => this.handlePlotResponse(response))
       .catch(exception => this.handleException(exception));
@@ -378,6 +394,10 @@ export class FarmComponent {
 
   closePlotModal(): void{
     this.purchasePlot = false;
+  }
+
+  openGameplayLoopEndModal(): void{
+    this.gameplayLoopEnd = true;
   }
 
   getAllPlantTypes(plants: PlantResponseModel): void {
