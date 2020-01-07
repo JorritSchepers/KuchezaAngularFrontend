@@ -87,6 +87,7 @@ export class FarmComponent {
         this.animalAudio.src = "../assets/audio/Goat_Sound.wav";
       }
       this.animalAudio.load();
+      this.animalAudio.pitch = 1000;
       this.animalAudio.play();
     }
   }
@@ -211,7 +212,7 @@ export class FarmComponent {
     } else if(this.wantToGiveWater && plot.plantID > 0){
         this.giveWater(plot);
       plot.updateWater(true);
-    } else if(plot.harvestable == true && plot.status == "Normal") {
+    } else if(plot.plantID > 0 && plot.harvestable == true && plot.status == "Normal") {
         this.activePlot = plot;
         this.harvestPopUpText = null;
         this.openHarvestModel();
@@ -230,6 +231,7 @@ export class FarmComponent {
       plot.maximumWater = this.getMaximumSourceWater(plot.waterSourceID);
       plot.updateWater(true);
     } else if(plot.animalID > 0) {
+      console.warn("ANIMAL")
       this.playAnimalSound(plot.animalID);
       if(plot.harvestable == true) {
         this.activePlot = plot;
