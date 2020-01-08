@@ -37,12 +37,13 @@ export class FarmComponent {
   private height: number;
   plants: PlantResponseModel;
   plots: PlotModel[][] = new Array<Array<PlotModel>>();
-  private plotId: number;
+  plotId: number;
   activePlot: PlotModel;
   plotPrice: number;
-  private inventory: InventoryModel = new InventoryModel(0, 0, 0);
+  inventory: InventoryModel = new InventoryModel(0, 0, 0);
   purchasePlot: boolean;
   wantToGiveWater: boolean;
+  gameplayLoopEnd: boolean;
   harvestModal: boolean;
   animalRemoveModal: boolean;
   sellProductModal: boolean;
@@ -50,14 +51,14 @@ export class FarmComponent {
   waterSourceTypes: WaterSourceModel[];
   private animalTypes: AnimalModel[];
   private activeAnimalId: number;
-  private animals: AnimalResponseModel;
+  animals: AnimalResponseModel;
   showPlantshop: Boolean;
   showAnimalshop: Boolean;
   showBuildingshop: Boolean;
   purchasePlant: PlantModel;
   purchaseAnimal: AnimalModel;
   wantToPurchase: Boolean;
-  private harvestPopUpText: String;
+  harvestPopUpText: String;
   private growTimer: any;
   private waterTimer: any;
   animalAudio: any;
@@ -103,6 +104,7 @@ export class FarmComponent {
   private handleInventoryResponse(response: InventoryModel): void{
     this.inventory = response;
     this.updateWater();
+    this.callGameplayLoopEnd();
   }
 
   updateWater() {
@@ -139,6 +141,7 @@ export class FarmComponent {
     this.showPlantshop = false;
     this.showAnimalshop = false;
     this.wantToPurchase = false;
+    this.gameplayLoopEnd = false;
   }
 
   setTimers(){
@@ -202,7 +205,7 @@ export class FarmComponent {
     this.getAllAnimalTypes(animals);
   }
 
-  private handlePlotClick(plot: PlotModel): void {
+  handlePlotClick(plot: PlotModel): void {
     this.plotId = plot.id;
 
     if(!plot.purchased) {
@@ -485,12 +488,18 @@ export class FarmComponent {
     }
   }
 
+  callGameplayLoopEnd(){
+    if(this.inventory.water <= 0){
+      this.openGameplayLoopEndModal();
+    }
+  }
+
   callPurchasePlot(id: number): void{
     this.plotApi.purchasePlot(id).then(response => this.handlePlotResponse(response))
       .catch(exception => this.handleException(exception));
   }
 
-  openHarvestModel(): void{
+  private openHarvestModel(): void{
     this.harvestModal = true;
   }
 
@@ -506,7 +515,7 @@ export class FarmComponent {
     this.animalRemoveModal = false;
   }
 
-  openSellProductModel(): void{
+  private openSellProductModel(): void{
     this.sellProductModal = true;
   }
 
@@ -516,6 +525,10 @@ export class FarmComponent {
 
   closePlotModal(): void{
     this.purchasePlot = false;
+  }
+
+  private openGameplayLoopEndModal(): void{
+    this.gameplayLoopEnd = true;
   }
 
   getAllPlantTypes(plants: PlantResponseModel): void {
@@ -630,7 +643,7 @@ return 0;
     for(let i=0;i<this.height;i++) {
       for(let j=0;j<this.width;j++) {
         let plot = this.plots[i][j];
-        
+
         if(plot.plantID > 0) {
           plot.maximumWater = this.getMaximumWater(plot.plantID);
           plot.updateWater(true);

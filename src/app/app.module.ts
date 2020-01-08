@@ -19,6 +19,11 @@ import { AdminComponent } from './component/admin/admin.component';
 import { AdminApi } from './api/admin.api';
 import { AnimalApi } from './api/animal.api';
 import { CookieService } from 'ngx-cookie-service';
+import { CommonModule } from '@angular/common';
+import * as PlotlyJS from 'plotly.js/dist/plotly.js';
+import { PlotlyModule } from 'angular-plotly.js';
+
+PlotlyModule.plotlyjs = PlotlyJS;
 
 @NgModule({
   declarations: [
@@ -34,6 +39,8 @@ import { CookieService } from 'ngx-cookie-service';
     ,AppRoutingModule
     ,ReactiveFormsModule
     ,HttpClientModule
+    ,CommonModule
+    ,PlotlyModule
   ],
   providers: [
     LoginApi

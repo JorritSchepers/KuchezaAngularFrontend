@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { AllUsersModel } from '../model/all-users.model';
 import { ConstantsModel } from './constants.model';
 import { CookieService } from 'ngx-cookie-service';
+import { AllActionsModel } from '../model/all-actions.model';
 
 @Injectable()
 export class AdminApi {
@@ -22,6 +23,12 @@ export class AdminApi {
 
   async deleteUser(userID: number): Promise<AllUsersModel> {
     const data: AllUsersModel = await this.http.delete<AllUsersModel>(this.ADMIN_URL + "/user/" + userID + "?token=" + this.token,
+    {headers: this.headers}).toPromise();
+    return data;
+  }
+
+  async getActionFromUser(userID: number): Promise<AllActionsModel> {
+    const data: AllActionsModel = await this.http.get<AllActionsModel>(this.ADMIN_URL + "/actions/" + userID + "?token=" + this.token,
     {headers: this.headers}).toPromise();
     return data;
   }

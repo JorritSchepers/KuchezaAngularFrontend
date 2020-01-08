@@ -13,6 +13,9 @@ import { PlantModel } from 'src/app/model/plant.model';
 import { AnimalApi } from 'src/app/api/animal.api';
 import { AnimalModel } from 'src/app/model/animal.model';
 import { AnimalResponseModel } from 'src/app/model/animal-response.model';
+import { AllActionsModel } from 'src/app/model/all-actions.model';
+import { ActionModel } from 'src/app/model/action.model';
+import { Action } from 'rxjs/internal/scheduler/Action';
 
 const NON_ADMIN_USER_1: UserModel = new UserModel(1, "name1", "pass1", "email1", false);
 const NON_ADMIN_USER_2: UserModel = new UserModel(2, "name2", "pass2", "email2", false);
@@ -31,6 +34,11 @@ const ANIMAL_2: AnimalModel = new AnimalModel(2, "name2", 2, 2, 2, 2, 2);
 const ANIMALS: AnimalModel[] = [ANIMAL_1, ANIMAL_2];
 const ANIMAL_RESPONSE_MODEL: AnimalResponseModel = new AnimalResponseModel(ANIMALS);
 
+const ACTION_1: ActionModel = new ActionModel(1, 1, "date", "item", 100, 100, "text");
+const ACTION_2: ActionModel = new ActionModel(2, 2, "date", "item", 200, 200, "text");
+const ACTIONS: ActionModel[] = [ACTION_1, ACTION_2];
+const ALL_ACTIONS_MODEL: AllActionsModel = new AllActionsModel(ACTIONS);
+
 describe('AdminComponent', () => {
     let sut: AdminComponent;
     let mockedAnimalApi: any;
@@ -43,9 +51,10 @@ describe('AdminComponent', () => {
         mockedAnimalApi.getAllAnimals.and.returnValue(Promise.resolve(ANIMAL_RESPONSE_MODEL));
         mockedAnimalApi.deleteAnimal.and.returnValue(Promise.resolve(ANIMAL_RESPONSE_MODEL));
 
-        mockedAdminApi = jasmine.createSpyObj("AdminApi", ["getAllNonAdminUsers", "deleteUser"]);
+        mockedAdminApi = jasmine.createSpyObj("AdminApi", ["getAllNonAdminUsers", "deleteUser", "getActionFromUser"]);
         mockedAdminApi.getAllNonAdminUsers.and.returnValue(Promise.resolve(ALL_USER_MODEL));
         mockedAdminApi.deleteUser.and.returnValue(Promise.resolve(NON_ADMIN_USER_1));
+        mockedAdminApi.getActionFromUser.and.returnValue(Promise.resolve(ALL_ACTIONS_MODEL));
 
         mockedLogoutApi = jasmine.createSpyObj("LogoutApi", ["logout"]);
         mockedLogoutApi.logout.and.returnValue(Promise.resolve(LOGOUT_RESPONSE_MODEL));
@@ -141,5 +150,30 @@ describe('AdminComponent', () => {
         sut.currentSelectedReplacementAnimal = ANIMAL_2;
         sut.deleteAnimal();
         expect(mockedAnimalApi.deleteAnimal).toHaveBeenCalled();
+    });
+
+    it('should set variables when showStats is called', () => {
+        sut.showStats(NON_ADMIN_USER_1);
+        expect(sut.currentSelectedUser).toBe(NON_ADMIN_USER_1);
+        expect(sut.graphActions).toBeDefined();
+        expect(sut.graphWater).toBeDefined();
+        expect(sut.graphMoney).toBeDefined();
+        expect(sut.currentSelectedPage).toBe("Stats");
+        expect(sut.showingStats).toBeTruthy();
+    });
+
+    it('should call getActionFromUser in AdminApi', () => {
+        sut.showStats(NON_ADMIN_USER_1);
+        expect(mockedAdminApi.getActionFromUser).toHaveBeenCalled();
+    });
+
+    it('should logout call logout from LogoutApi', () => {
+        mockedLogoutApi.logout.and
+            .returnValue(Promise.resolve(null)
+            .then(response => this.handleLogoutResponse())
+            .catch(exception => this.handleException(exception)));
+
+        sut.logout();
+        expect(mockedLogoutApi.logout).toHaveBeenCalled();
     });
 });
