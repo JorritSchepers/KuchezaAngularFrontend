@@ -234,7 +234,6 @@ export class FarmComponent {
       plot.updateWater(true);
     } else if(plot.animalID > 0) {
       if(plot.status == "Normal") {
-        this.playAnimalSound(plot.animalID);
         if(plot.harvestable == true) {
           this.activePlot = plot;
           this.openSellProductModel();
@@ -242,6 +241,10 @@ export class FarmComponent {
       } else if(plot.status == "Dead") {
         this.activePlot = plot;
         this.openAnimalRemoveModel();
+      }
+
+      if(plot.status != "Dead") {
+        this.playAnimalSound(plot.animalID);
       }
     }
 }
