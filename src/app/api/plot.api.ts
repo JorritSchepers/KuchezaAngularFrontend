@@ -27,6 +27,16 @@ export class PlotApi {
 		}
 	}
 
+	async remove(plot: number, plotModel: PlotModel): Promise<PlotModel> {
+		try {
+			const data: PlotModel = await this.http.post<PlotModel>(this.PLOT_URL+ plot + "/clear?token=" + this.token, JSON.stringify(plotModel),
+			{headers: this.headers}).toPromise();
+			return data;
+		} catch (err) {
+			 console.warn(err.error);
+		}
+	}
+
   async placePlantOnPlot(plot: number, plantModel: PlantModel): Promise<PlotModel> {
     try {
       const data: PlotModel = await this.http.post<PlotModel>(this.PLOT_URL+ plot + "/plant?token=" + this.token, JSON.stringify(plantModel),
