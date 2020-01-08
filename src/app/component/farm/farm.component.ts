@@ -291,7 +291,7 @@ export class FarmComponent {
     this.getAllPlantTypes(plants);
   }
 
-  getWaterSources(): void {
+  private getWaterSources(): void {
     this.buildingApi.getAllWaterSources().then(response => this.handleWaterSourceResponse(response))
     .catch(exception => this.handleException(exception));
   }

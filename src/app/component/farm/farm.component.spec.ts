@@ -195,11 +195,6 @@ describe('FarmComponent', () => {
       expect(sut.plotPrice).toBeDefined(PRICE);
   });
 
-  it('should call getWaterSources in building api', () => {
-      sut.getWaterSources();
-      expect(mockedBuildingApi.getAllWaterSources).toHaveBeenCalled();
-  });
-
   it('should logout call logout from LogoutApi', () => {
       mockedLogoutApi.logout.and
           .returnValue(Promise.resolve(null)
