@@ -49,7 +49,7 @@ export class FarmComponent {
   waterSourceTypes: WaterSourceModel[];
   private animalTypes: AnimalModel[];
   private activeAnimalId: number;
-  private animals: AnimalResponseModel;
+  animals: AnimalResponseModel;
   showPlantshop: Boolean;
   showAnimalshop: Boolean;
   showBuildingshop: Boolean;
