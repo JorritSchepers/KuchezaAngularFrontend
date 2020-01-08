@@ -20,6 +20,7 @@ import { AnimalModel } from 'src/app/model/animal.model';
 import { AnimalApi } from 'src/app/api/animal.api';
 import { WaterSourceModel } from 'src/app/model/watersource.model';
 import { WaterSourceResponseModel } from 'src/app/model/watersource-response.model';
+import { Title } from "@angular/platform-browser";
 
 const PLOTTIMERDELAY: number = 2000;
 const WATERDELAY: number = 2000;
@@ -62,11 +63,12 @@ export class FarmComponent {
   animalAudio: any;
   inGameMusic: any;
 
-  constructor(private animalApi: AnimalApi, private cookieService: CookieService,private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private buildingApi: BuildingApi) {
+  constructor(private titleService:Title,private animalApi: AnimalApi, private cookieService: CookieService,private inventoryApi: InventoryApi, private farmApi: FarmApi, private plantApi: PlantApi, private plotApi: PlotApi, private logoutApi: LogoutApi, private buildingApi: BuildingApi) {
     this.prepareFarm();
     this.resetVariables();
     this.inGameMusic = new Audio();
     this.animalAudio = new Audio();
+    this.titleService.setTitle("Kucheza");
   }
 
   playInGameMusic():void {
