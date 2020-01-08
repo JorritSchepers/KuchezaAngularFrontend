@@ -406,37 +406,49 @@ export class FarmComponent {
         for(let j=0;j<farm.width;j++) {
           let plot = farm.plots[i][j];
           if(plot.plantID > 0) {
-            let waterUsage = farm.getWaterUsage(plot.plantID);
-            if(plot.status == "Normal") {
-              farm.normalPlantAction(plot,waterUsage,farm);
-            } else if(plot.status == "Dehydrated") {
-              farm.dehydratedPlantAction(plot,waterUsage,farm);
-            }
-            plot.maximumWater = farm.getMaximumWater(plot.plantID);
-            plot.updateWater(true);
+            farm.handlePlantWater(plot,farm);
           }
 
           if(plot.waterSourceID > 0) {
-            let waterYield = farm.getWaterYield(plot.waterSourceID);
-            plot.waterAvailable += waterYield;
-            farm.plotApi.editWater(plot.id,Math.ceil(waterYield), false);
-            plot.maximumWater = farm.getMaximumSourceWater(plot.waterSourceID);
-            plot.updateWater(true);
+            farm.handleWaterSourceWater(plot, farm);
           }
 
           if(plot.animalID > 0) {
-            let waterUsage = farm.getAnimalWaterUsage(plot.animalID);
-            if(plot.status == "Normal") {
-              farm.normalAnimalAction(plot,waterUsage,farm);
-            } else if(plot.status == "Dehydrated") {
-              farm.dehydratedAnimalAction(plot,waterUsage,farm);
-            }
-            plot.maximumWater = farm.getMaximumAnimalWater(plot.animalID);
-            plot.updateWater(true);
+            farm.handleAnimalWater(plot, farm);
           }
         }
       }
     }
+  }
+
+  handlePlantWater(plot: PlotModel, farm: FarmComponent) {
+    let waterUsage = farm.getWaterUsage(plot.plantID);
+    if(plot.status == "Normal") {
+      farm.normalPlantAction(plot,waterUsage,farm);
+    } else if(plot.status == "Dehydrated") {
+      farm.dehydratedPlantAction(plot,waterUsage,farm);
+    }
+    plot.maximumWater = farm.getMaximumWater(plot.plantID);
+    plot.updateWater(true);
+  }
+
+  handleWaterSourceWater(plot: PlotModel, farm: FarmComponent) {
+    let waterYield = farm.getWaterYield(plot.waterSourceID);
+    plot.waterAvailable += waterYield;
+    farm.plotApi.editWater(plot.id,Math.ceil(waterYield), false);
+    plot.maximumWater = farm.getMaximumSourceWater(plot.waterSourceID);
+    plot.updateWater(true);
+  }
+
+  handleAnimalWater(plot: PlotModel, farm : FarmComponent) {
+    let waterUsage = farm.getAnimalWaterUsage(plot.animalID);
+    if(plot.status == "Normal") {
+      farm.normalAnimalAction(plot,waterUsage,farm);
+    } else if(plot.status == "Dehydrated") {
+      farm.dehydratedAnimalAction(plot,waterUsage,farm);
+    }
+    plot.maximumWater = farm.getMaximumAnimalWater(plot.animalID);
+    plot.updateWater(true);
   }
 
   dehydratePlant(plot: PlotModel, waterUsage: number, farm: FarmComponent): void {
