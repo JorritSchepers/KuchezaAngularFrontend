@@ -154,14 +154,6 @@ describe('FarmComponent', () => {
         expect(mockedPlotApi.harvest).toHaveBeenCalled();
   });
 
-  it('should givePlantWater water plant on plot', () => {
-      mockedPlotApi.editWater.and
-        .returnValue(Promise.resolve(PLOT_WITH_PLANT_MODEL));
-
-        sut.giveWater(PLOT_WITH_PLANT_MODEL);
-        expect(mockedPlotApi.editWater).toHaveBeenCalled();
-  });
-
   it('should sellProductFromPlot sell the product on plot', () => {
         sut.activePlot = PLOT_WITH_PLANT_MODEL;
         mockedPlotApi.sellProduct.and.returnValue(Promise.resolve(PLOT_WITH_PLANT_MODEL));
@@ -204,9 +196,6 @@ describe('FarmComponent', () => {
   });
 
   it('should call getWaterSources in building api', () => {
-    mockedBuildingApi.getAllWaterSources.and
-      .returnValue(Promise.resolve(WATERSOURCERESPONSEMODEL));
-
       sut.getWaterSources();
       expect(mockedBuildingApi.getAllWaterSources).toHaveBeenCalled();
   });

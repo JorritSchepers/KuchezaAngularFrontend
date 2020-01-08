@@ -248,7 +248,7 @@ export class FarmComponent {
       .catch(any => this.handlePlotResponse(any));
   }
 
- giveWater(plot: PlotModel){
+ private giveWater(plot: PlotModel){
     this.plotApi.editWater(plot.id, WATERPLANTAMOUNT, true).then(plot => this.handlePlotResponse(plot))
       .catch(any => this.handleException(any));
   }
