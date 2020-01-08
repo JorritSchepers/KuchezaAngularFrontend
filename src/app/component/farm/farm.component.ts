@@ -565,7 +565,7 @@ export class FarmComponent {
     }
   }
 
-  handlePurchase(): void{
+  private handlePurchase(): void{
     if(this.purchasePlant){
       this.plotApi.placePlantOnPlot(this.plotId,this.purchasePlant).then(plant => this.handlePlotResponse(plant))
         .catch(any => this.handleException(any));
