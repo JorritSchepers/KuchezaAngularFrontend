@@ -14,6 +14,9 @@ import { LogoutApi } from 'src/app/api/logout.api';
 import { CookieService } from 'ngx-cookie-service';
 import { AnimalModel } from 'src/app/model/animal.model';
 import { AnimalApi } from 'src/app/api/animal.api';
+import { BuildingApi } from 'src/app/api/building.api';
+import { WaterSourceModel } from 'src/app/model/watersource.model';
+import { WaterSourceResponseModel } from 'src/app/model/watersource-response.model';
 
 const WIDTH: number = 10;
 const HEIGHT: number = 10;
@@ -33,8 +36,8 @@ const GROWING_TIME: number = 60;
 const WATER_AVAILABLE: number = 25;
 const PLANT_STATUS_NORMAL: string = "Normal";
 
-const EMPTY_PLOT_MODEL: PlotModel = new PlotModel(1, 1, 1, PRICE, 0, 0, 0, true, AGE, 0, PLANT_STATUS_NORMAL);
-const PLOT_WITH_PLANT_MODEL: PlotModel = new PlotModel(2, 2, 2, PRICE, 0, 0, PLANT_ID, true, AGE, 25, PLANT_STATUS_NORMAL);
+const EMPTY_PLOT_MODEL: PlotModel = new PlotModel(1, 1, 1, PRICE, 0, 0, 0, 0, true, AGE, 0, PLANT_STATUS_NORMAL);
+const PLOT_WITH_PLANT_MODEL: PlotModel = new PlotModel(2, 2, 2, PRICE, 0, 0, 0, PLANT_ID, true, AGE, 25, PLANT_STATUS_NORMAL);
 const PLOTS: PlotModel[] = [EMPTY_PLOT_MODEL, PLOT_WITH_PLANT_MODEL];
 const FARM_MODEL: FarmModel = new FarmModel(PLOTS, FARM_ID, USER_ID, WIDTH, HEIGHT);
 const INVENTORY_MODEL: InventoryModel = new InventoryModel(MONEY, WATER, USER_ID);
@@ -42,6 +45,9 @@ const ANIMAL_MODEL: AnimalModel = new AnimalModel(WATER_USAGE, ANIMAL_NAME, GROW
 const PLANT: PlantModel = new PlantModel(WATER_USAGE, PLANT_NAME, GROWING_TIME, PLANT_ID, PRICE, PRICE + 10, 0);
 const PLANTS: PlantResponseModel = new PlantResponseModel([PLANT]);
 const PLANT_MODELS: PlantModel[] = [PLANT];
+const WATERSOURCE_MODEL: WaterSourceModel = new WaterSourceModel(1, 20, 200, 50, 'silo');
+const WATERSOURCES: WaterSourceModel[] = [WATERSOURCE_MODEL];
+const WATERSOURCERESPONSEMODEL: WaterSourceResponseModel = new WaterSourceResponseModel(WATERSOURCES);
 
 describe('FarmComponent', () => {
     let mockedFarmApi: any;
@@ -51,6 +57,7 @@ describe('FarmComponent', () => {
     let mockedPlantApi: any;
     let mockedLogoutApi: any;
     let mockedCookieService: any;
+    let mockedBuildingApi: any;
     let sut: FarmComponent;
 
     beforeEach(() => {
@@ -63,6 +70,7 @@ describe('FarmComponent', () => {
         mockedPlotApi.editWater.and.returnValue(Promise.resolve(PLOT_WITH_PLANT_MODEL));
         mockedPlotApi.updateAge.and.returnValue(Promise.resolve(PLOT_WITH_PLANT_MODEL));
         mockedPlotApi.updateStatus.and.returnValue(Promise.resolve(PLOT_WITH_PLANT_MODEL));
+        mockedPlotApi.purchasePlot.and.returnValue(Promise.resolve(PLOTS));
 
         mockedAnimalApi = jasmine.createSpyObj("AnimalApi", ["getAllAnimals"]);
         mockedAnimalApi.getAllAnimals.and.returnValue(Promise.resolve(ANIMAL_MODEL));
@@ -78,6 +86,9 @@ describe('FarmComponent', () => {
         mockedCookieService = jasmine.createSpyObj("CookieService", ["get"]);
         mockedCookieService.get.and.returnValue("1234");
 
+        mockedBuildingApi = jasmine.createSpyObj("BuildingApi", ["getAllWaterSources"]);
+        mockedBuildingApi.getAllWaterSources.and.returnValue(Promise.resolve(WATERSOURCERESPONSEMODEL));
+
         TestBed.configureTestingModule({
 			declarations: [FarmComponent],
             providers: [
@@ -87,10 +98,11 @@ describe('FarmComponent', () => {
                 { provide: FarmApi, useClass: mockedFarmApi },
                 { provide: PlotApi, useClass: mockedPlotApi },
                 { provide: PlantApi, useClass: mockedPlantApi },
-                { provide: LogoutApi, useClass: mockedLogoutApi }
+                { provide: LogoutApi, useClass: mockedLogoutApi },
+                { provide: BuildingApi, useClass: mockedBuildingApi }
               ]
         });
-        sut = new FarmComponent(mockedAnimalApi, mockedCookieService, mockedInventoryApi, mockedFarmApi, mockedPlantApi, mockedPlotApi, mockedLogoutApi);
+        sut = new FarmComponent(mockedAnimalApi, mockedCookieService, mockedInventoryApi, mockedFarmApi, mockedPlantApi, mockedPlotApi, mockedLogoutApi, mockedBuildingApi);
 	});
 
   it('should resetPurchaseId reset purchasePlant, purchaseAnimal & wantToPurchase', () => {
@@ -114,9 +126,11 @@ describe('FarmComponent', () => {
       expect(sut.showPlantshop).toBeFalsy();
       expect(sut.showAnimalshop).toBeFalsy();
       expect(sut.wantToPurchase).toBeFalsy();
+      expect(sut.gameplayLoopEnd).toBeFalsy();
   });
 
   it('should set current farm model', () => {
+      sut.waterSourceTypes = WATERSOURCES;
       sut.preparePlots(FARM_MODEL);
       expect(CurrentFarmModel.width).toBeDefined();
       expect(CurrentFarmModel.height).toBeDefined();
@@ -144,7 +158,7 @@ describe('FarmComponent', () => {
       mockedPlotApi.editWater.and
         .returnValue(Promise.resolve(PLOT_WITH_PLANT_MODEL));
 
-        sut.givePlantWater(PLOT_WITH_PLANT_MODEL);
+        sut.giveWater(PLOT_WITH_PLANT_MODEL);
         expect(mockedPlotApi.editWater).toHaveBeenCalled();
   });
 
@@ -189,6 +203,14 @@ describe('FarmComponent', () => {
       expect(sut.plotPrice).toBeDefined(PRICE);
   });
 
+  it('should call getWaterSources in building api', () => {
+    mockedBuildingApi.getAllWaterSources.and
+      .returnValue(Promise.resolve(WATERSOURCERESPONSEMODEL));
+
+      sut.getWaterSources();
+      expect(mockedBuildingApi.getAllWaterSources).toHaveBeenCalled();
+  });
+
   it('should logout call logout from LogoutApi', () => {
       mockedLogoutApi.logout.and
           .returnValue(Promise.resolve(null)
@@ -207,7 +229,6 @@ describe('FarmComponent', () => {
   it('should dehydratePlant be dehydrated', () => {
       sut.dehydratePlant(PLOT_WITH_PLANT_MODEL, WATER_USAGE, sut);
 
-      expect(mockedPlotApi.editWater).toHaveBeenCalled();
       expect(mockedPlotApi.updateStatus).toHaveBeenCalled();
       expect(PLOT_WITH_PLANT_MODEL.status).toEqual("Dehydrated");
   });
@@ -228,27 +249,19 @@ describe('FarmComponent', () => {
       expect(PLOT_WITH_PLANT_MODEL.waterAvailable).toBe(oldWaterAvailable-WATER_USAGE);
   });
 
+  it('should call callGameplayLoopEnd when called', () => {
+      sut.inventory = INVENTORY_MODEL;
+      sut.inventory.water = 0;
+      sut.callGameplayLoopEnd();
+      expect(sut.gameplayLoopEnd).toBeTruthy()
+  });
+
   it('should callPurchasePlot be a call for purchase plot', () => {
     mockedPlotApi.purchasePlot.and
       .returnValue(Promise.resolve(EMPTY_PLOT_MODEL));
 
       sut.callPurchasePlot(PLOT_ID);
       expect(mockedPlotApi.purchasePlot).toHaveBeenCalled();
-  });
-
-  it('should openHarvestModel toggle harvest modal', () => {
-      sut.openHarvestModel();
-      expect(sut.openHarvestModel).toBeTruthy();
-  });
-
-  it('should closeHarvestModal close harvest modal', () => {
-      sut.closeHarvestModal();
-      expect(sut.closeHarvestModal).toBeTruthy();
-  });
-
-  it('should closePlotModal close plot modal', () => {
-      sut.closePlotModal();
-      expect(sut.closePlotModal).toBeTruthy();
   });
 
   it('should getAllPlantTypes to get all types', () => {
