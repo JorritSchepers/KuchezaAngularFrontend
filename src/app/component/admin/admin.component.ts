@@ -132,7 +132,7 @@ export class AdminComponent {
     console.warn(exception);
   }
 
-  private logout(): void {
+  logout(): void {
     this.logoutApi.logout().then(response => this.handleLogoutResponse(response))
       .catch(exception => this.handleException(exception));
   }
@@ -174,7 +174,7 @@ export class AdminComponent {
       .catch(exception => this.handleException(exception));
 
     this.currentSelectedPage = "Stats";
-    this.showingStats = true;    
+    this.showingStats = true;
   }
 
   private handleActionsResponse(response: AllActionsModel) {
@@ -223,7 +223,7 @@ export class AdminComponent {
   }
 
   private extractWater(): number[] {
-    let tempList: number[] = Array<number>(0); 
+    let tempList: number[] = Array<number>(0);
     for (let action of this.currentAllActionsModel.actions) {
       tempList.push(action.currentWater);
     }
@@ -231,7 +231,7 @@ export class AdminComponent {
   }
 
   private extractMoney(): number[] {
-    let tempList: number[] = Array<number>(0); 
+    let tempList: number[] = Array<number>(0);
     for (let action of this.currentAllActionsModel.actions) {
       tempList.push(action.currentMoney/100);
     }
@@ -239,27 +239,27 @@ export class AdminComponent {
   }
 
   private extractDates(): string[] {
-    let tempList: string[] = Array<string>(); 
-    tempList.push("" + this.currentAllActionsModel.actions[0].dateOfAction.date 
-                     + "/" + (this.currentAllActionsModel.actions[0].dateOfAction.month+1) 
+    let tempList: string[] = Array<string>();
+    tempList.push("" + this.currentAllActionsModel.actions[0].dateOfAction.date
+                     + "/" + (this.currentAllActionsModel.actions[0].dateOfAction.month+1)
                      + "/" + (this.currentAllActionsModel.actions[0].dateOfAction.year+1900)
                      + " " + (this.currentAllActionsModel.actions[0].dateOfAction.hours-1)
                      + ":" + this.currentAllActionsModel.actions[0].dateOfAction.minutes
                      + ":" + this.currentAllActionsModel.actions[0].dateOfAction.seconds
                   );
     for (let action of this.currentAllActionsModel.actions) {
-      if (this.isDupeActionDate("" + action.dateOfAction.date 
-                                   + "/" + (action.dateOfAction.month+1) 
+      if (this.isDupeActionDate("" + action.dateOfAction.date
+                                   + "/" + (action.dateOfAction.month+1)
                                    + "/" + (action.dateOfAction.year+1900)
-                                   + " " + (action.dateOfAction.hours-1) 
-                                   + ":" + action.dateOfAction.minutes 
-                                   + ":" + action.dateOfAction.seconds 
+                                   + " " + (action.dateOfAction.hours-1)
+                                   + ":" + action.dateOfAction.minutes
+                                   + ":" + action.dateOfAction.seconds
                                   , tempList)) continue;
-      tempList.push("" + action.dateOfAction.date 
-                       + "/" + (action.dateOfAction.month+1) 
+      tempList.push("" + action.dateOfAction.date
+                       + "/" + (action.dateOfAction.month+1)
                        + "/" + (action.dateOfAction.year+1900)
-                       + " " + (action.dateOfAction.hours-1) 
-                       + ":" + action.dateOfAction.minutes 
+                       + " " + (action.dateOfAction.hours-1)
+                       + ":" + action.dateOfAction.minutes
                        + ":" + action.dateOfAction.seconds);
     }
     return tempList;
@@ -273,7 +273,7 @@ export class AdminComponent {
   }
 
   private extractData(dates: string[], actionId: number): number[] {
-    let tempList: number[] = Array<number>(0); 
+    let tempList: number[] = Array<number>(0);
     let total: number = 0;
     for (let date of dates) {
       for (let action of this.currentAllActionsModel.actions) {
