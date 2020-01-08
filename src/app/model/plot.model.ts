@@ -86,12 +86,18 @@ export class PlotModel {
     }
 
     setAnimalImage(): void {
-        let stage:number = Math.floor((this.age*this.stages)/this.harvestTime);
-        if(stage >= this.stages) {
-            this.harvestable = true;
-            stage = this.stages;
+        if(this.status == "Normal") {
+            let stage:number = Math.floor((this.age*this.stages)/this.harvestTime);
+            if(stage >= this.stages) {
+                this.harvestable = true;
+                stage = this.stages;
+            }
+            this.image = "../../../assets/animal/" + this.animalID + "/" + stage + ".png";
+        } else if (this.status == "Dehydrated") {
+            this.image = "../../../assets/animal/" + this.animalID + "/dehydrated.png";
+        } else if (this.status == "Dead") {
+            this.image = "../../../assets/animal/" + this.animalID + "/dead.png";
         }
-        this.image = "../../../assets/animal/" + this.animalID + "/" + stage + ".png";
     }
 
     public getWater(): String {
@@ -129,7 +135,7 @@ export class PlotModel {
     }
 
     public checkIfNeedsWater(): boolean {
-        return (this.plantID+this.waterSourceID) > 0;
+        return (this.plantID+this.waterSourceID+this.animalID) > 0;
     }
 
     public mouseEnter(plot: PlotModel):void {

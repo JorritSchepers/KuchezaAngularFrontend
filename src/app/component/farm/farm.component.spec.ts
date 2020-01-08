@@ -59,8 +59,11 @@ describe('FarmComponent', () => {
     let mockedCookieService: any;
     let mockedBuildingApi: any;
     let sut: FarmComponent;
+    let mockedTitle: any;
 
     beforeEach(() => {
+        mockedTitle = jasmine.createSpyObj("Title", ["setTitle"]);
+
         mockedFarmApi = jasmine.createSpyObj("FarmApi", ["getFarm"]);
         mockedFarmApi.getFarm.and.returnValue(Promise.resolve(FARM_MODEL));
 
@@ -102,7 +105,7 @@ describe('FarmComponent', () => {
                 { provide: BuildingApi, useClass: mockedBuildingApi }
               ]
         });
-        sut = new FarmComponent(mockedAnimalApi, mockedCookieService, mockedInventoryApi, mockedFarmApi, mockedPlantApi, mockedPlotApi, mockedLogoutApi, mockedBuildingApi);
+        sut = new FarmComponent(mockedTitle,mockedAnimalApi, mockedCookieService, mockedInventoryApi, mockedFarmApi, mockedPlantApi, mockedPlotApi, mockedLogoutApi, mockedBuildingApi);
 	});
 
   it('should resetPurchaseId reset purchasePlant, purchaseAnimal & wantToPurchase', () => {
