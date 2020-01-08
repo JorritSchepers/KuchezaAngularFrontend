@@ -39,7 +39,7 @@ export class FarmComponent {
   private plotId: number;
   activePlot: PlotModel;
   plotPrice: number;
-  private inventory: InventoryModel = new InventoryModel(0, 0, 0);
+  inventory: InventoryModel = new InventoryModel(0, 0, 0);
   purchasePlot: boolean;
   wantToGiveWater: boolean;
   gameplayLoopEnd: boolean;
@@ -248,7 +248,7 @@ export class FarmComponent {
       .catch(any => this.handlePlotResponse(any));
   }
 
-  private giveWater(plot: PlotModel){
+ private giveWater(plot: PlotModel){
     this.plotApi.editWater(plot.id, WATERPLANTAMOUNT, true).then(plot => this.handlePlotResponse(plot))
       .catch(any => this.handleException(any));
   }
@@ -433,27 +433,27 @@ export class FarmComponent {
       .catch(exception => this.handleException(exception));
   }
 
-  openHarvestModel(): void{
+  private openHarvestModel(): void{
     this.harvestModal = true;
   }
 
-  closeHarvestModal(): void{
+  private closeHarvestModal(): void{
     this.harvestModal = false;
   }
 
-  openSellProductModel(): void{
+  private openSellProductModel(): void{
     this.sellProductModal = true;
   }
 
-  closeSellProductModal(): void{
+  private closeSellProductModal(): void{
     this.sellProductModal = false;
   }
 
-  closePlotModal(): void{
+  private closePlotModal(): void{
     this.purchasePlot = false;
   }
 
-  openGameplayLoopEndModal(): void{
+  private openGameplayLoopEndModal(): void{
     this.gameplayLoopEnd = true;
   }
 
