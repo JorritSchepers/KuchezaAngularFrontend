@@ -166,4 +166,14 @@ describe('AdminComponent', () => {
         sut.showStats(NON_ADMIN_USER_1);
         expect(mockedAdminApi.getActionFromUser).toHaveBeenCalled();
     });
+
+    it('should logout call logout from LogoutApi', () => {
+        mockedLogoutApi.logout.and
+            .returnValue(Promise.resolve(null)
+            .then(response => this.handleLogoutResponse())
+            .catch(exception => this.handleException(exception)));
+
+        sut.logout();
+        expect(mockedLogoutApi.logout).toHaveBeenCalled();
+    });
 });

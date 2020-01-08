@@ -36,7 +36,7 @@ export class FarmComponent {
   private height: number;
   plants: PlantResponseModel;
   plots: PlotModel[][] = new Array<Array<PlotModel>>();
-  private plotId: number;
+  plotId: number;
   activePlot: PlotModel;
   plotPrice: number;
   inventory: InventoryModel = new InventoryModel(0, 0, 0);
@@ -49,14 +49,14 @@ export class FarmComponent {
   waterSourceTypes: WaterSourceModel[];
   private animalTypes: AnimalModel[];
   private activeAnimalId: number;
-  private animals: AnimalResponseModel;
+  animals: AnimalResponseModel;
   showPlantshop: Boolean;
   showAnimalshop: Boolean;
   showBuildingshop: Boolean;
   purchasePlant: PlantModel;
   purchaseAnimal: AnimalModel;
   wantToPurchase: Boolean;
-  private harvestPopUpText: String;
+  harvestPopUpText: String;
   private growTimer: any;
   private waterTimer: any;
   animalAudio: any;
@@ -202,7 +202,7 @@ export class FarmComponent {
     this.getAllAnimalTypes(animals);
   }
 
-  private handlePlotClick(plot: PlotModel): void {
+  handlePlotClick(plot: PlotModel): void {
     this.plotId = plot.id;
 
     if(!plot.purchased) {
@@ -437,7 +437,7 @@ export class FarmComponent {
     this.harvestModal = true;
   }
 
-  private closeHarvestModal(): void{
+  closeHarvestModal(): void{
     this.harvestModal = false;
   }
 
@@ -445,11 +445,11 @@ export class FarmComponent {
     this.sellProductModal = true;
   }
 
-  private closeSellProductModal(): void{
+  closeSellProductModal(): void{
     this.sellProductModal = false;
   }
 
-  private closePlotModal(): void{
+  closePlotModal(): void{
     this.purchasePlot = false;
   }
 
