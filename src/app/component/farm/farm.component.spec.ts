@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { FarmComponent } from './farm.component';
 import { FarmModel } from 'src/app/model/farm.model';
 import { PlotModel } from 'src/app/model/plot.model';
-import { FarmApi } from 'src/app/api/farm.api';
 import { CurrentFarmModel } from 'src/app/model/current-farm.model';
+import { FarmApi } from 'src/app/api/farm.api';
 import { InventoryModel } from 'src/app/model/inventory.model';
 import { PlantResponseModel } from 'src/app/model/plant-response.model';
 import { PlantModel } from 'src/app/model/plant.model';
@@ -58,8 +58,8 @@ describe('FarmComponent', () => {
     let mockedLogoutApi: any;
     let mockedCookieService: any;
     let mockedBuildingApi: any;
-    let sut: FarmComponent;
     let mockedTitle: any;
+    let sut: FarmComponent;
 
     beforeEach(() => {
         mockedTitle = jasmine.createSpyObj("Title", ["setTitle"]);
@@ -78,8 +78,9 @@ describe('FarmComponent', () => {
         mockedAnimalApi = jasmine.createSpyObj("AnimalApi", ["getAllAnimals"]);
         mockedAnimalApi.getAllAnimals.and.returnValue(Promise.resolve(ANIMAL_MODEL));
 
-        mockedInventoryApi = jasmine.createSpyObj("InventoryApi", ["getInventory"]);
+        mockedInventoryApi = jasmine.createSpyObj("InventoryApi", ["getInventory", "editInventoryWater"]);
         mockedInventoryApi.getInventory.and.returnValue(Promise.resolve(INVENTORY_MODEL));
+        mockedInventoryApi.editInventoryWater.and.returnValue(Promise.resolve(INVENTORY_MODEL));
 
         mockedPlantApi = jasmine.createSpyObj("PlantApi", ["getAllPlants"]);
         mockedPlantApi.getAllPlants.and.returnValue(Promise.resolve(PLANT));
@@ -105,15 +106,49 @@ describe('FarmComponent', () => {
                 { provide: BuildingApi, useClass: mockedBuildingApi }
               ]
         });
-        sut = new FarmComponent(mockedTitle,mockedAnimalApi, mockedCookieService, mockedInventoryApi, mockedFarmApi, mockedPlantApi, mockedPlotApi, mockedLogoutApi, mockedBuildingApi);
+        sut = new FarmComponent(mockedTitle, mockedAnimalApi, mockedCookieService, mockedInventoryApi, mockedFarmApi, mockedPlantApi, mockedPlotApi, mockedLogoutApi, mockedBuildingApi);
 	});
 
-  it('should resetPurchaseId reset purchasePlant, purchaseAnimal & wantToPurchase', () => {
+    it('should set inGameMusic variables when playInGameMusic is called', () => {
+        sut.playInGameMusic();
+        expect(sut.inGameMusic.src).toBeDefined();
+        expect(sut.inGameMusic.loop).toBeTruthy();
+        sut.inGameMusic.pause();
+    });
+
+    it('should set cow src in animalAudio when playAnimalSound is called', () => {
+        const ANIMAL_COW_ID: number = 1;
+        const SRC: string = "http://localhost:9876/assets/audio/Cow_Sound.wav";
+
+        sut.playAnimalSound(ANIMAL_COW_ID);
+        expect(sut.animalAudio.src).toBe(SRC);
+        sut.animalAudio.pause();
+    });
+
+    it('should set chicken src in animalAudio when playAnimalSound is called', () => {
+        const ANIMAL_CHICKEN_ID: number = 2;
+        const SRC: string = "http://localhost:9876/assets/audio/Chicken_Sound.mp3";
+
+        sut.playAnimalSound(ANIMAL_CHICKEN_ID);
+        expect(sut.animalAudio.src).toBe(SRC);
+        sut.animalAudio.pause();
+    });
+
+    it('should set goat src in animalAudio when playAnimalSound is called', () => {
+        const ANIMAL_GOAT_ID: number = 3;
+        const SRC: string = "http://localhost:9876/assets/audio/Goat_Sound.wav";
+
+        sut.playAnimalSound(ANIMAL_GOAT_ID);
+        expect(sut.animalAudio.src).toBe(SRC);
+        sut.animalAudio.pause();
+    });
+
+    it('should resetPurchaseId reset purchasePlant, purchaseAnimal & wantToPurchase', () => {
       sut.resetPurchaseId();
       expect(sut.purchasePlant).toBeNull();
       expect(sut.purchaseAnimal).toBeNull();
       expect(sut.wantToPurchase).toBeFalsy();
-  });
+    });
 
   it('should prepareFarm preparePlots', () => {
         mockedFarmApi.getFarm.and.returnValue(Promise.resolve(FARM_MODEL));
@@ -131,6 +166,12 @@ describe('FarmComponent', () => {
       expect(sut.wantToPurchase).toBeFalsy();
       expect(sut.gameplayLoopEnd).toBeFalsy();
   });
+
+    it('should set timers when setTimers is called', () => {
+        sut.setTimers();
+        expect(sut.growTimer).toBeDefined();
+        expect(sut.waterTimer).toBeDefined();
+    });
 
   it('should set current farm model', () => {
       sut.waterSourceTypes = WATERSOURCES;
@@ -166,31 +207,22 @@ describe('FarmComponent', () => {
         expect(mockedPlotApi.sellProduct).toBeDefined();
   });
 
-  it('should toggleBuildingShop toggle building shop', () => {
-      sut.toggleBuildingShop();
-      expect(sut.showBuildingshop).toBeTruthy();
-      expect(sut.showAnimalshop).toBeFalsy();
-      expect(sut.showPlantshop).toBeFalsy();
-  });
-
   it('should toggleAnimalShop toggle animal shop', () => {
       sut.toggleAnimalShop();
       expect(sut.showAnimalshop).toBeTruthy();
       expect(sut.showPlantshop).toBeFalsy();
-      expect(sut.showBuildingshop).toBeFalsy();
   });
 
   it('should togglePlantShop toggle plant shop', () => {
       sut.togglePlantShop();
       expect(sut.showPlantshop).toBeTruthy();
       expect(sut.showAnimalshop).toBeFalsy();
-      expect(sut.showBuildingshop).toBeFalsy();
   });
 
-  it('should gatherWater gather water', () => {
-      sut.gatherWater();
-      expect(sut.wantToGiveWater).toBeTruthy();
-  });
+//   it('should gatherWater gather water', () => {
+//       sut.gatherWater();
+//       expect(sut.wantToGiveWater).toBeTruthy();
+//   });
 
   it('should openPlotShop open shop for plot', () => {
       sut.openPlotShop(PRICE);
@@ -220,14 +252,6 @@ describe('FarmComponent', () => {
       expect(PLOT_WITH_PLANT_MODEL.status).toEqual("Dehydrated");
   });
 
-  it('should dehydratedPlantAction be the action for dehydrated plants', () => {
-      sut.plantTypes = PLANT_MODELS;
-      let oldWaterAvailable = PLOT_WITH_PLANT_MODEL.waterAvailable;
-      sut.dehydratedPlantAction(PLOT_WITH_PLANT_MODEL, WATER_USAGE, sut);
-      expect(mockedPlotApi.editWater).toHaveBeenCalled();
-      expect(PLOT_WITH_PLANT_MODEL.waterAvailable).toBe(oldWaterAvailable-WATER_USAGE);
-  });
-
   it('should normalPlantAction be an action when normal status', () => {
       sut.plantTypes = PLANT_MODELS;
       let oldWaterAvailable = PLOT_WITH_PLANT_MODEL.waterAvailable;
@@ -251,11 +275,11 @@ describe('FarmComponent', () => {
       expect(mockedPlotApi.purchasePlot).toHaveBeenCalled();
   });
 
-  it('should getAllPlantTypes to get all types', () => {
-      sut.plants = PLANTS;
-      sut.getAllPlantTypes(PLANTS);
-      expect(sut.plantTypes).toBe(PLANTS.plants);
-  });
+//   it('should getAllPlantTypes to get all types', () => {
+//       sut.plants = PLANTS;
+//       sut.getAllPlantTypes(PLANTS);
+//       expect(sut.plantTypes).toBe(PLANTS.plants);
+//   });
 
   it('should getGrowTime to receive grow time', () => {
       sut.plantTypes = PLANTS.plants;
@@ -325,5 +349,114 @@ describe('FarmComponent', () => {
     expect(sut.purchasePlant).toBeNull();
     expect(sut.wantToPurchase).toBeTruthy();
     expect(sut.showAnimalshop).toBeFalsy();
+  });
+
+  it('should set variabeles when handleAnimalClick is called with normal status', () => {
+    PLOT_WITH_PLANT_MODEL.status = "Normal";
+    PLOT_WITH_PLANT_MODEL.harvestable = true;
+    sut.handleAnimalClick(PLOT_WITH_PLANT_MODEL);
+    expect(sut.activePlot).toBe(PLOT_WITH_PLANT_MODEL);
+    expect(sut.sellProductModal).toBeTruthy();
+  });
+
+  it('should set variabeles when handleAnimalClick is called with dehydrated status', () => {
+    const EXPECTED_POPUP_TEXT: string = "This plant is dehydrated!";
+
+    PLOT_WITH_PLANT_MODEL.status = "Dehydrated";
+    sut.handleAnimalClick(PLOT_WITH_PLANT_MODEL);
+    expect(sut.harvestPopUpText).toBe(EXPECTED_POPUP_TEXT);
+  });
+
+  it('should set variabeles when handleAnimalClick is called with dead status', () => {
+    PLOT_WITH_PLANT_MODEL.status = "Dead";
+    sut.handleAnimalClick(PLOT_WITH_PLANT_MODEL);
+    expect(sut.activePlot).toBe(PLOT_WITH_PLANT_MODEL);
+    expect(sut.animalRemoveModal).toBeTruthy();
+  });
+
+  it('should call apis when handleWaterSourceClick is called', () => {
+      sut.waterSourceTypes = WATERSOURCES;
+      sut.handleWaterSourceClick(PLOT_WITH_PLANT_MODEL);
+      expect(mockedPlotApi.editWater).toHaveBeenCalled();
+      expect(mockedInventoryApi.editInventoryWater).toHaveBeenCalled();
+  });
+
+  it('should set variables when handleWaterSourceClick is called', () => {
+    sut.waterSourceTypes = WATERSOURCES;
+    sut.handleWaterSourceClick(PLOT_WITH_PLANT_MODEL);
+    expect(PLOT_WITH_PLANT_MODEL.waterAvailable).toBe(0);
+    expect(PLOT_WITH_PLANT_MODEL.maximumWater).toBeDefined();
+  });
+
+  it('should set harvestPopUpText on null when handlePlantClick is called with normal plot', () => {
+    PLOT_WITH_PLANT_MODEL.harvestable = true;
+    PLOT_WITH_PLANT_MODEL.status = "Normal";
+    sut.handlePlantClick(PLOT_WITH_PLANT_MODEL);
+    expect(sut.harvestPopUpText).toBeNull();
+    expect(sut.activePlot).toBe(PLOT_WITH_PLANT_MODEL);
+    expect(sut.harvestModal).toBeTruthy();
+  });
+
+  it('should set harvestPopUpText on This plant is dehydrated! when handlePlantClick is called with dehydrated plot', () => {
+    PLOT_WITH_PLANT_MODEL.harvestable = true;
+    PLOT_WITH_PLANT_MODEL.status = "Dehydrated";
+    sut.handlePlantClick(PLOT_WITH_PLANT_MODEL);
+    expect(sut.harvestPopUpText).toBe("This plant is dehydrated!");
+    expect(sut.activePlot).toBe(PLOT_WITH_PLANT_MODEL);
+    expect(sut.harvestModal).toBeTruthy();
+  });
+
+  it('should set harvestPopUpText on This plant is dead! when handlePlantClick is called with dead plot', () => {
+    PLOT_WITH_PLANT_MODEL.harvestable = true;
+    PLOT_WITH_PLANT_MODEL.status = "Dead";
+    sut.handlePlantClick(PLOT_WITH_PLANT_MODEL);
+    expect(sut.harvestPopUpText).toBe("This plant is dead!");
+    expect(sut.activePlot).toBe(PLOT_WITH_PLANT_MODEL);
+    expect(sut.harvestModal).toBeTruthy();
+  });
+
+  it('should set harvestPopUpText on null when harvestPlantClick is called with normal plot', () => {
+    PLOT_WITH_PLANT_MODEL.status = "Normal";
+    sut.harvestPlantClick(PLOT_WITH_PLANT_MODEL);
+    expect(sut.harvestPopUpText).toBeNull();
+    expect(sut.activePlot).toBe(PLOT_WITH_PLANT_MODEL);
+    expect(sut.harvestModal).toBeTruthy();
+  });
+
+  it('should set harvestPopUpText on This plant is dehydrated! when harvestPlantClick is called with dehydrated plot', () => {
+    PLOT_WITH_PLANT_MODEL.status = "Dehydrated";
+    sut.harvestPlantClick(PLOT_WITH_PLANT_MODEL);
+    expect(sut.harvestPopUpText).toBe("This plant is dehydrated!");
+    expect(sut.activePlot).toBe(PLOT_WITH_PLANT_MODEL);
+    expect(sut.harvestModal).toBeTruthy();
+  });
+
+  it('should set harvestPopUpText on This plant is dead! when harvestPlantClick is called with dead plot', () => {
+    PLOT_WITH_PLANT_MODEL.status = "Dead";
+    sut.harvestPlantClick(PLOT_WITH_PLANT_MODEL);
+    expect(sut.harvestPopUpText).toBe("This plant is dead!");
+    expect(sut.activePlot).toBe(PLOT_WITH_PLANT_MODEL);
+    expect(sut.harvestModal).toBeTruthy();
+  });
+
+  it('should call editWater in PlotApi when giveWater is called', () => {
+    sut.giveWater(PLOT_WITH_PLANT_MODEL);
+    expect(mockedPlotApi.editWater).toHaveBeenCalled();
+  });
+
+  it('should set variables when handlePlantsResponse is called', () => {
+      sut.handlePlantsResponse(PLANTS);
+      expect(sut.plants).toBe(PLANTS);
+      expect(sut.plantTypes).toBe(PLANTS.plants);
+  });
+
+  it('should call getAllWaterSources in BuildingApi when getWaterSources is called', () => {
+      sut.getWaterSources();
+      expect(mockedBuildingApi.getAllWaterSources).toHaveBeenCalled();
+  });
+
+  it('should set waterSourceTypes when handleWaterSourceResponse is called', () => {
+      sut.handleWaterSourceResponse(WATERSOURCERESPONSEMODEL);
+      expect(sut.waterSourceTypes).toBe(WATERSOURCERESPONSEMODEL.waterSources);
   });
 });

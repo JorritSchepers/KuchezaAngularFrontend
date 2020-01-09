@@ -100,7 +100,7 @@ export class PlotModel {
         }
     }
 
-    public getWater(): String {
+    getWater(): String {
         if (this.plantID > 0 || this.waterSourceID > 0) {
             return Math.round(this.waterAvailable)+" L"
         } else {
@@ -108,7 +108,7 @@ export class PlotModel {
         }
     }
 
-    public updateWater(transition: boolean) {
+    updateWater(transition: boolean) {
         if(this.hover) {
             let water = document.getElementById("plot"+this.id);
             let width = this.waterAvailable/this.maximumWater;
@@ -134,16 +134,16 @@ export class PlotModel {
         }
     }
 
-    public checkIfNeedsWater(): boolean {
+    checkIfNeedsWater(): boolean {
         return (this.plantID+this.waterSourceID+this.animalID) > 0;
     }
 
-    public mouseEnter(plot: PlotModel):void {
+    mouseEnter(plot: PlotModel):void {
         this.hover = true;
         this.updateWater(true);
     }
 
-    public mouseLeave(plot: PlotModel):void {
+    mouseLeave(plot: PlotModel):void {
         this.hover = false;
     }
 }

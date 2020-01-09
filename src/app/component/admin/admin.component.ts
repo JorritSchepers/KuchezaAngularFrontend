@@ -193,7 +193,7 @@ export class AdminComponent {
       data: [
           { x: dates, y: plantedASeed, name: 'Planted a seed', type: 'scatter', mode: 'lines+points', marker: {color: 'black'} },
           { x: dates, y: harvestedAPlant, name: 'Harvested a plant', type: 'scatter', mode: 'lines+points', marker: {color: 'green'} },
-          { x: dates, y: gaveAPlantWater, name: 'Gave a plant water', type: 'scatter', mode: 'lines+points', marker: {color: 'blue'} },
+          { x: dates, y: gaveAPlantWater, name: 'Gave water', type: 'scatter', mode: 'lines+points', marker: {color: 'blue'} },
           { x: dates, y: boughtAPlot, name: 'Bought a plot', type: 'scatter', mode: 'lines+points', marker: {color: 'cyan'} },
           { x: dates, y: lostAPlant, name: 'Lost a plant', type: 'scatter', mode: 'lines+points', marker: {color: 'purple'} },
           { x: dates, y: boughtAnAnimal, name: 'Bought an animal', type: 'scatter', mode: 'lines+points', marker: {color: 'orange'} },
