@@ -24,7 +24,7 @@ import { Title } from "@angular/platform-browser";
 
 const PLOTTIMERDELAY: number = 1000;
 const WATERDELAY: number = 1000;
-const WATERPLANTAMOUNT: number = 20;
+const WATERPLANTAMOUNT: number = 2500;
 const DEHYDRATED_FACTOR: number = 4;
 const MAXIMUM_WATER: number = 50000000;
 
