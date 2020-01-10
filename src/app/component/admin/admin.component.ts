@@ -225,7 +225,7 @@ export class AdminComponent {
   private extractWater(): number[] {
     let tempList: number[] = Array<number>(0);
     for (let action of this.currentAllActionsModel.actions) {
-      tempList.push(action.currentWater);
+      tempList.push(action.currentWater/1000);
     }
     return tempList;
   }
