@@ -22,10 +22,10 @@ import { WaterSourceModel } from 'src/app/model/watersource.model';
 import { WaterSourceResponseModel } from 'src/app/model/watersource-response.model';
 import { Title } from "@angular/platform-browser";
 
-const PLOTTIMERDELAY: number = 1000;
-const WATERDELAY: number = 1000;
-const WATERPLANTAMOUNT: number = 2500;
-const DEHYDRATED_FACTOR: number = 4;
+const PLOTTIMERDELAY: number = 5000;
+const WATERDELAY: number = 5000;
+const WATERPLANTAMOUNT: number = 1250;
+const DEHYDRATED_FACTOR: number = 6;
 const MAXIMUM_WATER: number = 50000000;
 
 @Component({
