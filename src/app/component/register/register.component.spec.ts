@@ -1,45 +1,46 @@
-// import { TestBed } from '@angular/core/testing';
-// import { RegisterApi } from '../../api/register.api';
-// import { RegisterComponent } from '../../component/register/register.component';
-// import { RegisterModel } from 'src/app/model/register.model';
-// import { RegisterResponseModel } from 'src/app/model/register-response.model';
-// import { UserModel } from 'src/app/model/user.model';
-// import { FormBuilder } from '@angular/forms';
-// import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TestBed } from '@angular/core/testing';
+import { RegisterApi } from '../../api/register.api';
+import { RegisterComponent } from '../../component/register/register.component';
+import { RegisterModel } from 'src/app/model/register.model';
+import { RegisterResponseModel } from 'src/app/model/register-response.model';
+import { UserModel } from 'src/app/model/user.model';
+import { FormBuilder } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
 
-// const REGISTER_REPONSE_MODEL: RegisterResponseModel = new RegisterResponseModel(new UserModel(-1, "", "", ""), "1234");
-// const REGISTER_MODEL: RegisterModel = new RegisterModel("Test", "test@test.nl", "Test123", "Test123");
+const REGISTER_REPONSE_MODEL: RegisterResponseModel = new RegisterResponseModel(new UserModel(-1, "", "", ""), "1234");
+const REGISTER_MODEL: RegisterModel = new RegisterModel("Test", "test@test.nl", "Test123", "Test123");
 
-// describe('RegisterComponent', () => {
-// 	let mockedTitle: any;
-// 	let mockRegisterApi: any;
-// 	let mockRouter: any;
-// 	let sut: RegisterComponent;
+describe('RegisterComponent', () => {
+	let mockedTitle: any;
+	let mockRegisterApi: any;
+	let mockedCookieService: any;
+	let sut: RegisterComponent;
 
-// 	beforeEach(() => {
-// 		mockedTitle = jasmine.createSpyObj("Title", ["setTitle"]);
-// 		mockRegisterApi = jasmine.createSpyObj('RegisterApi', ['registerUser']);
-// 		mockRouter = jasmine.createSpyObj('Router', ['query']);
-// 		mockRegisterApi.registerUser.and.returnValue(Promise.resolve(REGISTER_REPONSE_MODEL).then(response => this.handleRegisterResponse(response))
-//           .catch(any => this.handleRegisterException(any)));
+	beforeEach(() => {
+    mockedTitle = jasmine.createSpyObj("Title", ["setTitle"]);
+    mockRegisterApi = jasmine.createSpyObj('RegisterApi', ['registerUser']);
 
-// 		TestBed.configureTestingModule({
-// 			declarations: [RegisterComponent],
-// 			imports: [
-//                 FormsModule,
-//                 ReactiveFormsModule
-//             ],
-// 			providers: [{ provide: RegisterApi, useValue: mockRegisterApi }]
-// 		});
-//         sut = new RegisterComponent(mockedTitle, new FormBuilder(), mockRegisterApi, mockRouter);
-// 	});
+    mockedCookieService = jasmine.createSpyObj("CookieService", ["get", "delete"]);
+    mockedCookieService.get.and.returnValue("4321");
 
-//   it('should instantiate RegisterComponent', () => {
-//     expect(sut instanceof RegisterComponent).toBe(true, 'should create RegisterComponent');
-//   });
+    mockRegisterApi.registerUser.and.returnValue(Promise.resolve(REGISTER_REPONSE_MODEL));
 
-//   it('should call RegisterApi', () => {
-//     this.sut.registerUser(REGISTER_MODEL);
-//     expect(mockRegisterApi.registerUser).toHaveBeenCalled();
-//   });
-// });
+		TestBed.configureTestingModule({
+			declarations: [RegisterComponent],
+			providers: [{ provide: RegisterApi, useValue: mockRegisterApi },
+                  {provide: CookieService, useClass: mockedCookieService}]
+		});
+        sut = new RegisterComponent(mockedCookieService, mockedTitle, new FormBuilder(), mockRegisterApi);
+	});
+
+  it('should registerUser handleRegisterResponse', () => {
+    sut.registerUser(REGISTER_MODEL);
+    expect(mockRegisterApi.registerUser).toHaveBeenCalled();
+  });
+
+  it('should cookieService get correct token', () => {
+    sut.registerUser(REGISTER_MODEL);
+    expect(mockedCookieService.get('currenUser')).toBe('4321');
+  });
+});

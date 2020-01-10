@@ -30,7 +30,7 @@ export class LoginComponent {
     this.loginForm.reset();
   }
 
-  private handleLoginResponse(response: LoginResponseModel): void {
+  handleLoginResponse(response: LoginResponseModel): void {
     this.cookieService.set('currentUser', response.token);
     if (response.user.admin) {
       window.location.pathname = '/admin'
