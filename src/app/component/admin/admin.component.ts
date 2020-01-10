@@ -205,6 +205,10 @@ export class AdminComponent {
 
     let water: number[] = this.extractWater();
 
+    for(let i = 0; i < water.length; i++) {
+      water[i] = water[i]/1000;
+    }
+
     this.graphWater = {
       data: [
           { x: dates, y: water, name: 'Water', type: 'scatter', mode: 'lines+points', marker: {color: 'blue'} },
