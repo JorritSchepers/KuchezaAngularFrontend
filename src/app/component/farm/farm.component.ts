@@ -26,7 +26,7 @@ const PLOTTIMERDELAY: number = 1000;
 const WATERDELAY: number = 1000;
 const WATERPLANTAMOUNT: number = 20;
 const DEHYDRATED_FACTOR: number = 4;
-const MAXIMUM_WATER: number = 500;
+const MAXIMUM_WATER: number = 50000000;
 
 @Component({
   templateUrl: './farm.component.html',
