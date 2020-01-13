@@ -470,6 +470,7 @@ export class FarmComponent {
     //RESTORE STATUS IF WATER IS HIGH ENOUGH
     if(plot.waterAvailable > maximumWater/DEHYDRATED_FACTOR) {
       plot.status = "Normal";
+      plot.setNormalPlant();
     }
   }
 
