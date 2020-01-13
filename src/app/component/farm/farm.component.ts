@@ -420,7 +420,7 @@ export class FarmComponent {
     plot.updateWater(true);
   }
 
-  private handleWaterSourceWater(plot: PlotModel, farm: FarmComponent) {
+  handleWaterSourceWater(plot: PlotModel, farm: FarmComponent) {
     let waterYield = farm.getWaterYield(plot.waterSourceID);
     plot.waterAvailable += waterYield;
     farm.plotApi.editWater(plot.id,Math.ceil(waterYield), false);
@@ -428,7 +428,7 @@ export class FarmComponent {
     plot.updateWater(true);
   }
 
-  private handleAnimalWater(plot: PlotModel, farm : FarmComponent) {
+  handleAnimalWater(plot: PlotModel, farm : FarmComponent) {
     let waterUsage = farm.getAnimalWaterUsage(plot.animalID);
     if(plot.status == "Normal") {
       farm.normalAnimalAction(plot,waterUsage,farm);
@@ -444,14 +444,14 @@ export class FarmComponent {
     plot.status = "Dehydrated";
     plot.setDehydrathedPlant();
   }
-
-  private dehydrateAnimal(plot: PlotModel, waterUsage: number, farm: FarmComponent): void {
+  
+  dehydrateAnimal(plot: PlotModel, waterUsage: number, farm: FarmComponent): void {
     farm.plotApi.updateStatus(plot.id,"Dehydrated");
     plot.status = "Dehydrated";
     plot.setAnimalImage();
   }
 
-  private dehydratedPlantAction(plot: PlotModel, waterUsage: number, farm: FarmComponent): void {
+  dehydratedPlantAction(plot: PlotModel, waterUsage: number, farm: FarmComponent): void {
     let maximumWater = farm.getMaximumWater(plot.plantID);
 
     //REMOVE WATER
@@ -467,20 +467,20 @@ export class FarmComponent {
       plot.setDeadPlant();
     }
 
-    //RESTORE IF WATER IS HIGH ENOUGH
+    //RESTORE STATUS IF WATER IS HIGH ENOUGH
     if(plot.waterAvailable > maximumWater/DEHYDRATED_FACTOR) {
       plot.status = "Normal";
     }
   }
 
-  private dehydratedAnimalAction(plot: PlotModel, waterUsage: number, farm: FarmComponent): void {
+  dehydratedAnimalAction(plot: PlotModel, waterUsage: number, farm: FarmComponent): void {
     let maximumWater = farm.getMaximumAnimalWater(plot.animalID);
 
     //REMOVE WATER
     plot.waterAvailable -= waterUsage;
     farm.plotApi.editWater(plot.id,-Math.ceil(waterUsage), false);
 
-    //KILL IS WATER IF EMPTY
+    //KILL IF WATER IS EMPTY
     if(plot.waterAvailable <= 0) {
       plot.waterAvailable = 0;
       farm.plotApi.editWater(plot.id,-Math.ceil(waterUsage), false);
@@ -489,12 +489,22 @@ export class FarmComponent {
       plot.setAnimalImage();
     }
 
-    //RESTORE IF WATER IS HIGH ENOUGH
+    //RESTORE STATUS IF WATER IS HIGH ENOUGH
     if(plot.waterAvailable > maximumWater/DEHYDRATED_FACTOR) {
       plot.status = "Normal";
       plot.setAnimalImage();
     }
   }
+
+
+
+
+
+
+
+
+
+
 
   normalPlantAction(plot: PlotModel, waterUsage: number, farm: FarmComponent): void {
     //REMOVE WATER
@@ -507,6 +517,12 @@ export class FarmComponent {
     }
   }
 
+
+
+
+
+
+  
   private normalAnimalAction(plot: PlotModel, waterUsage: number, farm: FarmComponent): void {
     //REMOVE WATER
     plot.waterAvailable -= waterUsage;

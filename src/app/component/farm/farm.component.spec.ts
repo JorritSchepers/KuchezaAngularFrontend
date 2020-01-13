@@ -24,8 +24,8 @@ const FARM_ID: number = 1;
 const USER_ID: number = 1;
 const PLOT_ID: number = 1;
 const ANIMAL_ID: number = 1;
-const PRICE: number = 10;
 const PLANT_ID: number = 1;
+const PRICE: number = 10;
 const AGE: number = 15;
 const MONEY: number = 150;
 const WATER: number = 200;
@@ -34,20 +34,28 @@ const PLANT_NAME: string = "plant name";
 const ANIMAL_NAME: string = "animal name";
 const GROWING_TIME: number = 60;
 const WATER_AVAILABLE: number = 25;
-const PLANT_STATUS_NORMAL: string = "Normal";
+const STATUS_NORMAL: string = "Normal";
+const STATUS_DEHYDRATED: string = "Dehydrated";
+const STATUS_DEAD: string = "Dead";
 
-const EMPTY_PLOT_MODEL: PlotModel = new PlotModel(1, 1, 1, PRICE, 0, 0, 0, 0, true, AGE, 0, PLANT_STATUS_NORMAL);
-const PLOT_WITH_PLANT_MODEL: PlotModel = new PlotModel(2, 2, 2, PRICE, 0, 0, 0, PLANT_ID, true, AGE, 25, PLANT_STATUS_NORMAL);
-const PLOTS: PlotModel[] = [EMPTY_PLOT_MODEL, PLOT_WITH_PLANT_MODEL];
-const FARM_MODEL: FarmModel = new FarmModel(PLOTS, FARM_ID, USER_ID, WIDTH, HEIGHT);
-const INVENTORY_MODEL: InventoryModel = new InventoryModel(MONEY, WATER, USER_ID);
 const ANIMAL_MODEL: AnimalModel = new AnimalModel(WATER_USAGE, ANIMAL_NAME, GROWING_TIME, ANIMAL_ID, PRICE, PRICE, WATER_AVAILABLE);
+const ANIMALS: AnimalModel[] = [ANIMAL_MODEL];
+
+const INVENTORY_MODEL: InventoryModel = new InventoryModel(MONEY, WATER, USER_ID);
+
 const PLANT: PlantModel = new PlantModel(WATER_USAGE, PLANT_NAME, GROWING_TIME, PLANT_ID, PRICE, PRICE + 10, 0);
-const PLANTS: PlantResponseModel = new PlantResponseModel([PLANT]);
-const PLANT_MODELS: PlantModel[] = [PLANT];
+const PLANT_RESPONSE_MODEL: PlantResponseModel = new PlantResponseModel([PLANT]);
+const PLANTS: PlantModel[] = [PLANT];
+
 const WATERSOURCE_MODEL: WaterSourceModel = new WaterSourceModel(1, 20, 200, 50, 'silo');
 const WATERSOURCES: WaterSourceModel[] = [WATERSOURCE_MODEL];
 const WATERSOURCERESPONSEMODEL: WaterSourceResponseModel = new WaterSourceResponseModel(WATERSOURCES);
+
+const EMPTY_PLOT_MODEL: PlotModel = new PlotModel(1, 1, 1, PRICE, 0, 0, 0, 0, true, AGE, 0, STATUS_NORMAL);
+const PLOT_WITH_PLANT_MODEL: PlotModel = new PlotModel(2, 2, 2, PRICE, 0, 0, 0, PLANT_ID, true, AGE, 25, STATUS_NORMAL);
+const PLOT_WITH_ANIMAL_MODEL: PlotModel = new PlotModel(3, 3, 3, PRICE, 0, ANIMAL_MODEL.id, 0, 0, true, AGE, 25, STATUS_NORMAL);
+const PLOTS: PlotModel[] = [EMPTY_PLOT_MODEL, PLOT_WITH_PLANT_MODEL];
+const FARM_MODEL: FarmModel = new FarmModel(PLOTS, FARM_ID, USER_ID, WIDTH, HEIGHT);
 
 describe('FarmComponent', () => {
     let mockedFarmApi: any;
@@ -94,7 +102,7 @@ describe('FarmComponent', () => {
         mockedBuildingApi.getAllWaterSources.and.returnValue(Promise.resolve(WATERSOURCERESPONSEMODEL));
 
         TestBed.configureTestingModule({
-			declarations: [FarmComponent],
+			  declarations: [FarmComponent],
             providers: [
                 { provide: CookieService, useClass: mockedCookieService },
                 { provide: AnimalApi, useClass: mockedAnimalApi },
@@ -219,11 +227,6 @@ describe('FarmComponent', () => {
       expect(sut.showAnimalshop).toBeFalsy();
   });
 
-//   it('should gatherWater gather water', () => {
-//       sut.gatherWater();
-//       expect(sut.wantToGiveWater).toBeTruthy();
-//   });
-
   it('should openPlotShop open shop for plot', () => {
       sut.openPlotShop(PRICE);
       expect(sut.purchasePlot).toBeTruthy();
@@ -249,11 +252,11 @@ describe('FarmComponent', () => {
       sut.dehydratePlant(PLOT_WITH_PLANT_MODEL, WATER_USAGE, sut);
 
       expect(mockedPlotApi.updateStatus).toHaveBeenCalled();
-      expect(PLOT_WITH_PLANT_MODEL.status).toEqual("Dehydrated");
+      expect(PLOT_WITH_PLANT_MODEL.status).toEqual(STATUS_DEHYDRATED);
   });
 
   it('should normalPlantAction be an action when normal status', () => {
-      sut.plantTypes = PLANT_MODELS;
+      sut.plantTypes = PLANTS;
       let oldWaterAvailable = PLOT_WITH_PLANT_MODEL.waterAvailable;
       sut.normalPlantAction(PLOT_WITH_PLANT_MODEL, WATER_USAGE, sut);
       expect(mockedPlotApi.editWater).toHaveBeenCalled();
@@ -275,39 +278,33 @@ describe('FarmComponent', () => {
       expect(mockedPlotApi.purchasePlot).toHaveBeenCalled();
   });
 
-//   it('should getAllPlantTypes to get all types', () => {
-//       sut.plants = PLANTS;
-//       sut.getAllPlantTypes(PLANTS);
-//       expect(sut.plantTypes).toBe(PLANTS.plants);
-//   });
-
   it('should getGrowTime to receive grow time', () => {
-      sut.plantTypes = PLANTS.plants;
+      sut.plantTypes = PLANT_RESPONSE_MODEL.plants;
       expect(sut.getGrowTime(PLANT_ID)).toBe(PLANT.growingTime);
   });
 
   it('should return 0 when getGrowTIme gets unkown plantID', () => {
-      sut.plantTypes = PLANTS.plants;
+      sut.plantTypes = PLANT_RESPONSE_MODEL.plants;
       expect(sut.getGrowTime(5)).toBe(0);
   });
 
   it('should getWaterUsage to receive water usage', () => {
-    sut.plantTypes = PLANTS.plants;
+    sut.plantTypes = PLANT_RESPONSE_MODEL.plants;
     expect(sut.getWaterUsage(PLANT_ID)).toBe(PLANT.waterUsage);
   });
 
   it('should return 0 when getWaterUsage gets unkown plantID', () => {
-      sut.plantTypes = PLANTS.plants;
+      sut.plantTypes = PLANT_RESPONSE_MODEL.plants;
       expect(sut.getWaterUsage(5)).toBe(0);
   });
 
   it('should getMaximumWater to receive maximum water', () => {
-    sut.plantTypes = PLANTS.plants;
+    sut.plantTypes = PLANT_RESPONSE_MODEL.plants;
     expect(sut.getMaximumWater(PLANT_ID)).toBe(PLANT.maximumWater);
   });
 
   it('should return 0 when getMaximumWater gets unkown plantID', () => {
-      sut.plantTypes = PLANTS.plants;
+      sut.plantTypes = PLANT_RESPONSE_MODEL.plants;
       expect(sut.getMaximumWater(5)).toBe(0);
   });
 
@@ -362,13 +359,13 @@ describe('FarmComponent', () => {
   it('should set variabeles when handleAnimalClick is called with dehydrated status', () => {
     const EXPECTED_POPUP_TEXT: string = "This plant is dehydrated!";
 
-    PLOT_WITH_PLANT_MODEL.status = "Dehydrated";
+    PLOT_WITH_PLANT_MODEL.status = STATUS_DEHYDRATED;
     sut.handleAnimalClick(PLOT_WITH_PLANT_MODEL);
     expect(sut.harvestPopUpText).toBe(EXPECTED_POPUP_TEXT);
   });
 
   it('should set variabeles when handleAnimalClick is called with dead status', () => {
-    PLOT_WITH_PLANT_MODEL.status = "Dead";
+    PLOT_WITH_PLANT_MODEL.status = STATUS_DEAD;
     sut.handleAnimalClick(PLOT_WITH_PLANT_MODEL);
     expect(sut.activePlot).toBe(PLOT_WITH_PLANT_MODEL);
     expect(sut.animalRemoveModal).toBeTruthy();
@@ -399,7 +396,7 @@ describe('FarmComponent', () => {
 
   it('should set harvestPopUpText on This plant is dehydrated! when handlePlantClick is called with dehydrated plot', () => {
     PLOT_WITH_PLANT_MODEL.harvestable = true;
-    PLOT_WITH_PLANT_MODEL.status = "Dehydrated";
+    PLOT_WITH_PLANT_MODEL.status = STATUS_DEHYDRATED;
     sut.handlePlantClick(PLOT_WITH_PLANT_MODEL);
     expect(sut.harvestPopUpText).toBe("This plant is dehydrated!");
     expect(sut.activePlot).toBe(PLOT_WITH_PLANT_MODEL);
@@ -408,7 +405,7 @@ describe('FarmComponent', () => {
 
   it('should set harvestPopUpText on This plant is dead! when handlePlantClick is called with dead plot', () => {
     PLOT_WITH_PLANT_MODEL.harvestable = true;
-    PLOT_WITH_PLANT_MODEL.status = "Dead";
+    PLOT_WITH_PLANT_MODEL.status = STATUS_DEAD;
     sut.handlePlantClick(PLOT_WITH_PLANT_MODEL);
     expect(sut.harvestPopUpText).toBe("This plant is dead!");
     expect(sut.activePlot).toBe(PLOT_WITH_PLANT_MODEL);
@@ -424,7 +421,7 @@ describe('FarmComponent', () => {
   });
 
   it('should set harvestPopUpText on This plant is dehydrated! when harvestPlantClick is called with dehydrated plot', () => {
-    PLOT_WITH_PLANT_MODEL.status = "Dehydrated";
+    PLOT_WITH_PLANT_MODEL.status = STATUS_DEHYDRATED;
     sut.harvestPlantClick(PLOT_WITH_PLANT_MODEL);
     expect(sut.harvestPopUpText).toBe("This plant is dehydrated!");
     expect(sut.activePlot).toBe(PLOT_WITH_PLANT_MODEL);
@@ -432,7 +429,7 @@ describe('FarmComponent', () => {
   });
 
   it('should set harvestPopUpText on This plant is dead! when harvestPlantClick is called with dead plot', () => {
-    PLOT_WITH_PLANT_MODEL.status = "Dead";
+    PLOT_WITH_PLANT_MODEL.status = STATUS_DEAD;
     sut.harvestPlantClick(PLOT_WITH_PLANT_MODEL);
     expect(sut.harvestPopUpText).toBe("This plant is dead!");
     expect(sut.activePlot).toBe(PLOT_WITH_PLANT_MODEL);
@@ -445,9 +442,9 @@ describe('FarmComponent', () => {
   });
 
   it('should set variables when handlePlantsResponse is called', () => {
-      sut.handlePlantsResponse(PLANTS);
-      expect(sut.plants).toBe(PLANTS);
-      expect(sut.plantTypes).toBe(PLANTS.plants);
+      sut.handlePlantsResponse(PLANT_RESPONSE_MODEL);
+      expect(sut.plants).toBe(PLANT_RESPONSE_MODEL);
+      expect(sut.plantTypes).toBe(PLANT_RESPONSE_MODEL.plants);
   });
 
   it('should call getAllWaterSources in BuildingApi when getWaterSources is called', () => {
@@ -458,5 +455,84 @@ describe('FarmComponent', () => {
   it('should set waterSourceTypes when handleWaterSourceResponse is called', () => {
       sut.handleWaterSourceResponse(WATERSOURCERESPONSEMODEL);
       expect(sut.waterSourceTypes).toBe(WATERSOURCERESPONSEMODEL.waterSources);
+  });
+
+  it('should update waterAvailable in plot when handleWaterSourceWater is called', () => {
+    let oldAmount = PLOT_WITH_PLANT_MODEL.waterAvailable;
+    sut.waterSourceTypes = WATERSOURCES;
+    sut.handleWaterSourceWater(PLOT_WITH_PLANT_MODEL, sut);
+    expect(PLOT_WITH_PLANT_MODEL.waterAvailable).toBeGreaterThan(oldAmount);
+  });
+
+  it('should call editWater in PlotApi when handleAnimalWater is called with a plot with Normal status', () => {
+    sut.animalTypes = ANIMALS;
+    sut.handleAnimalWater(PLOT_WITH_ANIMAL_MODEL, sut);
+    expect(mockedPlotApi.editWater).toHaveBeenCalled();
+  });
+
+  it('should call editWater in PlotApi when handleAnimalWater is called with a plot with Dehydrated status', () => {
+    PLOT_WITH_ANIMAL_MODEL.status = STATUS_DEHYDRATED;
+    sut.animalTypes = ANIMALS;
+    sut.handleAnimalWater(PLOT_WITH_ANIMAL_MODEL, sut);
+    expect(mockedPlotApi.editWater).toHaveBeenCalled();
+  });
+
+  it('should call updateStatus in plotApi when dehydrateAnimal is called', () => {
+    sut.dehydrateAnimal(PLOT_WITH_ANIMAL_MODEL, WATER_USAGE, sut);
+    expect(mockedPlotApi.updateStatus).toHaveBeenCalled();
+  });
+
+  it('should set status on Dehydrated when dehydrateAnimal is called', () => {
+    sut.dehydrateAnimal(PLOT_WITH_ANIMAL_MODEL, WATER_USAGE, sut);
+    expect(PLOT_WITH_ANIMAL_MODEL.status).toBe(STATUS_DEHYDRATED);
+  });
+
+  it('should call editWater in PlotApi when dehydratedPlantAction is called', () => {
+    sut.plantTypes = PLANTS;
+    sut.dehydratedPlantAction(PLOT_WITH_PLANT_MODEL, WATER_USAGE, sut);
+    expect(mockedPlotApi.editWater).toHaveBeenCalled();
+  });
+
+  it('should call updateStatus in PlotApi when dehydratedPlantAction is called with plant with no water left', () => {
+    PLOT_WITH_PLANT_MODEL.waterAvailable = 0;
+    sut.plantTypes = PLANTS;
+    sut.dehydratedPlantAction(PLOT_WITH_PLANT_MODEL, WATER_USAGE, sut);
+    expect(mockedPlotApi.updateStatus).toHaveBeenCalledWith(PLOT_WITH_PLANT_MODEL.id, STATUS_DEAD);
+  });
+
+  it('should restore status to Normal when dehydratedPlantAction is called with a plant with enoough water', () => {
+    PLOT_WITH_PLANT_MODEL.waterAvailable = 9999;
+    PLOT_WITH_PLANT_MODEL.status = STATUS_DEHYDRATED;
+    sut.plantTypes = PLANTS;
+    sut.dehydratedPlantAction(PLOT_WITH_PLANT_MODEL, WATER_USAGE, sut);
+    expect(PLOT_WITH_PLANT_MODEL.status).toBe(STATUS_NORMAL)
+  });
+
+  it('should call editWater in PlotApi when dehydratedAnimalAction is called', () => {
+    sut.animalTypes = ANIMALS;
+    sut.dehydratedAnimalAction(PLOT_WITH_ANIMAL_MODEL, WATER_USAGE, sut);
+    expect(mockedPlotApi.editWater).toHaveBeenCalled();
+  });
+
+  it('should call updateStatus in PlotApi when dehydratedAnimalAction is called with plant with no water left', () => {
+    PLOT_WITH_ANIMAL_MODEL.waterAvailable = 0;
+    sut.animalTypes = ANIMALS;
+    sut.dehydratedAnimalAction(PLOT_WITH_ANIMAL_MODEL, WATER_USAGE, sut);
+    expect(mockedPlotApi.updateStatus).toHaveBeenCalledWith(PLOT_WITH_ANIMAL_MODEL.id, STATUS_DEAD);
+  });
+
+  it('should restore status to Normal when dehydratedAnimalAction is called with a plant with enoough water', () => {
+    PLOT_WITH_ANIMAL_MODEL.waterAvailable = 9999;
+    PLOT_WITH_ANIMAL_MODEL.status = STATUS_DEHYDRATED;
+    sut.animalTypes = ANIMALS;
+    sut.dehydratedAnimalAction(PLOT_WITH_ANIMAL_MODEL, WATER_USAGE, sut);
+    expect(PLOT_WITH_ANIMAL_MODEL.status).toBe(STATUS_NORMAL)
+  });
+
+  it('should lower waterAvailable in given plot when normalPlantAction is called', () => {
+    sut.plantTypes = PLANTS;
+    let oldWaterAvailable: number = PLOT_WITH_PLANT_MODEL.waterAvailable;
+    sut.normalPlantAction(PLOT_WITH_PLANT_MODEL, WATER_USAGE, sut);
+    expect(PLOT_WITH_PLANT_MODEL.waterAvailable).toBeLessThan(oldWaterAvailable);
   });
 });
