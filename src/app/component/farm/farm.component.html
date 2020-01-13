@@ -21,20 +21,7 @@
 </header>
 
 <!-- Shops -->
-
 <div class ="Shops">
-  <!-- Shop for buildings -->
-  <div class="Shop">
-    <img class="shopicon" src="../../../assets/ui/store/building/buildingIcon.png"(click)="toggleBuildingShop()">
-    <div class="shopfoldout" *ngIf="showBuildingshop">
-      <div class="plant" *ngFor="let plant of plants.plants">
-        <div class="item-container">
-          <img src="../../../assets/ui/store/plant/{{plant.id}}.png">
-          <h1> {{plant.purchasePrice*0.01 | currency : "R"}} </h1>
-        </div>
-      </div>
-    </div>
-  </div>
   <!-- Shop for animals -->
   <div class="Shop">
     <img class="shopicon" src="../../../assets/ui/store/animal/animalIcon.png" (click)="toggleAnimalShop()">
@@ -66,11 +53,11 @@
   <div class="popUp">
     <div class="popUpTop">
       <h1>Buy plot</h1>
-      <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="closePlotModal()">
+      <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="purchasePlot = false">
     </div>
     <h1>Price: {{plotPrice * 0.01| currency : "R"}}</h1>
     <div class="popUpBtn">
-      <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="closePlotModal()">
+      <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="purchasePlot = false">
       <img src="../../../assets/ui/popup/confirm.png" alt="Confirm" (click)="callPurchasePlot(plotId)">
     </div>
   </div>
@@ -81,11 +68,11 @@
   <div class="popUp">
     <div class="popUpTop">
       <h1 style="width: 60vh;">{{harvestPopUpText}}</h1>
-      <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="closeHarvestModal()">
+      <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="harvestModal = false">
     </div>
     <h1 style="width: 60vh;">Would you like to harvest this plant?</h1>
     <div class="popUpBtn">
-      <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="closeHarvestModal()">
+      <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="harvestModal = false">
       <img src="../../../assets/ui/popup/confirm.png" alt="Confirm" (click)="harvestPlantFromPlot()">
     </div>
   </div>
@@ -96,11 +83,11 @@
   <div class="popUp">
     <div class="popUpTop">
       <h1 style="width: 60vh;">This animal pen is empty.</h1>
-      <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="closeAnimalRemoveModel()">
+      <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="animalRemoveModal = false">
     </div>
     <h1 style="width: 60vh;">Would you like to remove it?</h1>
     <div class="popUpBtn">
-      <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="closeAnimalRemoveModel()">
+      <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="animalRemoveModal = false">
       <img src="../../../assets/ui/popup/confirm.png" alt="Confirm" (click)="removeAnimalFromPlot()">
     </div>
   </div>
@@ -111,11 +98,11 @@
   <div class="popUp">
     <div class="popUpTop">
       <h1>Sell product</h1>
-      <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="closeSellProductModal()">
+      <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="sellProductModal = false">
     </div>
     <h1>Would you like to sell the produced product?</h1>
     <div class="popUpBtn">
-      <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="closeSellProductModal()">
+      <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="sellProductModal = false">
       <img src="../../../assets/ui/popup/confirm.png" alt="Confirm" (click)="sellProductFromPlot()">
     </div>
   </div>
