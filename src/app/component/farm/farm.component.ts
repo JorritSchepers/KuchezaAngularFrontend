@@ -200,7 +200,7 @@ export class FarmComponent {
     }
   }
 
-  private handleAnimalsResponse(animals: AnimalResponseModel): void {
+  handleAnimalsResponse(animals: AnimalResponseModel): void {
     this.animals = animals;
     this.animalTypes = this.animals.animals;
   }
@@ -496,16 +496,6 @@ export class FarmComponent {
     }
   }
 
-
-
-
-
-
-
-
-
-
-
   normalPlantAction(plot: PlotModel, waterUsage: number, farm: FarmComponent): void {
     //REMOVE WATER
     plot.waterAvailable -= waterUsage;
@@ -517,13 +507,7 @@ export class FarmComponent {
     }
   }
 
-
-
-
-
-
-  
-  private normalAnimalAction(plot: PlotModel, waterUsage: number, farm: FarmComponent): void {
+  normalAnimalAction(plot: PlotModel, waterUsage: number, farm: FarmComponent): void {
     //REMOVE WATER
     plot.waterAvailable -= waterUsage;
     farm.plotApi.editWater(plot.id,-Math.ceil(waterUsage), false);
@@ -554,7 +538,7 @@ export class FarmComponent {
     return 0;
   }
 
-  private getProductionTime(animalId:number): number {
+  getProductionTime(animalId:number): number {
     for(let animalType of this.animalTypes) {
         if(animalType.id == animalId) {
           return animalType.productionTime;
@@ -572,7 +556,7 @@ export class FarmComponent {
     return 0;
   }
 
-  private getAnimalWaterUsage(animalId:number): number {
+  getAnimalWaterUsage(animalId:number): number {
     for(let animal of this.animalTypes) {
         if(animal.id == animalId) {
           return animal.waterUsage;
@@ -590,16 +574,16 @@ export class FarmComponent {
     return 0;
   }
 
-  private getMaximumSourceWater(waterSourceID:number): number {
+  getMaximumSourceWater(waterSourceID:number): number {
     for(let waterSource of this.waterSourceTypes) {
       if(waterSource.id == waterSourceID) {
         return waterSource.maximumWater;
       }
+    }
+    return 0;
   }
-  return 0;
-}
 
-  private getMaximumAnimalWater(animalID:number): number {
+  getMaximumAnimalWater(animalID:number): number {
     for(let animal of this.animalTypes) {
       if(animal.id == animalID) {
         return animal.maximumWater;
@@ -608,7 +592,7 @@ export class FarmComponent {
     return 0;
   }
 
-  private getWaterYield(waterSourceID:number): number {
+  getWaterYield(waterSourceID:number): number {
     for(let waterSource of this.waterSourceTypes) {
         if(waterSource.id == waterSourceID) {
           return waterSource.waterYield;
@@ -666,7 +650,7 @@ export class FarmComponent {
     }
   }
 
-  private handlePurchase(): void{
+  handlePurchase(): void{
     if(this.purchasePlant){
       this.plotApi.placePlantOnPlot(this.plotId,this.purchasePlant).then(plant => this.handlePlotResponse(plant))
         .catch(any => this.handleException(any));
