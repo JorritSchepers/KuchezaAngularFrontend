@@ -22,13 +22,13 @@ import { AnimalApi } from 'src/app/api/animal.api';
 import { WaterSourceModel } from 'src/app/model/watersource.model';
 import { WaterSourceResponseModel } from 'src/app/model/watersource-response.model';
 
+const TITLE: string = "Kucheza";
+const IN_GAME_MUSIC_SRC: string = "../assets/audio/Main_In_Game_Music.wav";
 const PLOTTIMERDELAY: number = 5000;
 const WATERDELAY: number = 5000;
 const WATERPLANTAMOUNT: number = 1250;
 const DEHYDRATED_FACTOR: number = 6;
 const MAXIMUM_WATER: number = 500000;
-const TITLE: string = "Kucheza";
-const IN_GAME_MUSIC_SRC: string = "../assets/audio/Main_In_Game_Music.wav";
 
 @Component({
   templateUrl: './farm.component.html',
