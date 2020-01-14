@@ -1,0 +1,142 @@
+<header>
+  <div class="horizontalContainer" style="justify-content: space-between;">
+    <div class="horizontalContainer" style="justify-content: left;">
+      <div class = "headerContainer">
+        <img src="../../../assets/ui/farmHeader/Interface_Currency.png" alt="Money">
+        <p>{{inventory.money*0.01}}</p>
+      </div>
+      <div class = "headerContainer">
+        <div class="linesContainer">
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
+        </div>
+        <img src="../../../assets/ui/farmHeader/Interface_Water.png" alt="Money">
+        <div class="waterLevel"></div>
+        <p></p>
+      </div>
+    </div>
+    <button id="logoutButton" type="button" (click)="logout()" name="button">LOG OUT</button>
+  </div>
+</header>
+
+<!-- Shops -->
+<div class ="Shops">
+  <!-- Shop for animals -->
+  <div class="Shop">
+    <img class="shopicon" src="../../../assets/ui/store/animal/animalIcon.png" (click)="toggleAnimalShop()">
+    <div class="shopfoldout" *ngIf="showAnimalshop">
+      <div class="plant" *ngFor="let animal of animals.animals">
+        <div class="item-container">
+          <img src="../../../assets/ui/store/animal/{{animal.id}}.png" (click)="setpurchaseAnimal(animal)">
+          <h1> {{animal.purchasePrice*0.01 | currency : "R"}} </h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Shop for plants -->
+  <div class="Shop">
+    <img class="shopicon" src="../../../assets/ui/store/plant/plantIcon.png"(click)="togglePlantShop()">
+    <div class="shopfoldout" *ngIf="showPlantshop">
+      <div class="plant" *ngFor="let plant of plants.plants">
+        <div class="item-container">
+          <img src="../../../assets/ui/store/plant/{{plant.id}}.png" (click)="setpurchasePlant(plant)">
+          <h1> {{plant.purchasePrice*0.01 | currency : "R"}} </h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+<!-- Purchase plot model -->
+<div class="PopupBG" *ngIf="purchasePlot">
+  <div class="popUp">
+    <div class="popUpTop">
+      <h1>Buy plot</h1>
+      <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="purchasePlot = false">
+    </div>
+    <h1>Price: {{plotPrice * 0.01| currency : "R"}}</h1>
+    <div class="popUpBtn">
+      <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="purchasePlot = false">
+      <img src="../../../assets/ui/popup/confirm.png" alt="Confirm" (click)="callPurchasePlot(plotId)">
+    </div>
+  </div>
+</div>
+
+<!-- HarvestplantModel -->
+<div class="PopupBG" *ngIf="harvestModal">
+  <div class="popUp">
+    <div class="popUpTop">
+      <h1 style="width: 60vh;">{{harvestPopUpText}}</h1>
+      <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="harvestModal = false">
+    </div>
+    <h1 style="width: 60vh;">Would you like to harvest this plant?</h1>
+    <div class="popUpBtn">
+      <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="harvestModal = false">
+      <img src="../../../assets/ui/popup/confirm.png" alt="Confirm" (click)="harvestPlantFromPlot()">
+    </div>
+  </div>
+</div>
+
+<!-- AnimalRemoveModal -->
+<div class="PopupBG" *ngIf="animalRemoveModal">
+  <div class="popUp">
+    <div class="popUpTop">
+      <h1 style="width: 60vh;">This animal pen is empty.</h1>
+      <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="animalRemoveModal = false">
+    </div>
+    <h1 style="width: 60vh;">Would you like to remove it?</h1>
+    <div class="popUpBtn">
+      <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="animalRemoveModal = false">
+      <img src="../../../assets/ui/popup/confirm.png" alt="Confirm" (click)="removeAnimalFromPlot()">
+    </div>
+  </div>
+</div>
+
+<!-- SellProductModel -->
+<div class="PopupBG" *ngIf="sellProductModal">
+  <div class="popUp">
+    <div class="popUpTop">
+      <h1>Sell product</h1>
+      <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="sellProductModal = false">
+    </div>
+    <h1>Would you like to sell the produced product?</h1>
+    <div class="popUpBtn">
+      <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="sellProductModal = false">
+      <img src="../../../assets/ui/popup/confirm.png" alt="Confirm" (click)="sellProductFromPlot()">
+    </div>
+  </div>
+</div>
+
+<!-- gameplayLoopEndModel -->
+<div class="PopupBG" *ngIf="gameplayLoopEnd">
+  <div class="popUp">
+    <div class="popUpTop">
+      <h1>Game over</h1>
+    </div>
+    <h1>U heeft geen water meer!</h1>
+    <div class="popUpBtn">
+      <button id="logoutButton" type="button" (click)="logout()" name="button">LOGIN PAGINA</button>
+    </div>
+  </div>
+</div>
+
+<!-- Farm -->
+<div class="row">
+  <div class="column">
+    <div class="farm-background"></div>
+    <div class="farm-container">
+      <div class="row" *ngFor="let plotsX of plots">
+        <div class="column" *ngFor="let plot of plotsX">
+          <div class="plotBackground">
+            <img src="{{plot.image}}" class="plot" alt="" (click)="handlePlotClick(plot)" (mouseenter) ="plot.mouseEnter()"  (mouseleave) ="plot.mouseLeave()">
+            <div class="waterContainer" (click)="handlePlotClick(plot)" [ngClass]="{'showWater': plot.hover && plot.needsWater}"(mouseenter) ="plot.mouseEnter()"  (mouseleave) ="plot.mouseLeave()">
+              <div id="plot{{plot.id}}" class="water"></div>
+              <div class="WaterBar"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

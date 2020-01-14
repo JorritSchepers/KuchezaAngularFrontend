@@ -1,0 +1,227 @@
+<!-- Delete user pop-up -->
+<div class="PopupBG" *ngIf="deleteAccountPopUpIsActive">
+<div class="popUp">
+  <div class="popUpTop">
+    <h1>Delete {{currentSelectedUser.name}}?</h1>
+    <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="closeDeletePopUp()">
+  </div>
+  <div class="popUpBtn">  
+    <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="closeDeletePopUp()">
+    <img src="../../../assets/ui/popup/confirm.png" alt="Confirm" (click)="deleteUser(currentSelectedUser.id)">
+  </div>
+</div>
+</div>
+
+<!-- Delete plant pop-up -->
+<div class="PopupBG" *ngIf="deletePlantPopUpIsActive">
+<div class="popUp">
+  <div class="popUpTop">
+    <h1>Delete {{currentSelectedPlant.name}}?</h1>
+    <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="closeDeletePlantPopUp()">
+  </div>
+  <h4><span class="popUpName"></span> Some plots may use {{currentSelectedPlant.name}}.</h4>
+  <h4>Select your replacement:</h4>
+    <span *ngFor="let plant of plants">
+      <span *ngIf="plant != currentSelectedPlant" (click)="currentSelectedReplacementPlant = plant">
+          <span *ngIf="currentSelectedReplacementPlant != plant">{{plant.name}}&nbsp;&nbsp;</span>
+          <b *ngIf="currentSelectedReplacementPlant == plant" style="color: green">
+            {{plant.name}}&nbsp;&nbsp;
+          </b>
+      </span>
+    </span>
+    <br>
+    <br>
+  <div class="popUpBtn">
+    <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="closeDeletePlantPopUp()">
+    <img src="../../../assets/ui/popup/confirm.png" alt="Confirm" (click)="deletePlant()">
+  </div>
+</div>
+</div>
+
+<!-- Delete Animal pop-up -->
+<div class="PopupBG" *ngIf="deleteAnimalPopUpIsActive">
+<div class="popUp">
+  <div class="popUpTop">
+    <h1>Delete {{currentSelectedAnimal.name}}?</h1>
+    <img src="../../../assets/ui/popup/exit.png" alt="Exit" (click)="closeDeleteAnimalPopUp()">
+  </div>
+  <h4><span class="popUpName"></span> Some plots may use {{currentSelectedAnimal.name}}.</h4>
+  <h4>Select your replacement:</h4>
+    <span *ngFor="let animal of animals.animals">
+      <span *ngIf="animal != currentSelectedAnimal" (click)="currentSelectedReplacementAnimal = animal">
+          <span *ngIf="animal != currentSelectedReplacementAnimal">{{animal.name}}&nbsp;&nbsp;</span>
+          <b *ngIf="currentSelectedReplacementAnimal == animal" style="color: green">
+            {{animal.name}}&nbsp;&nbsp;
+          </b>
+      </span>
+    </span>
+    <br>
+    <br>
+  <div class="popUpBtn">
+    <img src="../../../assets/ui/popup/cancel.png" alt="Cancel" (click)="closeDeleteAnimalPopUp()">
+    <img src="../../../assets/ui/popup/confirm.png" alt="Confirm" (click)="deleteAnimal()">
+  </div>
+</div>
+</div>
+
+<!-- Header -->
+<header>
+  <div class="headerItem" (click)="currentSelectedPage = 'Accounts'">
+    <span *ngIf="currentSelectedPage != 'Accounts'">Accounts</span>
+    <b *ngIf="currentSelectedPage == 'Accounts'">
+      <u>Accounts</u>
+    </b>
+  </div>
+  <div class="verticalLine" *ngIf="showingStats == true"></div>
+  <div class="headerItem" (click)="currentSelectedPage = 'Stats'" *ngIf="showingStats == true">
+    <span *ngIf="currentSelectedPage != 'Stats'">{{currentSelectedUser.name}}'s stats</span>
+    <b *ngIf="currentSelectedPage == 'Stats'">
+      <u>{{currentSelectedUser.name}}'s stats</u>
+    </b>
+    </div>
+  <div class="verticalLine"></div>
+  <div class="headerItem" (click)="currentSelectedPage = 'Plants'">
+      <span *ngIf="currentSelectedPage != 'Plants'">Plants</span>
+      <b *ngIf="currentSelectedPage == 'Plants'">
+        <u>Plants</u>
+      </b>
+    </div>  <div class="verticalLine"></div>
+    <div class="headerItem" (click)="currentSelectedPage = 'Animals'">
+        <span *ngIf="currentSelectedPage != 'Animals'">Animals</span>
+        <b *ngIf="currentSelectedPage == 'Animals'">
+          <u>Animals</u>
+        </b>
+      </div>  <div class="headerItem"></div><div class="headerItem"></div>
+  <div class="headerItem"></div><div class="headerItem"></div>
+  <div class="headerItem" (click)="logout()">Logout</div>
+</header>
+
+<body>
+  <!-- Gebruikers beheren -->
+<table class="container" *ngIf="currentSelectedPage == 'Accounts'">
+  <tr class="row" *ngFor="let user of users">
+    <td class="userID">{{user.id}}</td>
+    <td class="userName">
+      <span>{{user.name}}</span>
+    </td>
+    <td class="userEmail">
+      <span>{{user.email}}</span>
+    </td>
+    <td class="deleteButton"><img src="../../../assets/ui/admin/delete-button.png" (click)="showDeletePopUp(user)"/></td>
+    <td class="deleteButton"><img src="../../../assets/ui/admin/stats-button.png" (click)="showStats(user)"/></td>
+  </tr>
+</table>
+
+<!-- Planten beheren -->
+<div class="container" *ngIf="currentSelectedPage == 'Plants'">
+  <div class="plants-container">
+    <div class="plant-box" *ngFor="let plant of plants">
+      <img src="../../../assets/ui/store/plant/{{plant.id}}.png" alt="delete"/>
+      <div class="plant-box-row">
+        <div class="plant-box-row-label">
+          Name
+        </div>
+        <div class="plant-box-row-value">
+          {{plant.name}}
+        </div>
+      </div>
+      <div class="plant-box-row">
+        <div class="plant-box-row-label">
+          Price
+        </div>
+        <div class="plant-box-row-value">
+          {{plant.purchasePrice*0.01 | currency : "R"}}
+        </div>
+      </div>
+      <div class="plant-box-row">
+        <div class="plant-box-row-label">
+          Profit
+        </div>
+        <div class="plant-box-row-value">
+          {{plant.profit*0.01 | currency : "R"}}
+        </div>
+      </div>
+      <div class="plant-box-row">
+        <div class="plant-box-row-label">
+          Water usage
+        </div>
+        <div class="plant-box-row-value">
+          {{plant.waterUsage}} L
+        </div>
+      </div>
+      <div class="plant-box-row">
+        <div class="plant-box-row-label">
+          Growing time
+        </div>
+        <div class="plant-box-row-value">
+          {{plant.growingTime}} seconds
+        </div>
+      </div>
+      <div class="plant-box-row">
+        <img src="../../../assets/ui/admin/delete-button.png" alt="delete" (click)="showDeletePlantPopUp(plant)"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container" *ngIf="currentSelectedPage == 'Animals'">
+  <div class="plants-container">
+    <div class="plant-box" *ngFor="let animal of animals.animals">
+      <img src="../../../assets/ui/store/animal/{{animal.id}}.png" alt="animal.name"/>
+      <div class="plant-box-row">
+        <div class="plant-box-row-label">
+          Name
+        </div>
+        <div class="plant-box-row-value">
+          {{animal.name}}
+        </div>
+      </div>
+      <div class="plant-box-row">
+        <div class="plant-box-row-label">
+          Price
+        </div>
+        <div class="plant-box-row-value">
+          {{animal.purchasePrice*0.01 | currency : "R"}}
+        </div>
+      </div>
+      <div class="plant-box-row">
+        <div class="plant-box-row-label">
+          Profit
+        </div>
+        <div class="plant-box-row-value">
+          {{animal.profit*0.01 | currency : "R"}}
+        </div>
+      </div>
+      <div class="plant-box-row">
+        <div class="plant-box-row-label">
+          Water usage
+        </div>
+        <div class="plant-box-row-value">
+          {{animal.waterUsage}} L
+        </div>
+      </div>
+      <div class="plant-box-row">
+        <div class="plant-box-row-label">
+          Production time
+        </div>
+        <div class="plant-box-row-value">
+          {{animal.productionTime}} seconds
+        </div>
+      </div>
+      <div class="plant-box-row">
+        <img src="../../../assets/ui/admin/delete-button.png" alt="delete" (click)="showDeleteAnimalPopUp(animal)"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Stats bekijken -->
+<div class="container" *ngIf="currentSelectedPage == 'Stats'">
+  <plotly-plot [data]="graphActions.data" [layout]="graphActions.layout"></plotly-plot>
+  <br><br><br><br>
+  <plotly-plot [data]="graphWater.data" [layout]="graphWater.layout"></plotly-plot>
+  <br><br><br><br>
+  <plotly-plot [data]="graphMoney.data" [layout]="graphMoney.layout"></plotly-plot>
+  <br><br><br><br>
+</div>
+</body>

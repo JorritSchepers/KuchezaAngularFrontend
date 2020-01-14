@@ -1,0 +1,22 @@
+<img id="background" src="../../../assets/ui/login/background.png">
+<div id="menuContainer">
+    <p id="filler"></p>
+    <div id="pictureLayout">
+        <img src="../../../assets/ui/login/cow.gif">
+        <div id="loginBox">
+            <form [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm.value)">
+                <div class="horizontalContainer">
+                    <img src="../../../assets/ui/login/userLogo.png" class="smallLogo">
+                    <input id="email" class="menuPart" type="text" formControlName="email" placeholder="Email" required>
+                </div>
+                <div class="horizontalContainer">
+                    <img src="../../../assets/ui/login/passwordLogo.png" class="smallLogo">
+                    <input id="password" class="menuPart" type="password" formControlName="password" placeholder="Password" required>
+                </div>
+                <button class="button" class="menuPart" type="submit">Login</button>
+            </form>
+            <p>Need an account? <a routerLink="/register">Register</a> now!</p>
+        </div>
+        <img src="../../../assets/ui/login/corn.gif">
+    </div>
+</div>

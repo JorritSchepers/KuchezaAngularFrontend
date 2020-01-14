@@ -15,6 +15,12 @@ module.exports = function (config) {
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
+    customLaunchers: {
+     ChromeHeadless: {
+       base: 'Chrome',
+       flags: ['--no-sandbox', '--headless', '--disable-gpu', '--remote-debugging-port=9222']
+     }
+   },
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, './coverage/angular-front-end'),
       reports: ['html', 'lcovonly', 'text-summary'],
@@ -26,7 +32,9 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
+    // browsers: ['ChromeHeadless'],
     singleRun: false,
+    // singleRun: true,
     restartOnFileChange: true
   });
 };

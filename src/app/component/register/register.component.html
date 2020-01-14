@@ -1,0 +1,35 @@
+<img id="background" src="../../../assets/ui/login/background.png">
+<div id="menuContainer">
+    <p id="filler"></p>
+    <div id="pictureLayout">
+        <img src="../../../assets/ui/login/cow.gif">
+        <div id="loginBox">
+            <p>Please fill in this form to create an account.</p>
+          <form [formGroup]="registerForm" (ngSubmit)="registerUser(registerForm.value)">
+
+              <div class="horizontalContainer" style="margin-bottom: 2vh;">
+                <img src="../../../assets/ui/login/userLogo.png" class="smallLogo">
+                <div class="verticalContainer">
+                  <input type="text" class="menuPart" placeholder="Enter Name" formControlName="name" required>
+                  <input type="text" class="menuPart menuEnd" placeholder="Enter Email" formControlName="email" required>
+                </div>
+              </div>
+              
+              <div class="horizontalContainer"style="margin-bottom: 1vh;">
+                <img src="../../../assets/ui/login/passwordLogo.png" class="smallLogo">
+                <div class="verticalContainer">
+                  <input type="password" class="menuPart" placeholder="Enter Password" formControlName="password" required>
+                  <input type="password" class="menuPart menuEnd" placeholder="Repeat Password" formControlName="repeatPassword" required>
+                </div>
+              </div>
+
+              <button type="submit" class="menuPart">Register</button>
+
+            <div class="container signin">
+              <p style="margin-top: 1vh; margin-bottom: 0vh;">Already have an account? <a routerLink="/login">Sign in</a>.</p>
+            </div>
+          </form>
+        </div>
+        <img src="../../../assets/ui/login/corn.gif">
+    </div>
+</div>

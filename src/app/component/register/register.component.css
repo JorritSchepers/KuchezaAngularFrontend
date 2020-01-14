@@ -1,0 +1,141 @@
+@font-face {
+    font-family: "Roboto";
+    src: url("src\assets\fonts\Roboto-Regular.ttf");
+}
+
+#menuContainer {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#loginBox {
+    background-color: rgb(153,185,95);
+    border-radius: 6%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    width:50vh;
+    height:45vh;
+    padding-top: 0vh;
+    padding-left: 0px;
+}
+
+#filler {
+    width:30vh;
+    padding:5px;
+    display: flex;
+    justify-content: center;
+    font-size: 6vh !important;
+    border-radius: 30px;
+    color: whitesmoke;
+    margin-top: 4vh !important;
+    margin-bottom: 4vh !important;
+}
+
+#pictureLayout {
+    display: flex;
+}
+
+#background {
+    position: absolute;
+    width:100vw;
+    height:100vh;
+    z-index: -10;
+    margin: 0px;
+    padding: 0px;
+}
+
+img {
+    width:40vh;
+    height: 40vh;
+}
+
+.menuPart {
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+    padding: 5px;
+    font-size: 2.5vh;
+    font-family: Roboto;
+    background-color: whitesmoke;
+    box-shadow: inset 0px 0px 0px 0px red;
+    border: none;
+    width: 35vh;
+    height: 5vh;
+    border-radius: 20px;
+    padding-left: 15px;
+}
+
+::placeholder {
+    color: black;
+  }
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 37vh;
+}
+
+button {
+    width: 50%;
+    background-color: rgb(128,141,90) !important;
+    color: whitesmoke;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 30px !important;
+    width: 25vh !important;
+    height: 10vh !important;
+    margin: 0.4vh !important;
+}
+
+p {
+    font-family: Roboto;
+    font-size: 2vh;
+    margin-top: 0vh;
+    margin-bottom: 1.5vh;
+}
+
+.smallLogo {
+    width:8vh;
+    height:8vh;
+}
+
+.horizontalContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 46.5vh;
+    align-items: center;
+}
+
+.verticalContainer {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+}
+
+a {
+    color: rgb(73,119,174);
+}
+
+.menuPart {
+    margin-top: 0vh;
+    margin-bottom: 0vh;
+    padding: 5px;
+    font-size: 2.5vh;
+    font-family: Roboto;
+}
+
+.menuEnd {
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+}
